@@ -25,7 +25,7 @@
 					class="col-lg-6 pt-4 pt-lg-0 content d-flex flex-column justify-content-center"
 					data-aos="fade-up" data-aos-delay="100">
 					<h3 style="padding-left: 20px">동네의 숲으로</h3>
-					<h3 style="padding-left: 20px">자기개발과 취미생활을</h3>
+					<h3 style="padding-left: 20px">자기개발과 취미생활을!</h3>
 					<h3 style="padding-left: 20px">시작해보세요.</h3>
 					<br>
 					<h5 class="fst-italic" style="padding-left: 20px">함께하는, 보다 행복한
