@@ -45,7 +45,7 @@ INSERT INTO POST
 	sysdate,	'모집중' 	,	'2023-06-23'	, 2, 	4 	,	'java' );
 
 	SELECT  post_no, title	, post_content	, img	,  gathering_type, gathering_period,
-	 current_count, max_count, user_id  FROM post
+	 current_count, max_count, user_id  FROM post WHERE 
 	
 CREATE TABLE POST_COMMENT (
 	COMMENT_NO	NUMBER		PRIMARY KEY,
