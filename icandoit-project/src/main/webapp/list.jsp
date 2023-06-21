@@ -4,14 +4,15 @@
   <button type="button" class="btn btn-success btn-sm">모집중</button>
   <button type="button" class="btn btn-danger btn-sm">모집마감</button>
 <div class="container">
-		<div class="row">
+		<div class="row ">
+		<c:forEach items="${list}" var="post">
 			<div class="col-4">
-				<div class="card">
-				<img src="picture/김세호.jpg" class="card-img-top">
+				<div class="card my-4">
+				<img src="sprint.png" class="card-img-top">
 				<div class="card-body">
 				<button type="button" class="btn btn-danger btn-sm">모집마감</button>
-				<h5 class="card-title">당구 모임</h5>
-				<p class="card-text">당구 모임</p>
+				<h5 class="card-title">${post.title}</h5>
+				<p class="card-text">${post}</p>
 				</div>
 			</div>	
 		</div>

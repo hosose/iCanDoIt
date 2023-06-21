@@ -41,7 +41,7 @@
 <body>
 
 		<c:import url="header.jsp"></c:import>
-		<c:import url="register.jsp"></c:import>
+		<c:import url="list.jsp"></c:import>
 		<c:import url="footer.jsp"></c:import>
 		
 		
