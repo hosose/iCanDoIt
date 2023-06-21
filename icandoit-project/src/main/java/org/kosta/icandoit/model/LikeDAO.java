@@ -1,4 +1,4 @@
-package org.kosta.myproject.model;
+package org.kosta.icandoit.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,15 +7,15 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-public class PostDAO {
-	private static PostDAO instance = new PostDAO();
+public class LikeDAO {
+	private static LikeDAO instance = new LikeDAO();
 	private DataSource dataSource;
 
-	private PostDAO() {
+	private LikeDAO() {
 		this.dataSource = DataSourceManager.getInstance().getDataSource();
 	}
 
-	public static PostDAO getInstance() {
+	public static LikeDAO getInstance() {
 		return instance;
 	}
 

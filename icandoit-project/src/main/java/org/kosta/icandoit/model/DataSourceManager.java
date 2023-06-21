@@ -1,4 +1,4 @@
-package org.kosta.myproject.model;
+package org.kosta.icandoit.model;
 
 import javax.sql.DataSource;
 
@@ -22,10 +22,10 @@ public class DataSourceManager {
 	private DataSourceManager() {
 		// apache tomcat 에서 제공하는 dbcp를 사용한다.
 		BasicDataSource dbcp = new BasicDataSource();
-		dbcp.setDriverClassName("oracle.jdbc.OracleDriver");
-		dbcp.setUrl("jdbc:oracle:thin:@13.125.234.240:1521:xe");
-		dbcp.setUsername("scott");
-		dbcp.setPassword("tiger");
+		dbcp.setDriverClassName(DbConfig.DRIVER);
+		dbcp.setUrl(DbConfig.DB_URL);
+		dbcp.setUsername(DbConfig.USER_NAME);
+		dbcp.setPassword(DbConfig.USER_PASS);
 		dbcp.setInitialSize(10);
 		dbcp.setMaxTotal(30);
 		this.dataSource = dbcp;
