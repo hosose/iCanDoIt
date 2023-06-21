@@ -1,4 +1,4 @@
-package org.kosta.myproject.model;
+package org.kosta.icandoit.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

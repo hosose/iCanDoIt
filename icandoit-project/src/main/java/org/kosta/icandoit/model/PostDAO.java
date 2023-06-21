@@ -1,4 +1,4 @@
-package org.kosta.myproject.model;
+package org.kosta.icandoit.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -40,14 +40,12 @@ public class PostDAO {
 		try {
 			con = dataSource.getConnection();
 			StringBuilder sql = new StringBuilder(
-					"SELECT  post_no, title	, post_content	, img	,  gathering_type, gathering_period, current_count, max_count, user_id   ");
-			sql.append("FROM post ");
-			sql.append("WHERE post_no =? ");
+					"SELECT post_no, title, post_content, img, gathering_type, TO_CHAR(gathering_period,'YYYY-MM-DD') gathering_period, current_count, max_count, user_id FROM post WHERE post_no=?");
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setLong(1, no);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				post = new PostVO(rs.getLong("post_no"), rs.getString("post_content"), rs.getString("img"),
+				post = new PostVO(rs.getLong("post_no"),rs.getString("title"), rs.getString("post_content"), rs.getString("img"),
 						rs.getString("gathering_type"), rs.getString("gathering_period"), rs.getInt("current_count"),
 						rs.getInt("max_count"), new MemberVO(rs.getString("user_id"), null, null, null, null, null));
 			}

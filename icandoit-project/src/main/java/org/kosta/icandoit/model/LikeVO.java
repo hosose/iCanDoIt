@@ -1,4 +1,4 @@
-package org.kosta.myproject.model;
+package org.kosta.icandoit.model;
 
 public class LikeVO {
 	private long likeNo;

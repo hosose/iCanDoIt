@@ -1,4 +1,4 @@
-package org.kosta.myproject.model;
+package org.kosta.icandoit.model;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,8 +1,9 @@
-package org.kosta.myproject.model;
+package org.kosta.icandoit.model;
 
 public class PostVO {
 	private long postNo;
 	private String title;
+	private String postContent;
 	private String img;
 	private String gatheringType;
 	private String gatheringPeriod;
@@ -11,13 +12,13 @@ public class PostVO {
 	private MemberVO memberVO;
 	public PostVO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	public PostVO(long postNo, String title, String img, String gatheringType, String gatheringPeriod, int currentCount,
-			int maxCount, MemberVO memberVO) {
+	public PostVO(long postNo, String title, String postContent, String img, String gatheringType,
+			String gatheringPeriod, int currentCount, int maxCount, MemberVO memberVO) {
 		super();
 		this.postNo = postNo;
 		this.title = title;
+		this.postContent = postContent;
 		this.img = img;
 		this.gatheringType = gatheringType;
 		this.gatheringPeriod = gatheringPeriod;
@@ -36,6 +37,12 @@ public class PostVO {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public String getPostContent() {
+		return postContent;
+	}
+	public void setPostContent(String postContent) {
+		this.postContent = postContent;
 	}
 	public String getImg() {
 		return img;
@@ -75,10 +82,9 @@ public class PostVO {
 	}
 	@Override
 	public String toString() {
-		return "PostVO [postNo=" + postNo + ", title=" + title + ", img=" + img + ", gatheringType=" + gatheringType
-				+ ", gatheringPeriod=" + gatheringPeriod + ", currentCount=" + currentCount + ", maxCount=" + maxCount
-				+ ", memberVO=" + memberVO + "]";
+		return "PostVO [postNo=" + postNo + ", title=" + title + ", postContent=" + postContent + ", img=" + img
+				+ ", gatheringType=" + gatheringType + ", gatheringPeriod=" + gatheringPeriod + ", currentCount="
+				+ currentCount + ", maxCount=" + maxCount + ", memberVO=" + memberVO + "]";
 	}
-	
 	
 }

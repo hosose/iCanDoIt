@@ -1,4 +1,4 @@
-package org.kosta.myproject.model;
+package org.kosta.icandoit.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,15 +7,15 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-public class CommentDAO {
-	private static CommentDAO instance = new CommentDAO();
+public class MemberDAO {
+	private static MemberDAO instance = new MemberDAO();
 	private DataSource dataSource;
 
-	private CommentDAO() {
+	private MemberDAO() {
 		this.dataSource = DataSourceManager.getInstance().getDataSource();
 	}
 
-	public static CommentDAO getInstance() {
+	public static MemberDAO getInstance() {
 		return instance;
 	}
 
