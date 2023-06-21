@@ -44,7 +44,7 @@ INSERT INTO POST
 	VALUES (post_seq.nextval,	'당구모임',	'이번주 금요일에 만나요~',	'당구.jpg'	,	'운동'	,
 	sysdate,	'모집중' 	,	'2023-06-23'	, 2, 	4 	,	'java' );
 
-	SELECT  post_no, title	, post_content	, img	, category_type, gathering_type, gathering_period,
+	SELECT  post_no, title	, post_content	, img	,  gathering_type, gathering_period,
 	 current_count, max_count, user_id  FROM post
 	
 CREATE TABLE POST_COMMENT (
