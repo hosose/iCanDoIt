@@ -8,9 +8,34 @@
 			<div class="col-lg-4">
 				<!-- 			            <iframe class="mb-4 mb-lg-0" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 384px;" allowfullscreen></iframe> -->
 				<img alt="" class="mb-2 mb-lg-0" src="picture/${post.img }"
-					frameborder="0" style="border: 0; width: 100%; height: 70%;">
+					 style="border: 0; width: 100%; height: 70%;">
+			<div>
+			<c:if test="${sessionScope.mvo.id==post.memberVO.id}">
+				<button  class="btn btn-success" style="margin : 0;" onclick="updatePost()">수정</button>
+				<button class="btn btn-danger" onclick="deletePost()">삭제</button>
+				<form id="deletePostForm" action="DeletePost.do" method="post"> 
+				<input type="hidden" name="no" value="${post.no}">
+				</form>
+				<form id="updatePostForm" action="UpdatePostForm.do" method="post"> 
+				<input type="hidden" name="no" value="${post.no}">
+				</form>
+				<script type="text/javascript">
+				$("#joinBtn").css("margin", 0);
+				function deletePost() {
+					if(confirm("삭제하시겠습니까?")){
+						document.getElementById("deletePostForm").submit();
+					}
+				}
+				function updatePost() {
+					if(confirm("수정하시겠습니까?")){
+						document.getElementById("updatePostForm").submit();
+					}
+				}
+				</script>
+			</c:if>
 				<button class="btn btn-primary"
-					style="padding: 25px; margin-left: 45%;">모임 참여하기</button>
+				style="padding: 20px; margin-left: 50% " id="joinBtn">모임 참여하기</button>
+			</div>
 			</div>
 			<div class="col-lg-8">
 				
