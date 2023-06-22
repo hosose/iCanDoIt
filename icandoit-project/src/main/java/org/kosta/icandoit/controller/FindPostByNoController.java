@@ -10,15 +10,13 @@ public class FindPostByNoController implements Controller {
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		/*
-		HttpSession session = request.getSession(false);
-		if (session == null || session.getAttribute("mvo") == null) {
-			System.out.println("비인증");
-			return "redirect:FindPostList.do";
-		}
-		*/
-		//long no = Long.parseLong(request.getParameter("no"));
-		PostVO post = PostDAO.getInstance().findPostDetail(1);
-		request.setAttribute("post", post);
+		 * HttpSession session = request.getSession(false); if (session == null ||
+		 * session.getAttribute("mvo") == null) { System.out.println("비인증"); return
+		 * "redirect:FindPostList.do"; }
+		 */
+		// long no = Long.parseLong(request.getParameter("no"));
+		PostVO postVO = PostDAO.getInstance().findPostDetail(1);
+		request.setAttribute("postVO", postVO);
 		request.setAttribute("url", "post-detail.jsp");
 		return "layout.jsp";
 	}

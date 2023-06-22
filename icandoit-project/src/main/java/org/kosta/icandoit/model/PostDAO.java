@@ -45,13 +45,40 @@ public class PostDAO {
 			pstmt.setLong(1, no);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				post = new PostVO(rs.getLong("post_no"),rs.getString("title"), rs.getString("post_content"), rs.getString("img"),
-						rs.getString("gathering_type"), rs.getString("gathering_period"), rs.getInt("current_count"),
-						rs.getInt("max_count"), new MemberVO(rs.getString("user_id"), null, null, null, null, null));
+				post = new PostVO(rs.getLong("post_no"), rs.getString("title"), rs.getString("post_content"),
+						rs.getString("img"), rs.getString("gathering_type"), rs.getString("gathering_period"),
+						rs.getInt("current_count"), rs.getInt("max_count"),
+						new MemberVO(rs.getString("user_id"), null, null, null, null, null));
 			}
 		} finally {
 			closeAll(rs, pstmt, con);
 		}
 		return post;
+	}
+
+	public void joinClub(String memberId, long postNo) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = dataSource.getConnection();
+			StringBuilder joinClubSql = new StringBuilder("INSERT INTO join_club ");
+			joinClubSql.append("VALUES (join_club_seq.nextval,	?,	? )");
+			pstmt = con.prepareStatement(joinClubSql.toString());
+			pstmt.setLong(1, postNo);
+			pstmt.setString(2, memberId);
+			pstmt.executeUpdate();
+			pstmt.close();
+			StringBuilder postSql = new StringBuilder("UPDATE post SET current_count = current_count + 1 ");
+			postSql.append("WHERE post_no = ?");
+			pstmt = con.prepareStatement(postSql.toString());
+			pstmt.setLong(1, postNo);
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			con.rollback();
+			throw e;
+		} finally {
+			closeAll(pstmt, con);
+		}
 	}
 }
