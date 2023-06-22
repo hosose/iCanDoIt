@@ -19,7 +19,7 @@
 			<div class="row">
 				<div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
 					<img src="picture/okeykat-rw81Rz5GrPo-unsplash.jpg"
-						class="img-fluid" alt="">
+						class="img-fluid" alt="동숲" >
 				</div>
 				<div
 					class="col-lg-6 pt-4 pt-lg-0 content d-flex flex-column justify-content-center"
@@ -33,11 +33,11 @@
 					<ul>
 						<li>
 							<div class="container" align="left">
-								<a class="btn btn-2">모임 시작하기</a>
+								<a class="btn btn-2" href="FindPostList.do">모임 시작하기</a>
 							</div>
 						</li>
 						<li><div class="container" align="left">
-								<a class="btn btn-2">회원 가입하기</a>
+								<a class="btn btn-2" href="LoginForm.do">회원 가입하기</a>
 							</div></li>
 					</ul>
 				</div>

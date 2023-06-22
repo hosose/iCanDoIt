@@ -8,7 +8,7 @@
 	<div
 		class="container d-flex align-items-center justify-content-between">
 		<div>
-			<img width="120" src="picture/모여라 동숲.jpg" alt="모여라 동숲">
+		<a href="Home.do"><img width="120" src="picture/모여라 동숲.jpg" alt="모여라 동숲"></a>
 		</div>
 		<nav id="navbar" class="navbar">
 			<a class="btn btn-4" href="Home.do" style="margin-right: 20px">Home</a><a
