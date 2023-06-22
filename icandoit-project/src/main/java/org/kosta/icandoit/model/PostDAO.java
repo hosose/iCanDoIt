@@ -45,9 +45,10 @@ public class PostDAO {
 			pstmt.setLong(1, no);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				post = new PostVO(rs.getLong("post_no"),rs.getString("title"), rs.getString("post_content"), rs.getString("img"),
-						rs.getString("gathering_type"), rs.getString("gathering_period"), rs.getInt("current_count"),
-						rs.getInt("max_count"), new MemberVO(rs.getString("user_id"), null, null, null, null, null));
+				post = new PostVO(rs.getLong("post_no"), rs.getString("title"), rs.getString("post_content"),
+						rs.getString("img"), rs.getString("gathering_type"), rs.getString("gathering_period"), null,
+						null, rs.getInt("current_count"), rs.getInt("max_count"),
+						new MemberVO(rs.getString("user_id"), null, null, null, null, null));
 			}
 		} finally {
 			closeAll(rs, pstmt, con);
