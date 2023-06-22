@@ -71,6 +71,13 @@ public class PostDAO {
 				PostVO postVO = new PostVO();
 				postVO.setPostNo(rs.getLong("post_no"));
 				postVO.setTitle(rs.getString("title"));
+				postVO.setPostContent(rs.getString("content"));
+				postVO.setImg(rs.getString("img"));
+				postVO.setGatheringType(rs.getString("gathering_period"));
+				postVO.setGatheringPeriod(rs.getString("categorytype"));
+				postVO.setCategoryType(rs.getString("timeposted"));
+				postVO.setTimePosted(rs.getString("currentcount"));
+
 			}
 		} finally {
 
