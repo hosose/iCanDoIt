@@ -9,6 +9,7 @@ public class PostVO {
 	private String gatheringPeriod;
 	private String categoryType;
 	private String timePosted;
+	private int currentCount;
 	private int maxCount;
 	private MemberVO memberVO;
 
@@ -17,7 +18,8 @@ public class PostVO {
 	}
 
 	public PostVO(long postNo, String title, String postContent, String img, String gatheringType,
-			String gatheringPeriod, String categoryType, String timePosted, int maxCount, MemberVO memberVO) {
+			String gatheringPeriod, String categoryType, String timePosted, int currentCount, int maxCount,
+			MemberVO memberVO) {
 		super();
 		this.postNo = postNo;
 		this.title = title;
@@ -27,6 +29,7 @@ public class PostVO {
 		this.gatheringPeriod = gatheringPeriod;
 		this.categoryType = categoryType;
 		this.timePosted = timePosted;
+		this.currentCount = currentCount;
 		this.maxCount = maxCount;
 		this.memberVO = memberVO;
 	}
@@ -95,6 +98,14 @@ public class PostVO {
 		this.timePosted = timePosted;
 	}
 
+	public int getCurrentCount() {
+		return currentCount;
+	}
+
+	public void setCurrentCount(int currentCount) {
+		this.currentCount = currentCount;
+	}
+
 	public int getMaxCount() {
 		return maxCount;
 	}
@@ -115,8 +126,8 @@ public class PostVO {
 	public String toString() {
 		return "PostVO [postNo=" + postNo + ", title=" + title + ", postContent=" + postContent + ", img=" + img
 				+ ", gatheringType=" + gatheringType + ", gatheringPeriod=" + gatheringPeriod + ", categoryType="
-				+ categoryType + ", timePosted=" + timePosted + ", maxCount=" + maxCount + ", memberVO=" + memberVO
-				+ "]";
+				+ categoryType + ", timePosted=" + timePosted + ", currentCount=" + currentCount + ", maxCount="
+				+ maxCount + ", memberVO=" + memberVO + "]";
 	}
 
 }

@@ -44,9 +44,11 @@ INSERT INTO POST
 	VALUES (post_seq.nextval,	'당구모임',	'이번주 금요일에 만나요~',	'당구.jpg'	,	'운동'	,
 	sysdate,	'모집중' 	,	'2023-06-23'	, 2, 	4 	,	'java' );
 
-	SELECT  post_no, title	, post_content	, img	,  gathering_type, gathering_period,
-	 current_count, max_count, user_id  FROM post WHERE post_no=1
+	SELECT  p.post_no, p.title	, p.post_content	, p.img	,  p.gathering_type, TO_CHAR(gathering_period,'YYYY-MM-DD') gathering_period,  p.max_count, p.user_id ,(SELECT count(*) FROM join_club WHERE post_no = 1) current_count
+	 FROM post p
+	 WHERE p.post_no=1
 	
+	 SELECT * FROM join_club
 CREATE TABLE POST_COMMENT (
 	COMMENT_NO	NUMBER		PRIMARY KEY,
 	COMMENT_CONTENT	VARCHAR2(1000)		NOT NULL,
