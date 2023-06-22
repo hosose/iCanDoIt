@@ -61,11 +61,15 @@ public class PostDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		ArrayList<PostVO> list = new ArrayList<>();
 		try {
 			con = dataSource.getConnection();
-			String sql = "";
+			String sql = "SELECT  post_no, title, post_content,img, gathering_type, gathering_period,current_count,max_count,user_id  FROM post";
 			pstmt = con.prepareStatement(sql);
-
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				PostVO postVO = new PostVO();
+			}
 		} finally {
 
 		}
