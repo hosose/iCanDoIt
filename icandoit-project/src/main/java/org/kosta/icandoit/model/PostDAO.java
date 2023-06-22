@@ -69,6 +69,8 @@ public class PostDAO {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				PostVO postVO = new PostVO();
+				postVO.setPostNo(rs.getLong("post_no"));
+				postVO.setTitle(rs.getString("title"));
 			}
 		} finally {
 
