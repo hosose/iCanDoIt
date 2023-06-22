@@ -31,4 +31,29 @@ public class MemberDAO {
 			rs.close();
 		closeAll(pstmt, con);
 	}
+
+	public void registerMember(MemberVO vo) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = dataSource.getConnection();
+			String sql = "INSERT INTO MEMBER VALUES (?, ? , ?, ?,	?,	?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, vo.getId());
+			pstmt.setString(2, vo.getPassword());
+			pstmt.setString(3, vo.getAddress());
+			pstmt.setString(4, vo.getPhone());
+			pstmt.setString(5, vo.getNickName());
+			pstmt.setString(6, vo.getName());
+			int result = pstmt.executeUpdate();
+			System.out.println("member register" + result);
+		} finally {
+			closeAll(pstmt, con);
+		}
+	}
+
+	public Object findMemberById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
