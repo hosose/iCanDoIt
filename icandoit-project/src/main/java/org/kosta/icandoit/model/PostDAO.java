@@ -40,9 +40,11 @@ public class PostDAO {
 		try {
 			con = dataSource.getConnection();
 			StringBuilder sql = new StringBuilder(
-					"SELECT post_no, title, post_content, img, gathering_type, TO_CHAR(gathering_period,'YYYY-MM-DD') gathering_period, current_count, max_count, user_id FROM post WHERE post_no=?");
+					"SELECT  p.post_no, p.title	, p.post_content	, p.img	,  p.gathering_type, TO_CHAR(gathering_period,'YYYY-MM-DD') gathering_period,  p.max_count, p.user_id ,(SELECT count(*) FROM join_club WHERE post_no = ?) current_count ");
+			sql.append("FROM post p	 WHERE p.post_no=?");
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setLong(1, no);
+			pstmt.setLong(2, no);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				post = new PostVO(rs.getLong("post_no"), rs.getString("title"), rs.getString("post_content"),
