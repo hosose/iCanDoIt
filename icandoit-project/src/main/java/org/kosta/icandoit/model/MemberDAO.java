@@ -52,8 +52,23 @@ public class MemberDAO {
 		}
 	}
 
-	public Object findMemberById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public MemberVO findMemberById(String id) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		MemberVO vo = null;
+		try {
+			con = dataSource.getConnection();
+			String sql = "select user_id from member where user_id = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				vo = new MemberVO(id, null, null, null, null, null);
+			}
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return vo;
 	}
 }

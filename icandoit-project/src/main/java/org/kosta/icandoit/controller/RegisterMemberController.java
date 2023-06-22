@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kosta.icandoit.model.MemberDAO;
+import org.kosta.icandoit.model.MemberVO;
 
 public class RegisterMemberController implements Controller {
 
@@ -17,10 +18,20 @@ public class RegisterMemberController implements Controller {
 			throw new ServletException("POST 방식만 서비스 됩니다.");
 
 		String id = request.getParameter("id");
-		if (memberDAO.findMemberById(id) != null) {
+		String password = request.getParameter("password");
+		String address = request.getParameter("address");
+		String phone = request.getParameter("phone");
+		String nickName = request.getParameter("nickName");
+		String name = request.getParameter("name");
 
+		// 같은 아이디가 존재 할 때
+		if (memberDAO.findMemberById(id) != null) {
+			return "";
 		}
-		return null;
+		// 존재하지 않을 때
+		MemberVO memberVO = new MemberVO(id, password, address, phone, nickName, name);
+		memberDAO.registerMember(memberVO);
+		return "redirect:Login.do";
 	}
 
 }

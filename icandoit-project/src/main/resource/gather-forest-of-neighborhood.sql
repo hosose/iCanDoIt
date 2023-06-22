@@ -12,8 +12,8 @@ INSERT INTO MEMBER
 	VALUES ('java',	'a',
 	'성남시 분당구'	,	'010-1111-1212',	'자바킹',	'아이유');
 
+select USER_ID from member where USER_ID = 'mtest';
 SELECT *FROM MEMBER
-
 CREATE TABLE POST(
 	POST_NO	NUMBER		PRIMARY KEY,
 	TITLE	VARCHAR2(200)		NOT NULL,
