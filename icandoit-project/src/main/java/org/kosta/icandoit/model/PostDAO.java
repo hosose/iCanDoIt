@@ -57,4 +57,70 @@ public class PostDAO {
 		}
 		return post;
 	}
+
+	public void joinClub(String memberId, long postNo) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = dataSource.getConnection();
+			StringBuilder joinClubSql = new StringBuilder("INSERT INTO join_club ");
+			joinClubSql.append("VALUES (join_club_seq.nextval,	?,	? )");
+			pstmt = con.prepareStatement(joinClubSql.toString());
+			pstmt.setLong(1, postNo);
+			pstmt.setString(2, memberId);
+			pstmt.executeUpdate();
+			pstmt.close();
+			StringBuilder postSql = new StringBuilder("UPDATE post SET current_count = current_count + 1 ");
+			postSql.append("WHERE post_no = ?");
+			pstmt = con.prepareStatement(postSql.toString());
+			pstmt.setLong(1, postNo);
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			con.rollback();
+			throw e;
+		} finally {
+			closeAll(pstmt, con);
+		}
+	}
+
+	public int findPostCurrentCount(long postNo) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int currenCount = 0;
+		try {
+			con = dataSource.getConnection();
+			StringBuilder sql = new StringBuilder("SELECT count(*) FROM join_club WHERE post_no = ?");
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setLong(1, postNo);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				currenCount = rs.getInt(1);
+			}
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return currenCount;
+	}
+
+	public int findPostmaxCount(long postNo) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int maxCount = 0;
+		try {
+			con = dataSource.getConnection();
+			StringBuilder sql = new StringBuilder("SELECT max_count FROM post WHERE post_no = ?");
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setLong(1, postNo);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				maxCount = rs.getInt(1);
+			}
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return maxCount;
+	}
 }
