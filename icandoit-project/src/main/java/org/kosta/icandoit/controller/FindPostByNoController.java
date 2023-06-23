@@ -14,8 +14,8 @@ public class FindPostByNoController implements Controller {
 		 * session.getAttribute("mvo") == null) { System.out.println("비인증"); return
 		 * "redirect:FindPostList.do"; }
 		 */
-		// long no = Long.parseLong(request.getParameter("no"));
-		PostVO postVO = PostDAO.getInstance().findPostDetail(1);
+		long no = Long.parseLong(request.getParameter("no"));
+		PostVO postVO = PostDAO.getInstance().findPostDetail(no);
 		request.setAttribute("postVO", postVO);
 		request.setAttribute("url", "post-detail.jsp");
 		return "layout.jsp";
