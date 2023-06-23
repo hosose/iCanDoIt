@@ -7,7 +7,7 @@
 			<button type="button" class="btn btn-success btn-sm">모집중</button>
 			<button type="button" class="btn btn-danger btn-sm">모집마감</button>
 		</div>
-		<form action="post-register.do" method="post">
+		<form action="RegisterHobbyPostForm.do" method="post">
 		<div class="form-group">
 			<div class="text">
 				<button type="submit" class="btn btn-primary">게시글쓰기</button>
