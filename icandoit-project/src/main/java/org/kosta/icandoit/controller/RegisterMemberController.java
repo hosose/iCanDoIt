@@ -15,7 +15,7 @@ public class RegisterMemberController implements Controller {
 
 		// query string 막기
 		if (request.getMethod().equals("POST") == false)
-			throw new ServletException("POST 방식만 서비스 됩니다.");
+			throw new ServletException("잘못된 접근입니다.");
 
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
