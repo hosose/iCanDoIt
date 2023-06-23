@@ -8,8 +8,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
 <script
-	src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+	src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script
@@ -44,7 +45,6 @@
 		<c:import url="${requestScope.url}"></c:import>
 		<c:import url="footer.jsp"></c:import>
 		
-		
 	<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
 	<script src="assets/vendor/aos/aos.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -56,5 +56,7 @@
 
 	<!-- Template Main JS File -->
 	<script src="assets/js/main.js"></script>
+			
+
 </body>
 </html>

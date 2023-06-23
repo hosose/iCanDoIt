@@ -1,16 +1,14 @@
-package org.kosta.icandoit.model;
+package org.kosta.icandoit.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.kosta.icandoit.controller.Controller;
-
-public class FindPostListController implements Controller {
+public class HomeController implements Controller {
 
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		request.setAttribute("url", "home.jsp");
+		return "layout.jsp";
 	}
 
 }
