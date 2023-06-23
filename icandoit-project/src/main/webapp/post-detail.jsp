@@ -31,17 +31,27 @@
 				}
 				</script>
 			</c:if>
-				<button class="btn btn-primary"
-				style="padding: 20px; margin-left: 50% " id="joinBtn">모임 참여하기</button>
 			</div>
+				<c:choose>
+					<c:when test="${postVO.maxCount>postVO.currentCount}">
+					<button class="btn btn-primary"
+					style="padding: 25px; margin-left: 45%;"  id="joinClubBtn">모임 참여하기</button>
+					</c:when>
+					<c:otherwise>
+					<button class="btn btn-primary"
+					style="padding: 25px; margin-left: 45%;" >모집 마감</button>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<div class="col-lg-8">
 					<div class="row">
 						<div class="text-left">
 							<button type="button" class="btn btn-success"
 								style="float: left; margin: 5px 10px 10px 10px;">${postVO.gatheringType}</button>
-							<span style="font-size: 30px; margin-top: 5px;">${postVO.title}
-							</span> <span style="font-size: 25px;">👨‍👩 ${postVO.currentCount}/${postVO.maxCount}</span>
+							<span style="font-size: 30px; margin-top: 5px;">${postVO.title}</span> 
+							 <span style="font-size: 25px;">👨‍👩</span>
+							 <span style="font-size: 25px;" id="currentCountSpan"> ${postVO.currentCount}</span>/
+							<span style="font-size: 25px;">${postVO.maxCount}</span>
 						</div>
 						<div class="col form-group">
 							<p style="margin: 0 10px;">
@@ -82,9 +92,22 @@
 					<hr>
 				</div>
 			</form>
-
 		</div>
 	</div>
+	<script type="text/javascript">
+	$(function () {
+		$("#joinClubBtn").click(function () {
+			$.ajax({
+				type:"post",
+				url:"JoinClub.do",
+				data:"postNo="+${postVO.postNo},
+				success:function(result){
+					$("#currentCountSpan").text(result.currenCount);
+				}
+			});
+		})
+	})
+	</script>
 </section>
 <div id="preloader"></div>
 <a href="#"
