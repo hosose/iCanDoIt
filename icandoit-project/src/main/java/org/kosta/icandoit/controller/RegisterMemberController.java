@@ -23,15 +23,15 @@ public class RegisterMemberController implements Controller {
 		String phone = request.getParameter("phone");
 		String nickName = request.getParameter("nickName");
 		String name = request.getParameter("name");
-
+		System.out.println(id + password + address + phone + nickName + name);
 		// 같은 아이디가 존재 할 때
-		if (memberDAO.findMemberById(id) != null) {
-			return "";
-		}
+//		if (memberDAO.findMemberById(id) != null) {
+//			return "";
+//		}
 		// 존재하지 않을 때
 		MemberVO memberVO = new MemberVO(id, password, address, phone, nickName, name);
 		memberDAO.registerMember(memberVO);
-		return "redirect:Login.do";
+		return "Login.do";
 	}
 
 }

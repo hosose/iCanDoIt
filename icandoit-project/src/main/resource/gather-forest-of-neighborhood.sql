@@ -11,7 +11,7 @@ ALTER TABLE member MODIFY (ADDRESS VARCHAR2(500));
 INSERT INTO MEMBER
 	VALUES ('java',	'a',
 	'성남시 분당구'	,	'010-1111-1212',	'자바킹',	'아이유');
-
+xxx
 select USER_ID from member where USER_ID = 'mtest';
 SELECT *FROM MEMBER
 CREATE TABLE POST(

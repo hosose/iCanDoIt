@@ -18,7 +18,7 @@
 					<button type="submit">로그인</button>
 				</div> <br><br>
 				<div class="text-center">
-					<a href="" style="text-decoration: underline;">회원가입 하러 가기</a>
+					<a href="RegisterMemberForm.do" style="text-decoration: underline;">회원가입 하러 가기</a>
 				</div>
 			</form>
 		</div>
