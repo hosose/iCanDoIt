@@ -37,7 +37,7 @@
 							</div>
 						</li>
 						<li><div class="container" align="left">
-								<a class="btn btn-2" href="LoginForm.do">회원 가입하기</a>
+								<a class="btn btn-2" href="RegisterMemberForm.do">회원 가입하기</a>
 							</div></li>
 					</ul>
 				</div>

@@ -11,7 +11,8 @@ ALTER TABLE member MODIFY (ADDRESS VARCHAR2(500));
 INSERT INTO MEMBER
 	VALUES ('java',	'a',
 	'성남시 분당구'	,	'010-1111-1212',	'자바킹',	'아이유');
-
+select USER_ID, password, address, NICK_NAME from member where USER_ID = 'mtest' and password = 'a';
+select USER_ID from member where USER_ID = 'mtest';
 SELECT *FROM MEMBER
 CREATE TABLE POST(
 	POST_NO	NUMBER		PRIMARY KEY,
@@ -107,6 +108,7 @@ create sequence join_club_seq;
 	VALUES (join_club_seq.nextval,	1,	'java' );
 
 	DELETE join_club
+
 
 
 
