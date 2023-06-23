@@ -4,9 +4,7 @@
 <section id="contact" class="contact">
 	<div class="container" data-aos="fade-up">
 		<div class="row" data-aos="fade-up" data-aos-delay="100">
-			<!-- 	LG MD SM -->
 			<div class="col-lg-4">
-				<!-- 			            <iframe class="mb-4 mb-lg-0" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 384px;" allowfullscreen></iframe> -->
 				<img alt="" class="mb-2 mb-lg-0" src="picture/${postVO.img }"
 					 style="border: 0; width: 100%; height: 70%;">
 			<div>
@@ -38,9 +36,6 @@
 			</div>
 			</div>
 			<div class="col-lg-8">
-				
-					<!--======================== 모집여부 button ==================  -->
-
 					<div class="row">
 						<div class="text-left">
 							<button type="button" class="btn btn-success"
@@ -59,10 +54,6 @@
 					<table class="table table-bordered">
 						<tbody style="width: 80%">
 							<tr>
-								<%-- 
-					pre tag : db에 저장된 글형식 그대로 표현 (줄바꿈 등이 표현됨) 
-									pre tag 라인인 행변경없이 한라인으로 표현해야 함
-					--%>
 								<td><pre><font size="4">${postVO.postContent}</font></pre></td>
 							</tr>
 						</tbody>
@@ -95,16 +86,10 @@
 		</div>
 	</div>
 </section>
-
-
-
-
 <div id="preloader"></div>
 <a href="#"
 	class="back-to-top d-flex align-items-center justify-content-center"><i
 	class="bi bi-arrow-up-short"></i></a>
-
-<!-- Vendor JS Files -->
 <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
 <script src="assets/vendor/aos/aos.js"></script>
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -113,9 +98,6 @@
 <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
 <script src="assets/vendor/php-email-form/validate.js"></script>
-
-<!-- Template Main JS File -->
 <script src="assets/js/main.js"></script>
-
 </body>
 </html>
