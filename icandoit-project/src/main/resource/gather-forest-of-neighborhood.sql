@@ -46,15 +46,12 @@ INSERT INTO POST
 	VALUES (post_seq.nextval,	'당구모임',	'이번주 금요일에 만나요~',	'당구.jpg'	,	'운동'	,
 	sysdate,	'모집중' 	,	'2023-06-23'	, 2, 	4 	,	'java' );
 
-<<<<<<< HEAD
-	SELECT * FROM post
-=======
 	SELECT  post_no, title	, post_content	, img	,  gathering_type, gathering_period,
 	  max_count, user_id  FROM post 
 	  JOIN
 	  WHERE post_no=1
->>>>>>> refs/heads/develop
 	
+	 SELECT * FROM join_club
 CREATE TABLE POST_COMMENT (
 	COMMENT_NO	NUMBER		PRIMARY KEY,
 	COMMENT_CONTENT	VARCHAR2(1000)		NOT NULL,
