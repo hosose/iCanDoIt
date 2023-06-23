@@ -162,4 +162,34 @@ public class PostDAO {
 		}
 		return list;
 	}
+	public void posting(PostVO post) throws SQLException{
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		StringBuilder sql = new StringBuilder();
+		
+		try {
+			con=dataSource.getConnection();
+			sql.append("INSERT INTO POST(POST_NO,	TITLE	,	POST_CONTENT	,	IMG	,");
+			sql.append("CATEGORY_TYPE,	TIME_POSTED	,	GATHERING_TYPE 	,");
+			sql.append("GATHERING_PERIOD,CURRENT_COUNT,	MAX_COUNT ,	USER_ID )");
+			sql.append("VALUES (post_seq.nextval,	?,	?,	?	,	?	,");
+			sql.append("sysdate,	? 	,	?	,?	, 	? 	,	? )");
+			pstmt=con.prepareStatement(sql.toString());
+			pstmt.setString(1, post.getTitle());
+			pstmt.setString(2, post.getPostContent());
+			pstmt.setString(3, post.getImg());
+			pstmt.setString(4, post.getCategoryType());
+//			pstmt.setString(5, post.getTimePosted());
+			pstmt.setString(5, post.getGatheringType());
+			pstmt.setString(6, post.getGatheringPeriod());
+			pstmt.setInt(7, post.getCurrentCount());
+			pstmt.setInt(8, post.getMaxCount());
+			pstmt.setString(9, post.getMemberVO().getId());
+			pstmt.executeUpdate();
+		}finally {
+			closeAll(rs, pstmt, con);
+		}
+	
+	}
 }
