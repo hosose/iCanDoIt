@@ -129,7 +129,7 @@ public class PostDAO {
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setLong(1, postNo);
 			rs = pstmt.executeQuery();
-			if (rs.next()) {
+			while (rs.next()) {
 				joinClubMember.add(rs.getString(1));
 			}
 		} finally {
