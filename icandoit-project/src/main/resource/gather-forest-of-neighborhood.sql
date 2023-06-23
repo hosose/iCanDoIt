@@ -30,8 +30,6 @@ CREATE TABLE POST(
 	REFERENCES MEMBER(USER_ID) ON DELETE CASCADE
 );
 
-ALTER TABLE post DROP COLUMN CURRENT_COUNT;
-
 create sequence post_seq;
 ALTER TABLE post MODIFY current_count NUMBER DEFAULT 1 ;
 
@@ -46,12 +44,8 @@ INSERT INTO POST
 	VALUES (post_seq.nextval,	'당구모임',	'이번주 금요일에 만나요~',	'당구.jpg'	,	'운동'	,
 	sysdate,	'모집중' 	,	'2023-06-23'	, 2, 	4 	,	'java' );
 
-	SELECT  post_no, title	, post_content	, img	,  gathering_type, gathering_period,
-	  max_count, user_id  FROM post 
-	  JOIN
-	  WHERE post_no=1
+	SELECT * FROM post
 	
-	 SELECT * FROM join_club
 CREATE TABLE POST_COMMENT (
 	COMMENT_NO	NUMBER		PRIMARY KEY,
 	COMMENT_CONTENT	VARCHAR2(1000)		NOT NULL,
@@ -86,28 +80,6 @@ INSERT INTO POST_LIKE
 	VALUES (like_seq.nextval,	1,	'java' );
 
 	SELECT * FROM POST_LIKE
-
-CREATE TABLE JOIN_CLUB (
-	JOIN_CLUB_NO 	NUMBER		PRIMARY KEY,
-	POST_NO	NUMBER		NOT NULL,
-	USER_ID 	VARCHAR2(20)		NOT NULL,
-	CONSTRAINT join_club_user_id_fk FOREIGN KEY(USER_ID) 
-	REFERENCES MEMBER(USER_ID) ON DELETE CASCADE,
-	CONSTRAINT join_club_post_no_fk FOREIGN KEY(post_no) 
-	REFERENCES post(post_no) ON DELETE CASCADE
-);
-create sequence join_club_seq;
-
-	SELECT * FROM join_club
-	SELECT * FROM post
-
-	UPDATE post SET current_count = 1
-	WHERE post_no = 1;
-
-	INSERT INTO join_club
-	VALUES (join_club_seq.nextval,	1,	'java' );
-
-	DELETE join_club
 
 
 
