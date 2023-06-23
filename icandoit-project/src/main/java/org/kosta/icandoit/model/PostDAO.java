@@ -136,7 +136,7 @@ public class PostDAO {
 			sb.append(
 					"SELECT p.post_no,p.title,p.post_content,p.category_type,p.img,TO_CHAR(p.TIME_POSTED,'YYYY-MM-DD') time_posted,TO_CHAR(p.gathering_period,'YYYY-MM-DD') gathering_period,gathering_type,p.max_count,m.nick_name, ");
 			sb.append("(SELECT count(*) FROM join_club where p.post_no = join_club.post_no) as current_count ");
-			sb.append("FROM post p ,member m ,join_club j where p.user_id = m.user_id");
+			sb.append("FROM post p ,member m where p.user_id = m.user_id");
 			String sql = sb.toString();
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
