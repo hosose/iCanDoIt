@@ -112,4 +112,3 @@ create sequence join_club_seq;
 
 
 
-
