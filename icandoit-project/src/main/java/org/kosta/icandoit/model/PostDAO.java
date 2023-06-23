@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
@@ -122,5 +123,26 @@ public class PostDAO {
 			closeAll(rs, pstmt, con);
 		}
 		return maxCount;
+	}
+
+	public ArrayList<String> findJoinClubMember(long postNo) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<String> joinClubMember = new ArrayList<>();
+		try {
+			con = dataSource.getConnection();
+			StringBuilder sql = new StringBuilder(
+					"SELECT m.nick_name FROM join_club j LEFT JOIN member m ON j.user_id = m.user_id WHERE post_no=?");
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setLong(1, postNo);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				joinClubMember.add(rs.getString(1));
+			}
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return joinClubMember;
 	}
 }

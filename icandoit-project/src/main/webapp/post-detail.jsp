@@ -12,8 +12,12 @@
 					<button class="btn btn-primary"
 					style="padding: 25px; margin-left: 45%;"  id="joinClubBtn">모임 참여하기</button>
 					</c:when>
+					 <c:when test="${joinClubTF=='ok'}">
+					 <button class="btn btn-primary"
+					style="padding: 25px; margin-left: 45%;"  id="leaveClubBtn">모임 철회하기</button>
+					</c:when> 
 					<c:otherwise>
-					<button class="btn btn-primary"
+					<button class="btn btn-danger"
 					style="padding: 25px; margin-left: 45%;" >모집 마감</button>
 					</c:otherwise>
 				</c:choose>
