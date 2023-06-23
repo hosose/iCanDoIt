@@ -48,7 +48,7 @@
 								📅 ${postVO.gatheringPeriod} &nbsp;&nbsp;&nbsp;
 								<button class="btn btn-danger">💕 찜</button>
 							</p>
-							<span style="margin: 0 10px;">${postVO.memberVO.id}</span>
+							<span style="margin: 0 10px;">${postVO.memberVO.nickName}</span>
 						</div>
 					</div>
 					<table class="table table-bordered">
