@@ -45,7 +45,6 @@
 		<c:import url="${requestScope.url}"></c:import>
 		<c:import url="footer.jsp"></c:import>
 		
-		
 	<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
 	<script src="assets/vendor/aos/aos.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

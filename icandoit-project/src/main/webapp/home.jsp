@@ -33,7 +33,7 @@
 					<ul>
 						<li>
 							<div class="container" align="left">
-								<a class="btn btn-2" href="FindPostList.do">모임 시작하기</a>
+								<a class="btn btn-2" href="FindHobbyPostList.do">모임 시작하기</a>
 							</div>
 						</li>
 						<li><div class="container" align="left">

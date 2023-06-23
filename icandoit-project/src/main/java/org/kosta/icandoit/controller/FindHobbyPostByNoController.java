@@ -1,5 +1,7 @@
 package org.kosta.icandoit.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,10 +17,11 @@ public class FindHobbyPostByNoController implements Controller {
 			System.out.println("비인증");
 			return "redirect:FindPostList.do";
 		}
-
-		long no = Long.parseLong(request.getParameter("no"));
+		long no = Long.parseLong(request.getParameter("postNo"));
+		ArrayList<String> joinClubMember = PostDAO.getInstance().findJoinClubMember(no);
 		PostVO post = PostDAO.getInstance().findPostDetail(no);
 		request.setAttribute("postVO", post);
+		request.setAttribute("joinClubMember", joinClubMember);
 		request.setAttribute("url", "post-detail.jsp");
 		return "layout.jsp";
 	}

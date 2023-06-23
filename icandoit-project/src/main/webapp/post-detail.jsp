@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <section id="contact" class="contact">
 	<div class="container" data-aos="fade-up">
 		<div class="row" data-aos="fade-up" data-aos-delay="100">
@@ -8,6 +9,7 @@
 				<img alt="" class="mb-2 mb-lg-0" src="picture/${postVO.img }"
 					 style="border: 0; width: 100%; height: 70%;">
 			<div>
+			<c:set var="memberArr" value="${joinClubMember }"></c:set>
 				<c:if test="${sessionScope.memberVO.id==postVO.memberVO.id}">
 				<button  class="btn btn-success" style="margin : 0;" onclick="updatePost()">수정</button>
 				<button class="btn btn-danger" onclick="deletePost()" id="deleteBtn">삭제</button>
@@ -15,11 +17,15 @@
 				<c:choose>
 					<c:when test="${postVO.maxCount>postVO.currentCount}">
 					<button class="btn btn-primary"
-					style="padding: 20px; margin-left: 50%;"  id="joinClubBtn">모임 참여하기</button>
+					style="padding: 20px; margin-left: 45%;"  id="joinClubBtn">모임 참여하기</button>
+					</c:when>
+					<c:when test="">
+					<button class="btn btn-primary"
+					style="padding: 20px; margin-left: 45%;"  id="leaveClubBtn">모임 참여 철회</button>
 					</c:when>
 					<c:otherwise>
 					<button class="btn btn-primary"
-					style="padding: 25px; margin-left: 50%;" >모집 마감</button>
+					style="padding: 25px; margin-left: 45%;" >모집 마감</button>
 					</c:otherwise>
 				</c:choose>
 				<form id="deletePostForm" action="DeletePost.do" method="post"> 
@@ -105,8 +111,13 @@
 				type:"post",
 				url:"JoinClub.do",
 				data:"postNo="+${postVO.postNo},
+				dataType : "json",
 				success:function(result){
-					$("#currentCountSpan").text(result.currenCount);
+					if(result.joinTF=="T"){
+						$("#joinClubBtn").text("모임 참여 철회");
+						$("#joinClubBtn").attr("id","leaveClubBtn");
+						}
+					$("#currentCountSpan").text(result.currentCount);
 				}
 			});
 		})

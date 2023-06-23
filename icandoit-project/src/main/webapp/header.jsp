@@ -13,7 +13,7 @@
 		</div>
 		<nav id="navbar" class="navbar">
 			<a class="btn btn-4" href="Home.do" style="margin-right: 20px">Home</a><a
-				class="btn btn-4" href="FindPostList.do" style="margin-right: 450px">모임
+				class="btn btn-4" href="FindHobbyPostList.do" style="margin-right: 450px">모임
 				게시판</a>
 			<c:choose>
 				<c:when test="${sessionScope.memberVO!=null }">
