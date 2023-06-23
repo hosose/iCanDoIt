@@ -19,6 +19,7 @@
 
 
 		<c:forEach items="${post}" var="postList">
+		
 			<div class="col-4">
 				<div class="card my-4">
 					<img src="assets/img/sprint.png" class="card-img-top">
@@ -32,7 +33,7 @@
 							</c:otherwise>
 						</c:choose>
 						<h5 class="card-title">${postList.title}</h5>
-						<p class="card-text">${postList.postContent}</p>
+						<p class="card-text">${postList}</p>
 					</div>
 				</div>
 			</div>
