@@ -16,7 +16,7 @@ public class FindHobbyPostByNoController implements Controller {
 			return "redirect:FindPostList.do";
 		}
 
-		long no = Long.parseLong(request.getParameter("no"));
+		long no = Long.parseLong(request.getParameter("postNo"));
 		PostVO post = PostDAO.getInstance().findPostDetail(no);
 		request.setAttribute("postVO", post);
 		request.setAttribute("url", "post-detail.jsp");
