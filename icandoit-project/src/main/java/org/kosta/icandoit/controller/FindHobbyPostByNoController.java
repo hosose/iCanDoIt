@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.kosta.icandoit.model.PostDAO;
 import org.kosta.icandoit.model.PostVO;
 
-public class FindPostByNoController implements Controller {
+public class FindHobbyPostByNoController implements Controller {
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession(false);
