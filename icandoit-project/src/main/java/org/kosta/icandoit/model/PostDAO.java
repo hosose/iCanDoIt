@@ -70,15 +70,7 @@ public class PostDAO {
 			pstmt.setLong(1, postNo);
 			pstmt.setString(2, memberId);
 			pstmt.executeUpdate();
-			pstmt.close();
-			StringBuilder postSql = new StringBuilder("UPDATE post SET current_count = current_count + 1 ");
-			postSql.append("WHERE post_no = ?");
-			pstmt = con.prepareStatement(postSql.toString());
-			pstmt.setLong(1, postNo);
-			pstmt.executeUpdate();
-			con.commit();
 		} catch (Exception e) {
-			con.rollback();
 			throw e;
 		} finally {
 			closeAll(pstmt, con);
