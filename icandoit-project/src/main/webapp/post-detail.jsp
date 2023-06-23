@@ -7,17 +7,17 @@
 			<!-- 	LG MD SM -->
 			<div class="col-lg-4">
 				<!-- 			            <iframe class="mb-4 mb-lg-0" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 384px;" allowfullscreen></iframe> -->
-				<img alt="" class="mb-2 mb-lg-0" src="picture/${post.img }"
+				<img alt="" class="mb-2 mb-lg-0" src="picture/${postVO.img }"
 					 style="border: 0; width: 100%; height: 70%;">
 			<div>
-			<c:if test="${sessionScope.mvo.id==post.memberVO.id}">
+			<c:if test="${sessionScope.memberVO.id==postVO.memberVO.id}">
 				<button  class="btn btn-success" style="margin : 0;" onclick="updatePost()">수정</button>
 				<button class="btn btn-danger" onclick="deletePost()">삭제</button>
 				<form id="deletePostForm" action="DeletePost.do" method="post"> 
-				<input type="hidden" name="no" value="${post.no}">
+				<input type="hidden" name="no" value="${postVO.no}">
 				</form>
 				<form id="updatePostForm" action="UpdatePostForm.do" method="post"> 
-				<input type="hidden" name="no" value="${post.no}">
+				<input type="hidden" name="no" value="${postVO.no}">
 				</form>
 				<script type="text/javascript">
 				$("#joinBtn").css("margin", 0);
@@ -44,16 +44,16 @@
 					<div class="row">
 						<div class="text-left">
 							<button type="button" class="btn btn-success"
-								style="float: left; margin: 5px 10px 10px 10px;">${post.gatheringType}</button>
-							<span style="font-size: 30px; margin-top: 5px;">${post.title}
-							</span> <span style="font-size: 25px;">👨‍👩 ${post.currentCount}/${post.maxCount}</span>
+								style="float: left; margin: 5px 10px 10px 10px;">${postVO.gatheringType}</button>
+							<span style="font-size: 30px; margin-top: 5px;">${postVO.title}
+							</span> <span style="font-size: 25px;">👨‍👩 ${postVO.currentCount}/${postVO.maxCount}</span>
 						</div>
 						<div class="col form-group">
 							<p style="margin: 0 10px;">
-								📅 ${post.gatheringPeriod} &nbsp;&nbsp;&nbsp;
+								📅 ${postVO.gatheringPeriod} &nbsp;&nbsp;&nbsp;
 								<button class="btn btn-danger">💕 찜</button>
 							</p>
-							<span style="margin: 0 10px;">${post.memberVO.id}</span>
+							<span style="margin: 0 10px;">${postVO.memberVO.id}</span>
 						</div>
 					</div>
 					<table class="table table-bordered">
@@ -63,7 +63,7 @@
 					pre tag : db에 저장된 글형식 그대로 표현 (줄바꿈 등이 표현됨) 
 									pre tag 라인인 행변경없이 한라인으로 표현해야 함
 					--%>
-								<td><pre><font size="4">${post.postContent}</font></pre></td>
+								<td><pre><font size="4">${postVO.postContent}</font></pre></td>
 							</tr>
 						</tbody>
 					</table>
