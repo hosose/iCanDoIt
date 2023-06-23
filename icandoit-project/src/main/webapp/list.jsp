@@ -5,36 +5,18 @@
 <button type="button" class="btn btn-success btn-sm">모집중</button>
   <button type="button" class="btn btn-danger btn-sm">모집마감</button>	
 		<div class="row">
+		<c:forEach items="${post}" var="postList">
 			<div class="col-4">
 				<div class="card my-4">
 				<img src="assets/img/sprint.png" class="card-img-top">
 				<div class="card-body">
 				<button type="button" class="btn btn-danger btn-sm">모집마감</button>
-				<h5 class="card-title">제목이다</h5>
-				<p class="card-text">내용이다</p>
+				<h5 class="card-title">${postList.title}</h5>
+				<p class="card-text">${postList.postContent}</p>
 				</div>
 			</div>	
 		</div>
-		<div class="col-4">
-				<div class="card my-4">
-				<img src="assets/img/sprint.png" class="card-img-top">
-				<div class="card-body">
-				<button type="button" class="btn btn-danger btn-sm">모집마감</button>
-				<h5 class="card-title">제목이다</h5>
-				<p class="card-text">내용이다</p>
-				</div>
-			</div>	
-		</div>
-		<div class="col-4">
-				<div class="card my-4">
-				<img src="assets/img/sprint.png" class="card-img-top">
-				<div class="card-body">
-				<button type="button" class="btn btn-danger btn-sm">모집마감</button>
-				<h5 class="card-title">제목이다</h5>
-				<p class="card-text">내용이다</p>
-				</div>
-			</div>	
-		</div>
+		</c:forEach>
 	</div>
 </div>
 
