@@ -21,11 +21,9 @@
 						</div>
 						<div class="form-group">
 							<label for="InputAddress" class="form-label mt-4">주소</label> 
-							<input class="form-control" type="hidden" id="postcode" placeholder="우편번호">
+							<!-- <input class="form-control" type="hidden" id="postcode" placeholder="우편번호"> -->
 							<input class="form-control" type="text" id="roadAddress" placeholder="도로명주소">
 							<input type="button" class="btn btn-primary" onclick="execDaumPostcode()" value="주소 찾기">
-							<input class="form-control" type="hidden" id="detailAddress" placeholder="상세주소">
-							<input class="form-control" type="hidden" id="extraAddress" placeholder="참고항목">
 						</div>
 						<div class="form-group">
 							<label for="InputPhone" class="form-label mt-4">핸드폰번호</label> <input
@@ -84,7 +82,7 @@
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('postcode').value = data.zonecode;
+               /*  document.getElementById('postcode').value = data.zonecode; */
                 document.getElementById("roadAddress").value = roadAddr;
                 
                 // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
