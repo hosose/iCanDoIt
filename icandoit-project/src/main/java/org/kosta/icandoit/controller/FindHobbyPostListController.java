@@ -14,6 +14,7 @@ public class FindHobbyPostListController implements Controller {
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ArrayList<PostVO> list = PostDAO.getInstance().findPostList();
 		request.setAttribute("post", list);
+		request.setAttribute("url", "list.jsp");
 		return "layout.jsp";
 	}
 

@@ -42,7 +42,7 @@
 <body>
 
 		<c:import url="header.jsp"></c:import>
-		<c:import url="${requestScope.url}/list.jsp"></c:import>
+		<c:import url="${requestScope.url}"></c:import>
 		<c:import url="footer.jsp"></c:import>
 		
 	<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
