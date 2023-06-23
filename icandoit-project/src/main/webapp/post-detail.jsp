@@ -8,17 +8,32 @@
 				<img alt="" class="mb-2 mb-lg-0" src="picture/${postVO.img }"
 					 style="border: 0; width: 100%; height: 70%;">
 			<div>
-			<c:if test="${sessionScope.memberVO.id==postVO.memberVO.id}">
+				<c:if test="${sessionScope.memberVO.id==postVO.memberVO.id}">
 				<button  class="btn btn-success" style="margin : 0;" onclick="updatePost()">수정</button>
-				<button class="btn btn-danger" onclick="deletePost()">삭제</button>
+				<button class="btn btn-danger" onclick="deletePost()" id="deleteBtn">삭제</button>
+				</c:if>
+				<c:choose>
+					<c:when test="${postVO.maxCount>postVO.currentCount}">
+					<button class="btn btn-primary"
+					style="padding: 20px; margin-left: 50%;"  id="joinClubBtn">모임 참여하기</button>
+					</c:when>
+					<c:otherwise>
+					<button class="btn btn-primary"
+					style="padding: 25px; margin-left: 50%;" >모집 마감</button>
+					</c:otherwise>
+				</c:choose>
 				<form id="deletePostForm" action="DeletePost.do" method="post"> 
-				<input type="hidden" name="no" value="${postVO.no}">
+				<input type="hidden" name="no" value="${postVO.postNo}">
 				</form>
 				<form id="updatePostForm" action="UpdatePostForm.do" method="post"> 
-				<input type="hidden" name="no" value="${postVO.no}">
+				<input type="hidden" name="no" value="${postVO.postNo}">
 				</form>
 				<script type="text/javascript">
-				$("#joinBtn").css("margin", 0);
+				$(function () {
+					if($("#deleteBtn").text() !=""){
+					$("#joinClubBtn").css("margin", 10);
+					}
+				})
 				function deletePost() {
 					if(confirm("삭제하시겠습니까?")){
 						document.getElementById("deletePostForm").submit();
@@ -30,18 +45,7 @@
 					}
 				}
 				</script>
-			</c:if>
 			</div>
-				<c:choose>
-					<c:when test="${postVO.maxCount>postVO.currentCount}">
-					<button class="btn btn-primary"
-					style="padding: 25px; margin-left: 45%;"  id="joinClubBtn">모임 참여하기</button>
-					</c:when>
-					<c:otherwise>
-					<button class="btn btn-primary"
-					style="padding: 25px; margin-left: 45%;" >모집 마감</button>
-					</c:otherwise>
-				</c:choose>
 			</div>
 			<div class="col-lg-8">
 					<div class="row">
