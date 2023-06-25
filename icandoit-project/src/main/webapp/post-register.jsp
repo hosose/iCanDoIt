@@ -28,10 +28,10 @@
 				</div>
 			</div>
 			<div class="col-lg-9">
-				<div class="row">
+				<div class="row" >
 					<div class="col form-group">
 						<input type="text" name="categoryType" class="form-control"
-							id="categoryType" placeholder="카테고리" required="required">
+							id="categoryType" placeholder="카테고리" required="required" >
 					</div>
 					<div class="col form-group">
 
@@ -41,10 +41,7 @@
 							max="2025-06-30">
 						<!-- 								<p><input type="date" value="2019-09-22" min="2019-09-10" max="2019-09-25"></p> -->
 					</div>
-					<div class="col form-group">
-						<input type="text" name="currentCount" class="form-control"
-							id="currentCount" placeholder="최소인원" required="required">
-					</div>
+
 					<div class="col form-group">
 						<input type="text" name="maxCount" class="form-control"
 							id="maxCount" placeholder="최대인원" required="required">

@@ -149,7 +149,7 @@ public class PostDAO {
 			sb.append(
 					"SELECT p.post_no,p.title,p.post_content,p.category_type,p.img,TO_CHAR(p.TIME_POSTED,'YYYY-MM-DD') time_posted,TO_CHAR(p.gathering_period,'YYYY-MM-DD') gathering_period,gathering_type,p.max_count,m.nick_name, ");
 			sb.append("(SELECT count(*) FROM join_club where p.post_no = join_club.post_no) as current_count ");
-			sb.append("FROM post p ,member m ,join_club j where p.user_id = m.user_id");
+			sb.append("FROM post p ,member m where p.user_id = m.user_id");
 			String sql = sb.toString();
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -181,14 +181,17 @@ public class PostDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sql = new StringBuilder();
+		long postNosql = 0;
 
 		try {
 			con = dataSource.getConnection();
+			// 수동 커밋모드로 설정 ( jdbc 기본은 auto commit )
+			con.setAutoCommit(false);
 			sql.append("INSERT INTO POST(POST_NO,	TITLE	,	POST_CONTENT	,	IMG	,");
 			sql.append("CATEGORY_TYPE,	TIME_POSTED	,	GATHERING_TYPE 	,");
-			sql.append("GATHERING_PERIOD,CURRENT_COUNT,	MAX_COUNT ,	USER_ID )");
+			sql.append("GATHERING_PERIOD,	MAX_COUNT ,	USER_ID )");
 			sql.append("VALUES (post_seq.nextval,	?,	?,	?	,	?	,");
-			sql.append("sysdate,	? 	,	?	,?	, 	? 	,	? )");
+			sql.append("sysdate,	? 	,	?	, 	? 	,	? )");
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, post.getTitle());
 			pstmt.setString(2, post.getPostContent());
@@ -197,10 +200,35 @@ public class PostDAO {
 //			pstmt.setString(5, post.getTimePosted());
 			pstmt.setString(5, post.getGatheringType());
 			pstmt.setString(6, post.getGatheringPeriod());
-			pstmt.setInt(7, post.getCurrentCount());
-			pstmt.setInt(8, post.getMaxCount());
-			pstmt.setString(9, post.getMemberVO().getId());
+//			pstmt.setInt(7, post.getCurrentCount());
+			pstmt.setInt(7, post.getMaxCount());
+			pstmt.setString(8, post.getMemberVO().getId());
 			pstmt.executeUpdate();
+			pstmt.close();
+			
+			StringBuilder postNoSql = new StringBuilder("SELECT post_no FROM post where user_id = ? ORDER BY post_no DESC ");
+			pstmt = con.prepareStatement(postNoSql.toString());
+			pstmt.setString(1, post.getMemberVO().getId());
+			rs = pstmt.executeQuery();
+
+			if(rs.next()) {
+				postNosql = rs.getLong(1);
+			}
+			
+			StringBuilder joinClubSql = new StringBuilder("INSERT INTO join_club ");
+			joinClubSql.append("VALUES (join_club_seq.nextval,	?,	? )");
+			pstmt = con.prepareStatement(joinClubSql.toString());
+			pstmt.setLong(1, postNosql);
+			pstmt.setString(2, post.getMemberVO().getId());
+			pstmt.executeUpdate();
+
+			con.commit();
+			System.out.println("모든 작업이 정상 수행되어 commit");
+		} catch (Exception e) {
+			con.rollback();
+			System.out.println("작업 진행 중 문제발생하여 rollback");
+			// 만약 사용하는 측으로 예외를 전파해야 한다면
+			throw e;
 		} finally {
 			closeAll(rs, pstmt, con);
 		}

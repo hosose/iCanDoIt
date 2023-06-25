@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.kosta.icandoit.model.MemberVO;
+import org.kosta.icandoit.model.PostDAO;
 import org.kosta.icandoit.model.PostVO;
 
 public class RegisterHobbyPostController implements Controller {
@@ -40,11 +41,12 @@ public class RegisterHobbyPostController implements Controller {
 		post.setGatheringPeriod(gatheringPeriod);
 		post.setCategoryType(categoryType);
 //		post.setTimePosted(timePosted);
-		post.setCurrentCount(Integer.parseInt(currentCount));
+		post.setCurrentCount(1);
 		post.setMaxCount(Integer.parseInt(maxCount));
 		post.setMemberVO(memberVO);
+		PostDAO.getInstance().posting(post);
 		
-		return "FinHobbyPostList.do";
+		return "FindHobbyPostList.do";
 	}
 
 }
