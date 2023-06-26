@@ -36,7 +36,8 @@
 </head>
 <body>
 		<c:import url="header.jsp"></c:import>
-		<c:import url="${requestScope.url}"></c:import>
+		<c:import url="member-update.jsp"></c:import>
+		<%-- <c:import url="${requestScope.url}"></c:import> --%>
 		<c:import url="footer.jsp"></c:import>
 	<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
 	<script src="assets/vendor/aos/aos.js"></script>
