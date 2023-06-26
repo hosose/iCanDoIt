@@ -20,13 +20,13 @@
 						</div>
 						<div class="form-group">
 							<div class="row">
-								<div class="col-sm-8">								
-									<input type="text" class="form-control" name="address"  id="address" 
+							<div class="col-sm-8">
+								<input type="text" class="form-control" name="address"  id="address" 
 									placeholder="주소 검색 버튼으로 주소 선택" required="required"  readonly>
-								</div>
-								<div class="col-sm-4">			
-                           			<input type="button" class="btn btn-primary" onclick="searchAddress()"  value="주소 검색">
-								</div>
+							</div>
+							<div class="col-sm-4">
+                           		<input type="button" class="btn btn-primary" onclick="searchAddress()"  value="주소 검색" style="margin:0;">
+							</div>
 							</div>                       
 						</div>
 						<div class="form-group">
@@ -53,7 +53,7 @@
 							<script type="text/javascript">
 							$(function(){
 								$("#registerMemberForm").submit(function(){
-									return confirm("등록하시겠습니까?");
+									return confirm("회원가입하시겠습니까?");
 								});
 							});
 							</script>
