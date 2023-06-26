@@ -22,7 +22,7 @@
 		
 			<div class="col-4">
 				<div class="card my-4">
-					<a href="FindHobbyPostByNo.do?no=${postList.postNo}"><img src="assets/img/sprint.png" class="card-img-top"></a>
+					<a href="FindHobbyPostByNo.do?postNo=${postList.postNo}"><img src="assets/img/sprint.png" class="card-img-top"></a>
 					<div class="card-body">
 						<c:choose>
 							<c:when test="${postList.gatheringType=='모집마감'}">
@@ -32,7 +32,7 @@
 								<button type="button" class="btn btn-success btn-sm">모집중</button>
 							</c:otherwise>
 						</c:choose>
-						<h5 class="card-title"><a href="FindHobbyPostByNo.do?no=${postList.postNo}">${postList.title}</a></h5>
+						<h5 class="card-title"><a href="FindHobbyPostByNo.do?postNo=${postList.postNo}">${postList.title}</a></h5>
 						<p class="card-text">${postList.postContent}</p>
 					</div>
 				</div>
