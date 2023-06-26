@@ -59,13 +59,13 @@ public class MemberDAO {
 		MemberVO vo = null;
 		try {
 			con = dataSource.getConnection();
-			String sql = "select USER_ID, password, address, NICK_NAME from member where USER_ID = ? and password = ?";
+			String sql = "select USER_ID, password, address,phone, NICK_NAME, name from member where USER_ID = ? and password = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, password);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				vo = new MemberVO(id, password, rs.getString(3), null, rs.getString(4), null);
+				vo = new MemberVO(id, password, rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
 			}
 		} finally {
 			closeAll(rs, pstmt, con);
@@ -130,5 +130,26 @@ public class MemberDAO {
 		}
 		return result;
 
+	}
+
+	public void updateMember(MemberVO memberVO) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = dataSource.getConnection();
+			StringBuilder sql = new StringBuilder(
+					"UPDATE member SET password = ?, address = ?, phone = ?, nick_name = ? ");
+			sql.append("WHERE user_id = ?");
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, memberVO.getPassword());
+			pstmt.setString(2, memberVO.getAddress());
+			pstmt.setString(3, memberVO.getPhone());
+			pstmt.setString(4, memberVO.getNickName());
+			pstmt.setString(5, memberVO.getId());
+			pstmt.executeUpdate();
+			System.out.println("member update");
+		} finally {
+			closeAll(pstmt, con);
+		}
 	}
 }
