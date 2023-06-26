@@ -22,7 +22,7 @@
 					style="padding: 20px; margin-left: 45%;"  id="joinClubBtn">모임 참여하기</button>
 					</c:when>
 					<c:otherwise>
-					<button class="btn btn-primary"
+					<button class="btn btn-danger"
 					style="padding: 25px; margin-left: 45%;" >모집 마감</button>
 					</c:otherwise>
 				</c:choose>
@@ -54,8 +54,14 @@
 			<div class="col-lg-8">
 					<div class="row">
 						<div class="text-left">
-							<button type="button" class="btn btn-success"
-								style="float: left; margin: 5px 10px 10px 10px;">${postVO.gatheringType}</button>
+							<c:choose>
+							<c:when test="${postVO.gatheringType=='모집마감'}">
+								<button style="float: left; margin: 5px 10px 10px 10px;" type="button" class="btn btn-danger btn-sm">모집마감</button>
+							</c:when>
+							<c:otherwise>
+								<button style="float: left; margin: 5px 10px 10px 10px;" type="button" class="btn btn-success btn-sm">모집중</button>
+							</c:otherwise>
+						</c:choose>
 							<span style="font-size: 30px; margin-top: 5px;">${postVO.title}</span> 
 							 <span style="font-size: 25px;">👨‍👩</span>
 							 <span style="font-size: 25px;" id="currentCountSpan"> ${postVO.currentCount}</span>/

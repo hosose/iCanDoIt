@@ -205,16 +205,17 @@ public class PostDAO {
 			pstmt.setString(8, post.getMemberVO().getId());
 			pstmt.executeUpdate();
 			pstmt.close();
-			
-			StringBuilder postNoSql = new StringBuilder("SELECT post_no FROM post where user_id = ? ORDER BY post_no DESC ");
+
+			StringBuilder postNoSql = new StringBuilder(
+					"SELECT post_no FROM post where user_id = ? ORDER BY post_no DESC ");
 			pstmt = con.prepareStatement(postNoSql.toString());
 			pstmt.setString(1, post.getMemberVO().getId());
 			rs = pstmt.executeQuery();
 
-			if(rs.next()) {
+			if (rs.next()) {
 				postNosql = rs.getLong(1);
 			}
-			
+
 			StringBuilder joinClubSql = new StringBuilder("INSERT INTO join_club ");
 			joinClubSql.append("VALUES (join_club_seq.nextval,	?,	? )");
 			pstmt = con.prepareStatement(joinClubSql.toString());
@@ -233,5 +234,21 @@ public class PostDAO {
 			closeAll(rs, pstmt, con);
 		}
 
+	}
+
+	public void updataGatheringType(long postNo) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = dataSource.getConnection();
+			StringBuilder joinClubSql = new StringBuilder("UPDATE post SET GATHERING_TYPE = '모집마감' WHERE post_no = ?");
+			pstmt = con.prepareStatement(joinClubSql.toString());
+			pstmt.setLong(1, postNo);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(pstmt, con);
+		}
 	}
 }

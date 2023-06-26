@@ -34,6 +34,10 @@ public class JoinClubController implements Controller {
 		}
 		PostDAO.getInstance().joinClub(id, postNo);
 		currentCount = PostDAO.getInstance().findPostCurrentCount(postNo);
+		maxCount = PostDAO.getInstance().findPostmaxCount(postNo);
+		if (maxCount == currentCount) {
+			PostDAO.getInstance().updataGatheringType(postNo);
+		}
 		jsonObject.put("joinTF", "T");
 		jsonObject.put("currentCount", currentCount);
 		request.setAttribute("responsebody", jsonObject);
