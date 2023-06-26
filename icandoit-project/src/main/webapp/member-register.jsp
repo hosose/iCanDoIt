@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-	<!-- ======= Contact Section ======= -->
 	<section id="contact" class="contact">
 		<div class="container" data-aos="fade-up" >
 				<div style="width: 70%">
@@ -63,7 +61,6 @@
 				</div>
 			</div>
 	</section>
-	<!-- 주소API -->
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript">
 	//id중복체크
@@ -130,8 +127,6 @@
             xhr.send();
         }
 	}
-    
-    
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
    	function searchAddress() {
     new daum.Postcode({

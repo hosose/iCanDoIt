@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- ======= Top Bar ======= -->
 <section id="topbar" class="d-flex align-items-center"></section>
-<!-- ======= Header ======= -->
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
       <a href="Home.do"><img width="120" src="picture/모여라 동숲.jpg" alt="모여라 동숲"></a>
@@ -30,7 +28,6 @@
 			</c:choose>
         </ul>
         <i class="bi mobile-nav-toggle bi-list"></i>
-      </nav><!-- .navbar -->
-
+      </nav>
     </div>
   </header>

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
-	<!-- ======= Hero Section ======= -->
 	<section id="hero" class="d-flex align-items-center">
 		<div class="container" data-aos="zoom-out" data-aos-delay="100">
 			<div>
@@ -12,8 +11,6 @@
 			</div>
 		</div>
 	</section>
-	<!-- End Hero -->
-	<!-- ======= About Section ======= -->
 	<section id="about" class="about section-bg">
 		<div class="container" data-aos="fade-up">
 			<div class="row">
@@ -44,7 +41,6 @@
 			</div>
 		</div>
 	</section>
-	<!-- End About Section -->
 	<section id="portfolio" class="portfolio">
 		<div class="section-title">
 			<h2>Team</h2>

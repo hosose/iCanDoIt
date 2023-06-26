@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -8,9 +7,7 @@
 			<button type="button" class="btn btn-success btn-sm">모집중</button>
 			<button type="button" class="btn btn-danger btn-sm">모집마감</button>
 		</div>
-
 		<c:if test="${sessionScope.memberVO!=null}">
-
 			<form action="RegisterHobbyPostForm.do" method="post">
 				<div class="form-group">
 					<div class="text">
@@ -19,12 +16,7 @@
 				</div>
 			</form>
 		</c:if>
-		<!-- 	</div>
-	<div class="row"> -->
-
-
 		<c:forEach items="${post}" var="postList">
-
 			<div class="col-4">
 				<div class="card my-4">
 					<a href="FindHobbyPostByNo.do?postNo=${postList.postNo}"><img
