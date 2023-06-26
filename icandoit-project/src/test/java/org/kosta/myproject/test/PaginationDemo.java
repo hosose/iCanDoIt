@@ -1,4 +1,4 @@
-package org.kosta.icandoit.test;
+package org.kosta.myproject.test;
 
 /**
  * 게시판 페이징 처리 로직을 정의한 객체
