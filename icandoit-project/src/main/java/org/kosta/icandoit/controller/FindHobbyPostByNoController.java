@@ -16,7 +16,7 @@ public class FindHobbyPostByNoController implements Controller {
 		HttpSession session = request.getSession(false);
 		if (session == null || session.getAttribute("memberVO") == null) {
 			System.out.println("비인증");
-			return "redirect:FindPostList.do";
+			return "redirect:LoginForm.do";
 		}
 		long no = Long.parseLong(request.getParameter("postNo"));
 		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
