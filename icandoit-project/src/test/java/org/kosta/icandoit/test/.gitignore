@@ -1,9 +1,2 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-/TestUnitJoinClub.java
->>>>>>> branch 'develop' of https://github.com/hosose/iCanDoIt.git
 /TestUnitFindCurrentAndMaxCount.java
-=======
 /member/
->>>>>>> refs/heads/feature/RegisterMember

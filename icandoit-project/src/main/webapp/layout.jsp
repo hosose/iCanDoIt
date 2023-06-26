@@ -41,8 +41,13 @@
 </head>
 <body>
 
+<<<<<<< HEAD
 		<c:import url="header.jsp"></c:import>
 		<c:import url="${requestScope.url}"></c:import>
+=======
+		<c:import url="header.jsp"></c:import>
+		<c:import url="contact.jsp"></c:import>
+>>>>>>> refs/heads/main
 		<c:import url="footer.jsp"></c:import>
 		
 	<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
