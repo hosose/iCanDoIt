@@ -251,4 +251,31 @@ public class PostDAO {
 			closeAll(pstmt, con);
 		}
 	}
+
+	public void leaveClub(String id, long postNo) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = dataSource.getConnection();
+			con.setAutoCommit(false);
+			StringBuilder leaveClubSql = new StringBuilder("DELETE FROM join_club ");
+			leaveClubSql.append("WHERE post_no = ? AND user_id = ?");
+			pstmt = con.prepareStatement(leaveClubSql.toString());
+			pstmt.setLong(1, postNo);
+			pstmt.setString(2, id);
+			pstmt.executeUpdate();
+			pstmt.close();
+			StringBuilder updateGatheringTypeSql = new StringBuilder("UPDATE POST SET GATHERING_TYPE = '모집중' ");
+			updateGatheringTypeSql.append("WHERE post_no = ?");
+			pstmt = con.prepareStatement(updateGatheringTypeSql.toString());
+			pstmt.setLong(1, postNo);
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			con.rollback();
+			throw e;
+		} finally {
+			closeAll(pstmt, con);
+		}
+	}
 }

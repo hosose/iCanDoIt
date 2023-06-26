@@ -14,12 +14,18 @@
 				<button class="btn btn-danger" onclick="deletePost()" id="deleteBtn">삭제</button>
 					</c:when>
 					<c:when test="${joinTF eq'T'}">
+					<form action="LeaveClub.do" method="post">
+					<input type="hidden" name="postNo" value="${postVO.postNo}">
 					<button class="btn btn-primary"
 					style="padding: 20px; margin-left: 45%;"  id="leaveClubBtn">모임 참여 철회</button>
+					</form>
 					</c:when>
 					<c:when test="${postVO.maxCount>postVO.currentCount}">
+					<form action="JoinClub.do"  method="post">
+					<input type="hidden" name="postNo" value="${postVO.postNo}">
 					<button class="btn btn-primary"
 					style="padding: 20px; margin-left: 45%;"  id="joinClubBtn">모임 참여하기</button>
+					</form>
 					</c:when>
 					<c:otherwise>
 					<button class="btn btn-danger"
@@ -56,10 +62,10 @@
 						<div class="text-left">
 							<c:choose>
 							<c:when test="${postVO.gatheringType=='모집마감'}">
-								<button style="float: left; margin: 5px 10px 10px 10px;" type="button" class="btn btn-danger btn-sm">모집마감</button>
+								<button style="float: left; margin: 5px 10px 10px 10px;" type="button" class="btn btn-danger btn-sm" id="gatheringType">모집마감</button>
 							</c:when>
 							<c:otherwise>
-								<button style="float: left; margin: 5px 10px 10px 10px;" type="button" class="btn btn-success btn-sm">모집중</button>
+								<button style="float: left; margin: 5px 10px 10px 10px;" type="button" class="btn btn-success btn-sm" id="gatheringType">모집중</button>
 							</c:otherwise>
 						</c:choose>
 							<span style="font-size: 30px; margin-top: 5px;">${postVO.title}</span> 
@@ -108,25 +114,6 @@
 			</form>
 		</div>
 	</div>
-	<script type="text/javascript">
-	$(function () {
-		$("#joinClubBtn").click(function () {
-			$.ajax({
-				type:"post",
-				url:"JoinClub.do",
-				data:"postNo="+${postVO.postNo},
-				dataType : "json",
-				success:function(result){
-					if(result.joinTF=="T"){
-						$("#joinClubBtn").text("모임 참여 철회");
-						$("#joinClubBtn").attr("id","leaveClubBtn");
-						}
-					$("#currentCountSpan").text(result.currentCount);
-				}
-			});
-		})
-	})
-	</script>
 </section>
 <div id="preloader"></div>
 <a href="#"
