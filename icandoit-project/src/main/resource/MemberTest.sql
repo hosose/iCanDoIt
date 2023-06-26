@@ -7,6 +7,9 @@ CREATE TABLE MEMBER (
 	NAME	VARCHAR2(30)		NOT NULL
 );
 -- ALTER TABLE [테이블명] MODIFY ([컬럼명] VARCHAR2(2000));
+
+select count(*) from member where NICK_NAME = '자바킹';
+select count(*) from member where user_id= 'mtest';
 ALTER TABLE member MODIFY (ADDRESS VARCHAR2(500));
 INSERT INTO MEMBER
 	VALUES ('java',	'a',
