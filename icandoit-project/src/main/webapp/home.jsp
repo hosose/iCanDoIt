@@ -53,16 +53,16 @@
 			<br> <br>
 			<div>
 				<span style="display: block; float: left; margin-left: 35%">
-					<b>최수연 <br> (소통 리더)
-				</b>
-				</span> <span style="display: block; float: left; margin-left: 50px">
-					<b>김세호 <br> (개발 리더)
+					<b>박지수 <br> (일정관리 리더)
 				</b>
 				</span> <span style="display: block; float: left; margin-left: 50px">
 					<b>김지혁 <br> (도큐먼트 리더)
 				</b>
 				</span> <span style="display: block; float: left; margin-left: 50px">
-					<b>박지수 <br> (일정관리 리더)
+					<b>최수연 <br> (소통 리더)
+				</b>
+				</span> <span style="display: block; float: left; margin-left: 50px">
+					<b>김세호 <br> (개발 리더)
 				</b>
 				</span>
 			</div>
