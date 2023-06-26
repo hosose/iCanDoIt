@@ -12,6 +12,16 @@
 					<c:when test="${sessionScope.memberVO.id==postVO.memberVO.id}">
 					<button  class="btn btn-success" style="margin-left :30% ;" onclick="updatePost()">수정</button>
 				<button class="btn btn-danger" onclick="deletePost()" id="deleteBtn">삭제</button>
+				<form id="deletePostForm" action="DeletePost.do" method="post"> 
+				<input type="hidden" name="postNo" value="${postVO.postNo}">
+				<script type="text/javascript">
+					function deletePost() {
+						if(confirm("삭제하시겠습니까?")){
+							document.getElementById("deletePostForm").submit();
+						}
+					}
+			</script>
+				</form>
 					</c:when>
 					<c:when test="${joinTF eq'T'}">
 					<form action="LeaveClub.do" method="post">
