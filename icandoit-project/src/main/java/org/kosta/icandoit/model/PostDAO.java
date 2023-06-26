@@ -59,7 +59,7 @@ public class PostDAO {
 		return post;
 	}
 
-	public void joinClub(String memberId, long postNo) throws SQLException {
+	public void joinClub(String id, long postNo) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
@@ -68,18 +68,10 @@ public class PostDAO {
 			joinClubSql.append("VALUES (join_club_seq.nextval,	?,	? )");
 			pstmt = con.prepareStatement(joinClubSql.toString());
 			pstmt.setLong(1, postNo);
-			pstmt.setString(2, memberId);
+			pstmt.setString(2, id);
 			pstmt.executeUpdate();
-			pstmt.close();
-			StringBuilder postSql = new StringBuilder("UPDATE post SET current_count = current_count + 1 ");
-			postSql.append("WHERE post_no = ?");
-			pstmt = con.prepareStatement(postSql.toString());
-			pstmt.setLong(1, postNo);
-			pstmt.executeUpdate();
-			con.commit();
 		} catch (Exception e) {
-			con.rollback();
-			throw e;
+			e.printStackTrace();
 		} finally {
 			closeAll(pstmt, con);
 		}
@@ -89,7 +81,7 @@ public class PostDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		int currenCount = 0;
+		int currentCount = 0;
 		try {
 			con = dataSource.getConnection();
 			StringBuilder sql = new StringBuilder("SELECT count(*) FROM join_club WHERE post_no = ?");
@@ -97,12 +89,12 @@ public class PostDAO {
 			pstmt.setLong(1, postNo);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				currenCount = rs.getInt(1);
+				currentCount = rs.getInt(1);
 			}
 		} finally {
 			closeAll(rs, pstmt, con);
 		}
-		return currenCount;
+		return currentCount;
 	}
 
 	public int findPostmaxCount(long postNo) throws SQLException {
@@ -123,6 +115,27 @@ public class PostDAO {
 			closeAll(rs, pstmt, con);
 		}
 		return maxCount;
+	}
+
+	public ArrayList<String> findJoinClubMember(long postNo) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<String> joinClubMember = new ArrayList<>();
+		try {
+			con = dataSource.getConnection();
+			StringBuilder sql = new StringBuilder(
+					"SELECT m.nick_name FROM join_club j LEFT JOIN member m ON j.user_id = m.user_id WHERE post_no=?");
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setLong(1, postNo);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				joinClubMember.add(rs.getString(1));
+			}
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return joinClubMember;
 	}
 
 	public ArrayList<PostVO> findPostList() throws SQLException {
@@ -192,16 +205,17 @@ public class PostDAO {
 			pstmt.setString(8, post.getMemberVO().getId());
 			pstmt.executeUpdate();
 			pstmt.close();
-			
-			StringBuilder postNoSql = new StringBuilder("SELECT post_no FROM post where user_id = ? ORDER BY post_no DESC ");
+
+			StringBuilder postNoSql = new StringBuilder(
+					"SELECT post_no FROM post where user_id = ? ORDER BY post_no DESC ");
 			pstmt = con.prepareStatement(postNoSql.toString());
 			pstmt.setString(1, post.getMemberVO().getId());
 			rs = pstmt.executeQuery();
 
-			if(rs.next()) {
+			if (rs.next()) {
 				postNosql = rs.getLong(1);
 			}
-			
+
 			StringBuilder joinClubSql = new StringBuilder("INSERT INTO join_club ");
 			joinClubSql.append("VALUES (join_club_seq.nextval,	?,	? )");
 			pstmt = con.prepareStatement(joinClubSql.toString());
@@ -220,5 +234,21 @@ public class PostDAO {
 			closeAll(rs, pstmt, con);
 		}
 
+	}
+
+	public void updataGatheringType(long postNo) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = dataSource.getConnection();
+			StringBuilder joinClubSql = new StringBuilder("UPDATE post SET GATHERING_TYPE = '모집마감' WHERE post_no = ?");
+			pstmt = con.prepareStatement(joinClubSql.toString());
+			pstmt.setLong(1, postNo);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(pstmt, con);
+		}
 	}
 }
