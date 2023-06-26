@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
+import org.kosta.icandoit.test.PaginationDemo;
+
 public class PostDAO {
 	private static PostDAO instance = new PostDAO();
 	private DataSource dataSource;
@@ -125,7 +127,7 @@ public class PostDAO {
 		return maxCount;
 	}
 
-	public ArrayList<PostVO> findPostList() throws SQLException {
+	public ArrayList<PostVO> findPostList(PaginationDemo pagination) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -134,11 +136,18 @@ public class PostDAO {
 			con = dataSource.getConnection();
 			StringBuilder sb = new StringBuilder();
 			sb.append(
-					"SELECT p.post_no,p.title,p.post_content,p.category_type,p.img,TO_CHAR(p.TIME_POSTED,'YYYY-MM-DD') time_posted,TO_CHAR(p.gathering_period,'YYYY-MM-DD') gathering_period,gathering_type,p.max_count,m.nick_name, ");
+					"SELECT rnum, post_no, title, post_content, category_type, img, time_posted, gathering_period, gathering_type, max_count, nick_name, current_count ");
+			sb.append(
+					"FROM (SELECT row_number() over(ORDER BY p.post_no DESC) as rnum, p.post_no,p.title,p.post_content,p.category_type,p.img,TO_CHAR(p.TIME_POSTED,'YYYY-MM-DD') ");
+			sb.append("time_posted,TO_CHAR(p.gathering_period,'YYYY-MM-DD') ");
+			sb.append("gathering_period,p.gathering_type,p.max_count,m.nick_name, ");
 			sb.append("(SELECT count(*) FROM join_club where p.post_no = join_club.post_no) as current_count ");
-			sb.append("FROM post p ,member m where p.user_id = m.user_id");
-			String sql = sb.toString();
-			pstmt = con.prepareStatement(sql);
+			sb.append("FROM post p ,member m ");
+			sb.append("where p.user_id = m.user_id) ");
+			sb.append("WHERE rnum BETWEEN ? AND ?");
+			pstmt = con.prepareStatement(sb.toString());
+			pstmt.setLong(1, pagination.getStartRowNumber());
+			pstmt.setLong(2, pagination.getEndRowNumber());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				PostVO postVO = new PostVO();
@@ -192,16 +201,17 @@ public class PostDAO {
 			pstmt.setString(8, post.getMemberVO().getId());
 			pstmt.executeUpdate();
 			pstmt.close();
-			
-			StringBuilder postNoSql = new StringBuilder("SELECT post_no FROM post where user_id = ? ORDER BY post_no DESC ");
+
+			StringBuilder postNoSql = new StringBuilder(
+					"SELECT post_no FROM post where user_id = ? ORDER BY post_no DESC ");
 			pstmt = con.prepareStatement(postNoSql.toString());
 			pstmt.setString(1, post.getMemberVO().getId());
 			rs = pstmt.executeQuery();
 
-			if(rs.next()) {
+			if (rs.next()) {
 				postNosql = rs.getLong(1);
 			}
-			
+
 			StringBuilder joinClubSql = new StringBuilder("INSERT INTO join_club ");
 			joinClubSql.append("VALUES (join_club_seq.nextval,	?,	? )");
 			pstmt = con.prepareStatement(joinClubSql.toString());
@@ -220,5 +230,25 @@ public class PostDAO {
 			closeAll(rs, pstmt, con);
 		}
 
+	}
+
+	public long findTotalPostCount() throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		long TotalPostCount = 0;
+		try {
+			con = dataSource.getConnection();
+			String sql = "select count(*) from post";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				TotalPostCount = rs.getLong(1);
+			}
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+
+		return TotalPostCount;
 	}
 }

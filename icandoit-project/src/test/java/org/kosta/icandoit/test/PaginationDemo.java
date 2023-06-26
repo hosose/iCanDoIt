@@ -6,34 +6,40 @@ package org.kosta.icandoit.test;
  * @author KOSTA
  *
  */
+/**
+ * 게시판 페이징 처리 로직을 정의한 객체 페이지네이션 bean or component
+ * 
+ * @author KOSTA
+ *
+ */
 public class PaginationDemo {
 	/**
 	 * 현재 페이지
 	 */
-	private int nowPage = 1;
+	private long nowPage = 1;
 	/**
 	 * 페이지당 게시물수
 	 */
-	private int postCountPerPage = 5;
+	private long postCountPerPage = 6;
 	/**
 	 * 페이지 그룹당 페이지수
 	 */
-	private int pageCountPerPageGroup = 4;
+	private long pageCountPerPageGroup = 4;
 	/**
 	 * 총게시물수 ( 데이터베이스에 저장되어 있는 )
 	 */
-	private int totalPostCount;
+	private long totalPostCount;
 
-	public PaginationDemo(int totalPostCount) {
+	public PaginationDemo(long totalPostCount) {
 		this.totalPostCount = totalPostCount;
 	}
 
-	public PaginationDemo(int totalPostCount, int nowPage) {
+	public PaginationDemo(long totalPostCount, long nowPage) {
 		this.totalPostCount = totalPostCount;
 		this.nowPage = nowPage;
 	}
 
-	public int getNowPage() {
+	public long getNowPage() {
 		return nowPage;
 	}
 
@@ -47,7 +53,7 @@ public class PaginationDemo {
 	 * 
 	 * @return startRowNumber
 	 */
-	public int getStartRowNumber() {
+	public long getStartRowNumber() {
 		return (this.nowPage - 1) * this.postCountPerPage + 1;
 	}
 
@@ -59,11 +65,11 @@ public class PaginationDemo {
 	 * 
 	 * @return endRowNumber
 	 */
-	public int getEndRowNumber() {
-		int endRowNumber = this.nowPage * this.postCountPerPage;
-		//
-		if (this.totalPostCount < endRowNumber)
-			endRowNumber = this.totalPostCount;
+	public long getEndRowNumber() {
+		long endRowNumber = this.nowPage * this.postCountPerPage;
+		if (this.totalPostCount < endRowNumber) {
+			endRowNumber = totalPostCount;
+		}
 		return endRowNumber;
 	}
 
@@ -78,10 +84,13 @@ public class PaginationDemo {
 	 * 
 	 * @return totalPage
 	 */
-	public int getTotalPage() {
-		int totalPage = this.totalPostCount / this.postCountPerPage;
-		if (this.totalPostCount % this.postCountPerPage != 0)
-			totalPage += 1;
+	public long getTotalPage() {
+		long totalPage = 0;
+		if (totalPostCount % postCountPerPage == 0) {
+			totalPage = totalPostCount / postCountPerPage;
+		} else {
+			totalPage = totalPostCount / postCountPerPage + 1;
+		}
 		return totalPage;
 	}
 
@@ -93,10 +102,10 @@ public class PaginationDemo {
 	 * 
 	 * @return totalPageGroup
 	 */
-	public int getTotalPageGroup() {
-		int totalPageGroup = this.getTotalPage() / this.pageCountPerPageGroup;
-		if (this.getTotalPage() % this.pageCountPerPageGroup != 0)
-			totalPageGroup += 1;
+	public long getTotalPageGroup() {
+		long totalPageGroup = getTotalPage() / pageCountPerPageGroup;
+		if (getTotalPage() % pageCountPerPageGroup != 0)
+			totalPageGroup = totalPageGroup + 1;
 		return totalPageGroup;
 	}
 
@@ -110,10 +119,11 @@ public class PaginationDemo {
 	 * 
 	 * @return nowPageGroup
 	 */
-	public int getNowPageGroup() {
-		int nowPageGroup = this.nowPage / this.pageCountPerPageGroup;
-		if (this.nowPage % this.pageCountPerPageGroup != 0)
+	public long getNowPageGroup() {
+		long nowPageGroup = nowPage / pageCountPerPageGroup;
+		if (nowPage % pageCountPerPageGroup != 0) {
 			nowPageGroup += 1;
+		}
 		return nowPageGroup;
 	}
 
@@ -130,8 +140,9 @@ public class PaginationDemo {
 	 * 
 	 * @return startPage
 	 */
-	public int getStartPageOfPageGroup() {
-		return (this.getNowPage() - 1) * pageCountPerPageGroup + 1;
+	public long getStartPageOfPageGroup() {
+		return (this.getNowPageGroup() - 1) * pageCountPerPageGroup + 1;
+
 	}
 
 	/**
@@ -146,10 +157,11 @@ public class PaginationDemo {
 	 * 
 	 * @return endPage
 	 */
-	public int getEndPageOfPageGroup() {
-		int endPage = getNowPageGroup() * pageCountPerPageGroup;
-		if (getTotalPage() < endPage)
+	public long getEndPageOfPageGroup() {
+		long endPage = getNowPageGroup() * pageCountPerPageGroup;
+		if (this.getTotalPage() < endPage) {
 			endPage = getTotalPage();
+		}
 		return endPage;
 	}
 
@@ -161,8 +173,9 @@ public class PaginationDemo {
 	 */
 	public boolean isPreviousPageGroup() {
 		boolean flag = false;
-		if (getNowPageGroup() > 1)
+		if (this.getNowPageGroup() > 1) {
 			flag = true;
+		}
 		return flag;
 	}
 
@@ -174,8 +187,9 @@ public class PaginationDemo {
 	 */
 	public boolean isNextPageGroup() {
 		boolean flag = false;
-		if (getTotalPageGroup() > getNowPageGroup())
+		if (this.getNowPageGroup() < this.getTotalPage()) {
 			flag = true;
+		}
 		return flag;
 	}
 }
