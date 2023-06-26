@@ -92,4 +92,43 @@ public class MemberDAO {
 		}
 		return vo;
 	}
+
+	public int checkId(String id) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		try {
+			con = dataSource.getConnection();
+			String sql = "select count(*) from member where user_id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next())
+				result = rs.getInt(1);
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return result;
+	}
+
+	public int checkNickName(String nickName) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		try {
+			con = dataSource.getConnection();
+			String sql = "select count(*) from member where NICK_NAME = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, nickName);
+			rs = pstmt.executeQuery();
+			if (rs.next())
+				result = rs.getInt(1);
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return result;
+
+	}
 }
