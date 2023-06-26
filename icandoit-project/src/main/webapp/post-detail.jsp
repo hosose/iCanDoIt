@@ -6,20 +6,24 @@
 		<div class="row" data-aos="fade-up" data-aos-delay="100">
 			<div class="col-lg-4">
 				<img alt="" class="mb-2 mb-lg-0" src="picture/${postVO.img }"
-					 style="border: 0; width: 100%; height: 70%;">
+					 style="border: 0; width: 100%; height: 70%;"> 
 			<div>
-				<c:if test="${sessionScope.memberVO.id==postVO.memberVO.id}">
-				<button  class="btn btn-success" style="margin : 0;" onclick="updatePost()">수정</button>
-				<button class="btn btn-danger" onclick="deletePost()" id="deleteBtn">삭제</button>
-				</c:if>
 				<c:choose>
+					<c:when test="${sessionScope.memberVO.id==postVO.memberVO.id}">
+					<button  class="btn btn-success" style="margin-left :30% ;" onclick="updatePost()">수정</button>
+				<button class="btn btn-danger" onclick="deletePost()" id="deleteBtn">삭제</button>
+					</c:when>
+					<c:when test="${joinTF eq'T'}">
+					<button class="btn btn-primary"
+					style="padding: 20px; margin-left: 45%;"  id="leaveClubBtn">모임 참여 철회</button>
+					</c:when>
 					<c:when test="${postVO.maxCount>postVO.currentCount}">
 					<button class="btn btn-primary"
-					style="padding: 20px; margin-left: 50%;"  id="joinClubBtn">모임 참여하기</button>
+					style="padding: 20px; margin-left: 45%;"  id="joinClubBtn">모임 참여하기</button>
 					</c:when>
 					<c:otherwise>
-					<button class="btn btn-primary"
-					style="padding: 25px; margin-left: 50%;" >모집 마감</button>
+					<button class="btn btn-danger"
+					style="padding: 25px; margin-left: 45%;" >모집 마감</button>
 					</c:otherwise>
 				</c:choose>
 				<form id="deletePostForm" action="DeletePost.do" method="post"> 
@@ -50,8 +54,14 @@
 			<div class="col-lg-8">
 					<div class="row">
 						<div class="text-left">
-							<button type="button" class="btn btn-success"
-								style="float: left; margin: 5px 10px 10px 10px;">${postVO.gatheringType}</button>
+							<c:choose>
+							<c:when test="${postVO.gatheringType=='모집마감'}">
+								<button style="float: left; margin: 5px 10px 10px 10px;" type="button" class="btn btn-danger btn-sm">모집마감</button>
+							</c:when>
+							<c:otherwise>
+								<button style="float: left; margin: 5px 10px 10px 10px;" type="button" class="btn btn-success btn-sm">모집중</button>
+							</c:otherwise>
+						</c:choose>
 							<span style="font-size: 30px; margin-top: 5px;">${postVO.title}</span> 
 							 <span style="font-size: 25px;">👨‍👩</span>
 							 <span style="font-size: 25px;" id="currentCountSpan"> ${postVO.currentCount}</span>/
@@ -105,8 +115,13 @@
 				type:"post",
 				url:"JoinClub.do",
 				data:"postNo="+${postVO.postNo},
+				dataType : "json",
 				success:function(result){
-					$("#currentCountSpan").text(result.currenCount);
+					if(result.joinTF=="T"){
+						$("#joinClubBtn").text("모임 참여 철회");
+						$("#joinClubBtn").attr("id","leaveClubBtn");
+						}
+					$("#currentCountSpan").text(result.currentCount);
 				}
 			});
 		})
