@@ -26,7 +26,6 @@ public class UpdateMemberController implements Controller {
 		String address = request.getParameter("address");
 		String phone = request.getParameter("phone");
 		String nickName = request.getParameter("nickName");
-		System.out.println(password + address + phone + nickName);
 		MemberVO memberVO = new MemberVO(id, password, address, phone, nickName, null);
 		memberDAO.updateMember(memberVO);
 		return "Login.do";

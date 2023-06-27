@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="row">
-	<div class="col-sm-2 offset-sm-2" style="padding-top: 2%;padding-left:3.8%; margin-top :2%;margin-bottom :2%; border-top: 3px solid #0e6ce8;border-bottom: 3px solid #0e6ce8;">
+	<div class="col-sm-1 offset-sm-3" style="padding-top: 2%; margin-top :2%;margin-bottom :2%; border-top: 3px solid #0e6ce8;border-bottom: 3px solid #0e6ce8;">
 	<ul class="nav flex-column">
     <li class="nav-item">
       <a class="nav-link" href="UpdateMemberForm.do" style="font-size: 18px;">정보 수정</a>
@@ -15,7 +15,7 @@
     </li>
   </ul>
 	</div>
-	<div class="col-sm-8">
+	<div class="col-sm-7">
 		<div style="padding: 5%" data-aos="fade-up">
 			<div style="width: 70%">
 				<form action="${pageContext.request.contextPath }/UpdateMember.do"
