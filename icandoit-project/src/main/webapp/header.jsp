@@ -11,6 +11,7 @@
           <li><a class="nav-link scrollto" href="FindHobbyPostList.do">모임참여</a></li>
           <c:choose>
 				<c:when test="${sessionScope.memberVO!=null }">
+					<li><a href="UpdateMemberForm.do" >마이페이지</a></li>
 					<li><a href="javascript:logout()" onclick="logout()">로그아웃</a></li>
 					<form method="post" action="${pageContext.request.contextPath }/Logout.do" id="logoutForm"></form>
 					&nbsp;<span style="font-weight: bold;">${sessionScope.memberVO.nickName }님 안녕하세요!</span>
