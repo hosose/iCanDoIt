@@ -45,7 +45,7 @@
 				<form id="deletePostForm" action="DeletePost.do" method="post"> 
 				<input type="hidden" name="no" value="${postVO.postNo}">
 				</form>
-				<form id="updatePostForm" action="UpdatePostForm.do" method="post"> 
+				<form id="updatePostForm" action="UpdateHobbyPostForm.do" method="post"> 
 				<input type="hidden" name="no" value="${postVO.postNo}">
 				</form>
 				<script type="text/javascript">

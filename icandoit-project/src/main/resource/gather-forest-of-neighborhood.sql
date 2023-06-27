@@ -1,4 +1,4 @@
-
+select * from post where GATHERING_TYPE='모집마감' ;
 
 CREATE TABLE MEMBER (
 	USER_ID	 VARCHAR2(20) PRIMARY KEY,
