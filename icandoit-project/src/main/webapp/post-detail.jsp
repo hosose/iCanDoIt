@@ -76,7 +76,22 @@
 						<div class="col form-group">
 							<p style="margin: 0 10px;">
 								📅 ${postVO.gatheringPeriod} &nbsp;&nbsp;&nbsp;
-								<button class="btn btn-danger">💕 찜</button>
+								<c:choose>
+									<c:when test="${likeTF eq'T' }">
+									
+										<form action="RevomeLike.do" method="post">
+										<input type="hidden" name="postNo" value="${postVO.postNo}">
+										<button class="btn btn-secondary" id="addLikeBtn"><img alt="" src="picture/pullHeart.png" width="25">&nbsp;찜제거</button>
+										</form>
+										
+									</c:when>
+									<c:otherwise>
+										<form action="AddLike.do" method="post">
+										<input type="hidden" name="postNo" value="${postVO.postNo}">
+										<button class="btn btn-secondary" id="addLikeBtn"><img alt="" src="picture/emptyHeart.png" width="25">&nbsp;찜하기</button>
+										</form>
+									</c:otherwise>
+								</c:choose>
 							</p>
 							<span style="margin: 0 10px;">${postVO.memberVO.nickName}</span>
 						</div>
@@ -128,5 +143,12 @@
 <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
 <script src="assets/vendor/php-email-form/validate.js"></script>
 <script src="assets/js/main.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#addLikeBtn").click(function() {
+			console.log("아야");
+		});
+	});
+</script>
 </body>
 </html>
