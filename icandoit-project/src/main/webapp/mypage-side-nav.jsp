@@ -8,7 +8,7 @@
 			href="UpdateMemberForm.do" style="font-size: 18px;">정보 수정</a></li>
 		<li class="nav-item"><a class="nav-link" href="#"
 			style="font-size: 18px;">찜 목록</a></li>
-		<li class="nav-item"><a class="nav-link" href="#"
+		<li class="nav-item"><a class="nav-link" href="FindMyHobbyPostList.do"
 			style="font-size: 18px;">참여 모임</a></li>
 	</ul>
 </div>

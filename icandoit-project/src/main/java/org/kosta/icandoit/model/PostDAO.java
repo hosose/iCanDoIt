@@ -292,4 +292,37 @@ public class PostDAO {
 			closeAll(pstmt, con);
 		}
 	}
+
+	public ArrayList<PostVO> findMyHobbyPostList(String id) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<PostVO> list = new ArrayList<>();
+		try {
+			con = dataSource.getConnection();
+			StringBuilder sql = new StringBuilder(
+					"SELECT j.user_id, j.post_no, p.title, p.category_type, p.gathering_type,p.img ");
+			sql.append("FROM join_club j ");
+			sql.append("INNER JOIN post p ON j.post_no=p.post_no ");
+			sql.append("WHERE j.user_id = ?");
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				PostVO postVO = new PostVO();
+				postVO.setPostNo(rs.getLong("post_no"));
+				postVO.setTitle(rs.getString("title"));
+				postVO.setImg(rs.getString("img"));
+				postVO.setGatheringType(rs.getString("gathering_type"));
+				postVO.setCategoryType(rs.getString("category_type"));
+				MemberVO memberVO = new MemberVO();
+				memberVO.setId(id);
+				postVO.setMemberVO(memberVO);
+				list.add(postVO);
+			}
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return list;
+	}
 }
