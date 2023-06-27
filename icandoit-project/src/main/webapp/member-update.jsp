@@ -2,19 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="row">
-	<div class="col-sm-1 offset-sm-3" style="padding-top: 2%; margin-top :2%;margin-bottom :2%; border-top: 3px solid #0e6ce8;border-bottom: 3px solid #0e6ce8;">
-	<ul class="nav flex-column">
-    <li class="nav-item">
-      <a class="nav-link" href="UpdateMemberForm.do" style="font-size: 18px;">정보 수정</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#" style="font-size: 18px;">찜 목록</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#" style="font-size: 18px;">참여 모임</a>
-    </li>
-  </ul>
-	</div>
+	<c:import url="mypage-side-nav.jsp"></c:import>
 	<div class="col-sm-7">
 		<div style="padding: 5%" data-aos="fade-up">
 			<div style="width: 70%">
@@ -23,19 +11,21 @@
 					onsubmit="checkForm(event)">
 					<div class="form-group">
 						<input type="text" class="form-control" id="id" name="id"
-							readonly="readonly" required="required" value="${sessionScope.memberVO.id}">
+							readonly="readonly" required="required"
+							value="${sessionScope.memberVO.id}">
 					</div>
 					<div class="form-group">
 						<input type="password" class="form-control" id="password"
-							name="password" placeholder="변경하실 비밀번호를 입력해주세요." required="required">
+							name="password" placeholder="변경하실 비밀번호를 입력해주세요."
+							required="required">
 						<div class="check_font" id="pw_check"></div>
 					</div>
 					<div class="form-group">
 						<div class="row">
 							<div class="col-sm-8">
 								<input type="text" class="form-control" name="address"
-									id="address" value="${sessionScope.memberVO.address}" required="required"
-									readonly>
+									id="address" value="${sessionScope.memberVO.address}"
+									required="required" readonly>
 							</div>
 							<div class="col-sm-4">
 								<input type="button" class="btn btn-primary"
@@ -50,13 +40,14 @@
 					</div>
 					<div class="form-group">
 						<input type="text" class="form-control" id="name" name="name"
-							value="${sessionScope.memberVO.name}" readonly="readonly" required="required">
+							value="${sessionScope.memberVO.name}" readonly="readonly"
+							required="required">
 						<div class="check_font" id="name_check"></div>
 					</div>
 					<div class="form-group">
 						<input type="text" class="form-control" id="nickName"
-							name="nickName" value="${sessionScope.memberVO.nickName}" required="required"
-							onkeyup="checkNickName()">
+							name="nickName" value="${sessionScope.memberVO.nickName}"
+							required="required" onkeyup="checkNickName()">
 						<div class="check_font" id="nick_check"></div>
 						<span id="checkNickNameResult"></span><br>
 					</div>
