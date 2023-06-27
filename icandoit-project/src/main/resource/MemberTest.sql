@@ -73,6 +73,16 @@ INSERT INTO post_comment
 
 	SELECT * FROM post_comment
 
+select pl.user_id, pl.post_no, pl.like_no, title, p.category_type, p.gathering_type, p.img
+from member m inner join post_like pl on m.user_id = pl.user_id inner join post p on pl.post_no = p.post_no
+where m.user_id = 'java';
+
+SELECT pl.user_id, pl.post_no, pl.like_no, p.title, p.category_type, p.gathering_type, p.img
+FROM member m INNER JOIN post_like pl ON m.user_id = pl.user_id 
+INNER JOIN post p ON pl.post_no = p.post_no WHERE m.user_id =  'java';
+
+select * from post_like where user_id = 'mtest';
+	
 CREATE TABLE POST_LIKE (
 	LIKE_NO 	NUMBER		PRIMARY KEY,
 	POST_NO	NUMBER		NOT NULL,

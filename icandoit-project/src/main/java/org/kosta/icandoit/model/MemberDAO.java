@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
@@ -151,5 +152,37 @@ public class MemberDAO {
 		} finally {
 			closeAll(pstmt, con);
 		}
+	}
+
+	public ArrayList<LikeVO> findMyHobbyPostLikeList(String id) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<LikeVO> list = new ArrayList<>();
+		try {
+			con = dataSource.getConnection();
+			String sql = "select pl.user_id, pl.post_no, pl.like_no, title, p.category_type, p.gathering_type, p.img "
+					+ "from member m inner join post_like pl on m.user_id = pl.user_id inner join post p on pl.post_no = p.post_no "
+					+ "where m.user_id = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				LikeVO likeVO = new LikeVO();
+				PostVO postVO = new PostVO();
+				likeVO.setLikeNo(rs.getLong("like_no"));
+				postVO.setPostNo(rs.getLong("post_no"));
+				postVO.setTitle(rs.getString("title"));
+				postVO.setImg(rs.getString("img"));
+				postVO.setGatheringType(rs.getString("gathering_type"));
+				postVO.setCategoryType(rs.getString("category_type"));
+				likeVO.setPostVO(postVO);
+				list.add(likeVO);
+			}
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return list;
+
 	}
 }
