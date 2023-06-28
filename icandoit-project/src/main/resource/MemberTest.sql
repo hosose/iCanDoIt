@@ -112,6 +112,8 @@ create sequence join_club_seq;
 
 	DELETE join_club
 
+select user_id, from
+where user_id = 'mtest';
 
 
 
