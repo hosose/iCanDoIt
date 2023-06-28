@@ -154,18 +154,26 @@ public class MemberDAO {
 		}
 	}
 
-	public ArrayList<LikeVO> findMyHobbyPostLikeList(String id) throws SQLException {
+	public ArrayList<LikeVO> findMyHobbyPostLikeList(String id, MyPagePagination pagination) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<LikeVO> list = new ArrayList<>();
 		try {
 			con = dataSource.getConnection();
-			String sql = "select pl.user_id, pl.post_no, pl.like_no, title, p.category_type, p.gathering_type, p.img "
-					+ "from member m inner join post_like pl on m.user_id = pl.user_id inner join post p on pl.post_no = p.post_no "
-					+ "where m.user_id = ?";
-			pstmt = con.prepareStatement(sql);
+			StringBuilder sql = new StringBuilder(
+					"SELECT  rnum,like_no, post_no,  title, category_type, img, user_id, gathering_type ");
+			sql.append(
+					"FROM (SELECT row_number() over(ORDER BY l.post_no DESC) as rnum, l.like_no, l.post_no, p.title, p.category_type, p.img, p.user_id, p.gathering_type ");
+			sql.append("FROM post_like l ");
+			sql.append("INNER JOIN post p ON p.post_no=l.post_no ");
+			sql.append("INNER JOIN member m ON p.user_id=m.user_id ");
+			sql.append("WHERE l.user_id = ?) ");
+			sql.append("WHERE rnum BETWEEN ? AND ?");
+			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, id);
+			pstmt.setLong(2, pagination.getStartRowNumber());
+			pstmt.setLong(3, pagination.getEndRowNumber());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				LikeVO likeVO = new LikeVO();

@@ -331,6 +331,7 @@ public class PostDAO {
 		}
 		return list;
 	}
+
 	public void updatePosting(PostVO post) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -357,6 +358,7 @@ public class PostDAO {
 		}
 
 	}
+
 	public PostVO findHobbyPostByNo(long no) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -365,17 +367,21 @@ public class PostDAO {
 		try {
 			con = dataSource.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("select post_no,title,post_content,img,category_type,time_posted,gathering_type,GATHERING_PERIOD,MAX_COUNT from post where post_no=?");
+			sql.append(
+					"select post_no,title,post_content,img,category_type,time_posted,gathering_type,GATHERING_PERIOD,MAX_COUNT from post where post_no=?");
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setLong(1, no);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				post = new PostVO(no, rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7),null, 0, rs.getInt(9),null);}
+				post = new PostVO(no, rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+						rs.getString(6), rs.getString(7), null, 0, rs.getInt(9), null);
+			}
 		} finally {
 			closeAll(rs, pstmt, con);
 		}
 		return post;
 	}
+
 	public long findTotalMyClubCount(String id) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -385,6 +391,27 @@ public class PostDAO {
 			con = dataSource.getConnection();
 			StringBuilder sql = new StringBuilder(
 					"SELECT count(*) FROM join_club GROUP BY user_id HAVING user_id = ? ");
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				myClubCount = rs.getLong(1);
+			}
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return myClubCount;
+	}
+
+	public long findTotalMyLikeClubCount(String id) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		long myClubCount = 0;
+		try {
+			con = dataSource.getConnection();
+			StringBuilder sql = new StringBuilder(
+					"SELECT count(*) FROM post_like GROUP BY user_id HAVING user_id = ? ");
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
