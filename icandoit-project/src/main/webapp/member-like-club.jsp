@@ -5,6 +5,8 @@
 	<c:import url="mypage-side-nav.jsp"></c:import>
 	<div class="col-sm-7" style="margin: 2%;">
 	<div style="font-weight: bold;">❤️찜 목록❤️</div>
+	<c:choose>
+	<c:when test="${not empty likeList }">
 		<c:forEach items="${likeList}" var="likeList">
 			<div style="margin: 2%;">
 				<table>
@@ -61,5 +63,35 @@
 				</table>
 			</div>
 		</c:forEach>
+	</c:when>
+	<c:otherwise>
+	<div style="margin: 2%;">
+	<h3> 찜한 모임이 없습니다!</h3>
+	</div>
+	</c:otherwise>
+	</c:choose>
+				<ul class="pagination justify-content-center" style="margin: 20px 0">
+			<c:if test="${pagination.previousPageGroup}">
+				<li class="page-item"><a class="page-link"
+					href="FindMyHobbyPostLikeList.do?pageNo=${pagination.startPageOfPageGroup-4}">Previous</a></li>
+			</c:if>
+			<c:forEach begin="${pagination.startPageOfPageGroup}"
+				end="${pagination.endPageOfPageGroup}" var="page">
+				<c:choose>
+					<c:when test="${pagination.nowPage==page}">
+						<li class="page-item active"><a class="page-link"
+							href="FindMyHobbyPostLikeList.do?pageNo=${page}">${page}</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link"
+							href="FindMyHobbyPostLikeList.do?pageNo=${page}">${page}</a></li>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			<c:if test="${pagination.nextPageGroup}">
+				<li class="page-item"><a class="page-link"
+					href="FindMyHobbyPostLikeList.do?pageNo=${pagination.endPageOfPageGroup+1}">Next</a></li>
+			</c:if>
+		</ul>
 	</div>
 </div>

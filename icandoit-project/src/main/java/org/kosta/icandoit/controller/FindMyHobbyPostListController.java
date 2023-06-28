@@ -29,7 +29,6 @@ public class FindMyHobbyPostListController implements Controller {
 		}
 		request.setAttribute("pagination", pagination);
 		request.setAttribute("post", PostDAO.getInstance().findMyHobbyPostList(id, pagination));
-
 		request.setAttribute("url", "member-joining-club.jsp");
 		return "layout.jsp";
 	}

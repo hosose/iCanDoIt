@@ -1,14 +1,13 @@
 package org.kosta.icandoit.controller;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.kosta.icandoit.model.LikeVO;
 import org.kosta.icandoit.model.MemberDAO;
 import org.kosta.icandoit.model.MemberVO;
+import org.kosta.icandoit.model.MyPagePagination;
+import org.kosta.icandoit.model.PostDAO;
 
 public class FindMyHobbyPostLikeListController implements Controller {
 
@@ -21,10 +20,19 @@ public class FindMyHobbyPostLikeListController implements Controller {
 		}
 		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 		String id = memberVO.getId();
-		ArrayList<LikeVO> list = MemberDAO.getInstance().findMyHobbyPostLikeList(id);
-		request.setAttribute("likeList", list);
+		String pageNo = request.getParameter("pageNo");
+		MyPagePagination pagination = null;
+		long totalMyClubCount = PostDAO.getInstance().findTotalMyLikeClubCount(id);
+		if (pageNo == null) {
+			pagination = new MyPagePagination(totalMyClubCount);
+		} else {
+			pagination = new MyPagePagination(totalMyClubCount, Long.parseLong(pageNo));
+		}
+		request.setAttribute("pagination", pagination);
+		request.setAttribute("likeList", MemberDAO.getInstance().findMyHobbyPostLikeList(id, pagination));
 		request.setAttribute("url", "member-like-club.jsp");
 		return "layout.jsp";
+
 	}
 
 }

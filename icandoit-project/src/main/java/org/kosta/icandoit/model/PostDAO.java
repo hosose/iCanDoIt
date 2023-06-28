@@ -508,4 +508,25 @@ public class PostDAO {
 		}
 		return myClubCount;
 	}
+
+	public long findTotalMyLikeClubCount(String id) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		long myClubCount = 0;
+		try {
+			con = dataSource.getConnection();
+			StringBuilder sql = new StringBuilder(
+					"SELECT count(*) FROM post_like GROUP BY user_id HAVING user_id = ? ");
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				myClubCount = rs.getLong(1);
+			}
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return myClubCount;
+	}
 }
