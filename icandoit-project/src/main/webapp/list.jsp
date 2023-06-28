@@ -34,7 +34,7 @@
 						<h5 class="card-title">
 							<a href="FindHobbyPostByNo.do?postNo=${postList.postNo}">${postList.title}</a>
 						</h5>
-						<p class="card-text">${postList.postContent}</p>
+						<p class="card-text">${postList.currentCount}/${postList.maxCount}</p>
 					</div>
 				</div>
 			</div>
@@ -63,21 +63,51 @@
 
 </ul>
 <script type="text/javascript">
-let stsBtn = 0;
-$(document).ready(function() {
-	  $("#dfltBtn").click(function() {
-		  stsBtn = 0;
-	    $("#statusform").attr("action","FindHobbyPostList.do?stsBtn="+stsBtn);
-	  });
-	  $("#rcuBtn").click(function() {
-		  stsBtn = 1;
-		  $("#statusform").attr("action","FindHobbyPostList.do?stsBtn="+stsBtn);
-	  });
-	   $("#endBtn").click(function() {
-		   stsBtn = 2;
-		   $("#statusform").attr("action","FindHobbyPostList.do?stsBtn="+stsBtn);
-	  });
-	});
+	$(document).ready(function() {
+		  var stsBtn = getCookie("stsBtn"); // Get the value from the cookie
+
+		  $("#dfltBtn").click(function() {
+		    stsBtn = 0;
+		    setCookie("stsBtn", stsBtn); // Set the cookie value
+		    $("#statusform").attr("action", "FindHobbyPostList.do?stsBtn="+stsBtn);
+		  });
+
+		  $("#rcuBtn").click(function() {
+		    stsBtn = 1;
+		    setCookie("stsBtn", stsBtn); 
+		    $("#statusform").attr("action", "FindHobbyPostList.do?stsBtn="+stsBtn);
+		  });
+
+		  $("#endBtn").click(function() {
+		    stsBtn = 2;
+		    setCookie("stsBtn", stsBtn); 
+		    $("#statusform").attr("action", "FindHobbyPostList.do?stsBtn="+stsBtn);
+		  });
+
+		  // Function to set a cookie
+		  function setCookie(name, value) {
+		    document.cookie = name + "=" + value + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+		  }
+
+		  // Function to get the value of a cookie
+		  function getCookie(name) {
+		    var cookieName = name + "=";
+		    var decodedCookie = decodeURIComponent(document.cookie);
+		    var cookieArray = decodedCookie.split(';');
+
+		    for (var i = 0; i < cookieArray.length; i++) {
+		      var cookie = cookieArray[i];
+		      while (cookie.charAt(0) === ' ') {
+		        cookie = cookie.substring(1);
+		      }
+		      if (cookie.indexOf(cookieName) === 0) {
+		        return cookie.substring(cookieName.length, cookie.length);
+		      }
+		    }
+
+		    return "";
+		  }
+		});
 </script>
 
 
