@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!--===========게시판 등록230626 ==================== -->
+<!--===========게시판 등록230628 ==================== -->
 <section id="contact" class="contact"
-	style="overflow: initial; width: 1100px; margin: auto">
+	style="overflow: initial; width: 1300px; margin: auto">
 	<div class="row" data-aos="fade-up" data-aos-delay="100">
 		<!-- LG MD SM -->
 		<form action="UpdateHobbyPost.do" method="post" role="form"
@@ -12,15 +12,14 @@
 			<div class="col-lg-4">
 				<img alt="" class="mb-2 mb-lg-0"
 					src="https://blog.kakaocdn.net/dn/0mySg/btqCUccOGVk/nQ68nZiNKoIEGNJkooELF1/img.jpg"
-					style="border-radius: 5%; width: 100%; height: 100%;">
+					style="border-radius: 5%; width: 100%; height: 400px;">
 				<div class="text-center"
 					style="display: flex; align-items: baseline;">
 					이미지 등록 :
 					<div class="col form-group">
 						<div class="col form-group" style="margin-top: 15px;">
-							<input type="text" name="img" class="form-control" id="img"
-								placeholder="이미지 넣기" required="required"
-								value="${PostVO.getImg()}">
+						<input type="file"  class="form-control" name="img" id="img"
+						placeholder="이미지 넣기"required="required" value="${PostVO.getImg()}">
 						</div>
 					</div>
 					<!-- 					
@@ -37,7 +36,7 @@
 						<select name="categoryType" id="categoryType" class="form-control"
 							required="required">
 							<optgroup label="카테고리">
-								<option value="${PostVO.getCategoryType()}">${PostVO.getTitle()}</option>
+								<option value="${PostVO.getCategoryType()}">${PostVO.getCategoryType()}</option>
 								<option value="없음">카테고리 선택</option>
 								<option value="운동">운동</option>
 								<option value="독서">독서</option>
