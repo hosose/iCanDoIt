@@ -4,6 +4,7 @@
 <div class="row">
 	<c:import url="mypage-side-nav.jsp"></c:import>
 	<div class="col-sm-7" style="margin: 2%;">
+	<div style="font-weight: bold;">❤️모임 목록❤️</div>
 		<c:forEach items="${post}" var="postList">
 			<div style="margin: 2%;">
 				<table>
@@ -69,7 +70,7 @@
 		<ul class="pagination justify-content-center" style="margin: 20px 0">
 			<c:if test="${pagination.previousPageGroup}">
 				<li class="page-item"><a class="page-link"
-					href="FindMyHobbyPostList.do?pageNo=${pagination.startPageOfPageGroup-1}">Previous</a></li>
+					href="FindMyHobbyPostList.do?pageNo=${pagination.startPageOfPageGroup-4}">Previous</a></li>
 			</c:if>
 			<c:forEach begin="${pagination.startPageOfPageGroup}"
 				end="${pagination.endPageOfPageGroup}" var="page">
