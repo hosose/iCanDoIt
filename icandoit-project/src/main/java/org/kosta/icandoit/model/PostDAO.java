@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
+import org.kosta.icandoit.test.PaginationDemo;
+
 public class PostDAO {
 	private static PostDAO instance = new PostDAO();
 	private DataSource dataSource;
@@ -138,29 +140,113 @@ public class PostDAO {
 		return joinClubMember;
 	}
 
-	public ArrayList<PostVO> findPostList() throws SQLException {
+	public ArrayList<PostVO> findPostList(PaginationDemo pagination) throws SQLException {
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<PostVO> list = new ArrayList<>();
+		int ButtonStatus = pagination.getButtonStatus();
+		StringBuilder sb = new StringBuilder();
+		PostVO postVO = null;
 		try {
 			con = dataSource.getConnection();
-			StringBuilder sb = new StringBuilder();
-			sb.append(
-					"SELECT p.post_no,p.title,p.post_content,p.category_type,p.img,TO_CHAR(p.TIME_POSTED,'YYYY-MM-DD') time_posted,TO_CHAR(p.gathering_period,'YYYY-MM-DD') gathering_period,gathering_type,p.max_count,m.nick_name, ");
-			sb.append("(SELECT count(*) FROM join_club where p.post_no = join_club.post_no) as current_count ");
-			sb.append("FROM post p ,member m where p.user_id = m.user_id");
-			String sql = sb.toString();
-			pstmt = con.prepareStatement(sql);
+			if (ButtonStatus == 1) {
+				sb.append(
+						"SELECT rnum, post_no, title, post_content, category_type, img, time_posted, gathering_period, gathering_type, max_count, nick_name, current_count ");
+				sb.append(
+						"FROM (SELECT row_number() over(ORDER BY (SELECT count(*) FROM join_club where p.post_no = join_club.post_no) DESC) as rnum, p.post_no,p.title,p.post_content,p.category_type,p.img,TO_CHAR(p.TIME_POSTED,'YYYY-MM-DD') ");
+				sb.append("time_posted,TO_CHAR(p.gathering_period,'YYYY-MM-DD') ");
+				sb.append("gathering_period,p.gathering_type,p.max_count,m.nick_name, ");
+				sb.append("(SELECT count(*) FROM join_club where p.post_no = join_club.post_no) as current_count ");
+				sb.append("FROM post p ,member m ");
+				sb.append("where p.user_id = m.user_id and gathering_type = '모집중') ");
+				sb.append("WHERE rnum BETWEEN ? AND ?");
+			} else if (ButtonStatus == 2) {
+				sb.append(
+						"SELECT rnum, post_no, title, post_content, category_type, img, time_posted, gathering_period, gathering_type, max_count, nick_name, current_count ");
+				sb.append(
+						"FROM (SELECT row_number() over(ORDER BY (SELECT count(*) FROM join_club where p.post_no = join_club.post_no) DESC) as rnum, p.post_no,p.title,p.post_content,p.category_type,p.img,TO_CHAR(p.TIME_POSTED,'YYYY-MM-DD') ");
+				sb.append("time_posted,TO_CHAR(p.gathering_period,'YYYY-MM-DD') ");
+				sb.append("gathering_period,p.gathering_type,p.max_count,m.nick_name, ");
+				sb.append("(SELECT count(*) FROM join_club where p.post_no = join_club.post_no) as current_count ");
+				sb.append("FROM post p ,member m ");
+				sb.append("where p.user_id = m.user_id and gathering_type = '모집마감') ");
+				sb.append("WHERE rnum BETWEEN ? AND ?");
+			} else {
+				sb.append(
+						"SELECT rnum, post_no, title, post_content, category_type, img, time_posted, gathering_period, gathering_type, max_count, nick_name, current_count ");
+				sb.append(
+						"FROM (SELECT row_number() over(ORDER BY p.post_no DESC) as rnum, p.post_no,p.title,p.post_content,p.category_type,p.img,TO_CHAR(p.TIME_POSTED,'YYYY-MM-DD') ");
+				sb.append("time_posted,TO_CHAR(p.gathering_period,'YYYY-MM-DD') ");
+				sb.append("gathering_period,p.gathering_type,p.max_count,m.nick_name, ");
+				sb.append("(SELECT count(*) FROM join_club where p.post_no = join_club.post_no) as current_count ");
+				sb.append("FROM post p ,member m ");
+				sb.append("where p.user_id = m.user_id) ");
+				sb.append("WHERE rnum BETWEEN ? AND ?");
+			}
+			pstmt = con.prepareStatement(sb.toString());
+			pstmt.setLong(1, pagination.getStartRowNumber());
+			pstmt.setLong(2, pagination.getEndRowNumber());
 			rs = pstmt.executeQuery();
+
 			while (rs.next()) {
-				PostVO postVO = new PostVO();
+				postVO = new PostVO();
 				postVO.setPostNo(rs.getLong("post_no"));
 				postVO.setTitle(rs.getString("title"));
 				postVO.setPostContent(rs.getString("post_content"));
 				postVO.setImg(rs.getString("img"));
-				postVO.setGatheringType(rs.getString("gathering_type"));
 				postVO.setGatheringPeriod(rs.getString("gathering_period"));
+				postVO.setGatheringType(rs.getString("gathering_type"));
+				postVO.setCategoryType(rs.getString("category_type"));
+				postVO.setTimePosted(rs.getString("time_posted"));
+				postVO.setCurrentCount(rs.getInt("current_count"));
+				postVO.setMaxCount(rs.getInt("max_count"));
+				MemberVO memberVO = new MemberVO();
+				memberVO.setNickName(rs.getString("nick_name"));
+				postVO.setMemberVO(memberVO);
+				list.add(postVO);
+			}
+			if (list.size() == 0) {
+				return PostDAO.getInstance().findPostListDuple(pagination);
+			}
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return list;
+	}
+
+	public ArrayList<PostVO> findPostListDuple(PaginationDemo pagination) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<PostVO> list = new ArrayList<>();
+		StringBuilder sb = new StringBuilder();
+		PostVO postVO = null;
+		try {
+			con = dataSource.getConnection();
+			sb.append(
+					"SELECT rnum, post_no, title, post_content, category_type, img, time_posted, gathering_period, gathering_type, max_count, nick_name, current_count ");
+			sb.append(
+					"FROM (SELECT row_number() over(ORDER BY p.post_no DESC) as rnum, p.post_no,p.title,p.post_content,p.category_type,p.img,TO_CHAR(p.TIME_POSTED,'YYYY-MM-DD') ");
+			sb.append("time_posted,TO_CHAR(p.gathering_period,'YYYY-MM-DD') ");
+			sb.append("gathering_period,p.gathering_type,p.max_count,m.nick_name, ");
+			sb.append("(SELECT count(*) FROM join_club where p.post_no = join_club.post_no) as current_count ");
+			sb.append("FROM post p ,member m ");
+			sb.append("where p.user_id = m.user_id) ");
+			sb.append("WHERE rnum BETWEEN ? AND ?");
+			pstmt = con.prepareStatement(sb.toString());
+			pstmt.setLong(1, pagination.getStartRowNumber());
+			pstmt.setLong(2, pagination.getEndRowNumber());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				postVO = new PostVO();
+				postVO.setPostNo(rs.getLong("post_no"));
+				postVO.setTitle(rs.getString("title"));
+				postVO.setPostContent(rs.getString("post_content"));
+				postVO.setImg(rs.getString("img"));
+				postVO.setGatheringPeriod(rs.getString("gathering_period"));
+				postVO.setGatheringType(rs.getString("gathering_type"));
 				postVO.setCategoryType(rs.getString("category_type"));
 				postVO.setTimePosted(rs.getString("time_posted"));
 				postVO.setCurrentCount(rs.getInt("current_count"));
@@ -234,6 +320,26 @@ public class PostDAO {
 			closeAll(rs, pstmt, con);
 		}
 
+	}
+
+	public long findTotalPostCount() throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		long TotalPostCount = 0;
+		try {
+			con = dataSource.getConnection();
+			String sql = "select count(*) from post";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				TotalPostCount = rs.getLong(1);
+			}
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+
+		return TotalPostCount;
 	}
 
 	public void updataGatheringType(long postNo) throws SQLException {
@@ -331,6 +437,7 @@ public class PostDAO {
 		}
 		return list;
 	}
+
 	public void updatePosting(PostVO post) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -357,6 +464,7 @@ public class PostDAO {
 		}
 
 	}
+
 	public PostVO findHobbyPostByNo(long no) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -365,17 +473,21 @@ public class PostDAO {
 		try {
 			con = dataSource.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("select post_no,title,post_content,img,category_type,time_posted,gathering_type,GATHERING_PERIOD,MAX_COUNT from post where post_no=?");
+			sql.append(
+					"select post_no,title,post_content,img,category_type,time_posted,gathering_type,GATHERING_PERIOD,MAX_COUNT from post where post_no=?");
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setLong(1, no);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				post = new PostVO(no, rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7),null, 0, rs.getInt(9),null);}
+				post = new PostVO(no, rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+						rs.getString(6), rs.getString(7), null, 0, rs.getInt(9), null);
+			}
 		} finally {
 			closeAll(rs, pstmt, con);
 		}
 		return post;
 	}
+
 	public long findTotalMyClubCount(String id) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
