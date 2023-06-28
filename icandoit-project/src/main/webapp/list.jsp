@@ -3,12 +3,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="container">
 	<div class="row">
-		<div class="form-group">
-		<button type="button" class="btn btn-primary btn-sm" name = "button" >전체글</button>
-		<button type="button" class="btn btn-success btn-sm" name = "button" >모집중</button>
-		<button type="button" class="btn btn-danger btn-sm" name = "button" >모집마감</button>
-			
-		</div>
+		<form id="statusform" method="post" name="form" action="FindHobbyPostList">
+		<button type="submit" class="btn btn-primary btn-sm" id="dfltBtn" >전체글</button>
+		<button type="submit" class="btn btn-success btn-sm" id="rcuBtn">모집중</button>
+		<button type="submit" class="btn btn-danger btn-sm" id="endBtn">모집마감</button>
+		</form>	
 		<form action="RegisterHobbyPostForm.do" method="post">
 		<div class="form-group">
 			<div class="text">
@@ -64,12 +63,22 @@
 
 </ul>
 <script type="text/javascript">
-let button_type = 0;
-function buttonChange() {
-	
-}
+let stsBtn = 0;
+$(document).ready(function() {
+	  $("#dfltBtn").click(function() {
+		  stsBtn = 0;
+	    $("#statusform").attr("action","FindHobbyPostList.do?stsBtn="+stsBtn);
+	  });
+	  $("#rcuBtn").click(function() {
+		  stsBtn = 1;
+		  $("#statusform").attr("action","FindHobbyPostList.do?stsBtn="+stsBtn);
+	  });
+	   $("#endBtn").click(function() {
+		   stsBtn = 2;
+		   $("#statusform").attr("action","FindHobbyPostList.do?stsBtn="+stsBtn);
+	  });
+	});
 </script>
-
 
 
 
