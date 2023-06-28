@@ -5,6 +5,8 @@
 	<c:import url="mypage-side-nav.jsp"></c:import>
 	<div class="col-sm-7" style="margin: 2%;">
 	<div style="font-weight: bold;">❤️찜 목록❤️</div>
+	<c:choose>
+	<c:when test="${not empty likeList }">
 		<c:forEach items="${likeList}" var="likeList">
 			<div style="margin: 2%;">
 				<table>
@@ -61,6 +63,13 @@
 				</table>
 			</div>
 		</c:forEach>
+	</c:when>
+	<c:otherwise>
+	<div style="margin: 2%;">
+	<h3> 찜한 모임이 없습니다!</h3>
+	</div>
+	</c:otherwise>
+	</c:choose>
 				<ul class="pagination justify-content-center" style="margin: 20px 0">
 			<c:if test="${pagination.previousPageGroup}">
 				<li class="page-item"><a class="page-link"
