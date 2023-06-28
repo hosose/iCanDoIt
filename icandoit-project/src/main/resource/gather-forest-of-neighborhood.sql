@@ -1,3 +1,4 @@
+SELECT * FROM V$SESSION WHERE OSUSER != 'SYSTEM';
 select * from post where GATHERING_TYPE='모집마감' ;
 
 CREATE TABLE MEMBER (
