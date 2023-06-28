@@ -5,15 +5,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.kosta.icandoit.model.LikeDAO;
 import org.kosta.icandoit.model.MemberVO;
-import org.kosta.icandoit.model.PostDAO;
 
-public class JoinClubController implements Controller {
+public class RevomeLikeController implements Controller {
 
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if (request.getMethod().equals("POST") == false)
-			throw new ServletException("POST 방식만 서비스 됩니다");
+			throw new ServletException("POST 방식만 서비스 됩니다.");
 
 		HttpSession session = request.getSession(false);
 		if (session == null || session.getAttribute("memberVO") == null) {
@@ -24,18 +24,8 @@ public class JoinClubController implements Controller {
 		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 		String id = memberVO.getId();
 		long postNo = Long.parseLong(request.getParameter("postNo"));
-		int maxCount = PostDAO.getInstance().findPostmaxCount(postNo);
-		int currentCount = PostDAO.getInstance().findPostCurrentCount(postNo);
-		if (maxCount == currentCount) {
-			System.out.println("인원수 초과");
-			return "redirect:FindHobbyPostByNo.do?postNo=" + postNo;
-		}
-		PostDAO.getInstance().joinClub(id, postNo);
-		currentCount = PostDAO.getInstance().findPostCurrentCount(postNo);
-		maxCount = PostDAO.getInstance().findPostmaxCount(postNo);
-		if (maxCount == currentCount) {
-			PostDAO.getInstance().updataGatheringType(postNo);
-		}
+		LikeDAO.getInstance().removeLike(id, postNo);
 		return "redirect:FindHobbyPostByNo.do?postNo=" + postNo;
 	}
+
 }

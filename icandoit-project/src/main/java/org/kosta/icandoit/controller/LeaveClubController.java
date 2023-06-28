@@ -8,8 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.kosta.icandoit.model.MemberVO;
 import org.kosta.icandoit.model.PostDAO;
 
-public class JoinClubController implements Controller {
-
+public class LeaveClubController implements Controller {
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if (request.getMethod().equals("POST") == false)
@@ -24,18 +23,7 @@ public class JoinClubController implements Controller {
 		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 		String id = memberVO.getId();
 		long postNo = Long.parseLong(request.getParameter("postNo"));
-		int maxCount = PostDAO.getInstance().findPostmaxCount(postNo);
-		int currentCount = PostDAO.getInstance().findPostCurrentCount(postNo);
-		if (maxCount == currentCount) {
-			System.out.println("인원수 초과");
-			return "redirect:FindHobbyPostByNo.do?postNo=" + postNo;
-		}
-		PostDAO.getInstance().joinClub(id, postNo);
-		currentCount = PostDAO.getInstance().findPostCurrentCount(postNo);
-		maxCount = PostDAO.getInstance().findPostmaxCount(postNo);
-		if (maxCount == currentCount) {
-			PostDAO.getInstance().updataGatheringType(postNo);
-		}
-		return "redirect:FindHobbyPostByNo.do?postNo=" + postNo;
+		PostDAO.getInstance().leaveClub(id, postNo);
+		return "redirect:FindHobbyPostList.do";
 	}
 }

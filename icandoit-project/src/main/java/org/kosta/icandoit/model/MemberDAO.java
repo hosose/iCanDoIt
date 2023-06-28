@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
@@ -59,13 +60,13 @@ public class MemberDAO {
 		MemberVO vo = null;
 		try {
 			con = dataSource.getConnection();
-			String sql = "select USER_ID, password, address, NICK_NAME from member where USER_ID = ? and password = ?";
+			String sql = "select USER_ID, password, address,phone, NICK_NAME, name from member where USER_ID = ? and password = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, password);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				vo = new MemberVO(id, password, rs.getString(3), null, rs.getString(4), null);
+				vo = new MemberVO(id, password, rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
 			}
 		} finally {
 			closeAll(rs, pstmt, con);
@@ -91,5 +92,96 @@ public class MemberDAO {
 			closeAll(rs, pstmt, con);
 		}
 		return vo;
+	}
+
+	public int checkId(String id) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		try {
+			con = dataSource.getConnection();
+			String sql = "select count(*) from member where user_id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next())
+				result = rs.getInt(1);
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return result;
+	}
+
+	public int checkNickName(String nickName) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		try {
+			con = dataSource.getConnection();
+			String sql = "select count(*) from member where NICK_NAME = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, nickName);
+			rs = pstmt.executeQuery();
+			if (rs.next())
+				result = rs.getInt(1);
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return result;
+
+	}
+
+	public void updateMember(MemberVO memberVO) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = dataSource.getConnection();
+			StringBuilder sql = new StringBuilder(
+					"UPDATE member SET password = ?, address = ?, phone = ?, nick_name = ? ");
+			sql.append("WHERE user_id = ?");
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, memberVO.getPassword());
+			pstmt.setString(2, memberVO.getAddress());
+			pstmt.setString(3, memberVO.getPhone());
+			pstmt.setString(4, memberVO.getNickName());
+			pstmt.setString(5, memberVO.getId());
+			pstmt.executeUpdate();
+			System.out.println("member update");
+		} finally {
+			closeAll(pstmt, con);
+		}
+	}
+
+	public ArrayList<LikeVO> findMyHobbyPostLikeList(String id) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<LikeVO> list = new ArrayList<>();
+		try {
+			con = dataSource.getConnection();
+			String sql = "select pl.user_id, pl.post_no, pl.like_no, title, p.category_type, p.gathering_type, p.img "
+					+ "from member m inner join post_like pl on m.user_id = pl.user_id inner join post p on pl.post_no = p.post_no "
+					+ "where m.user_id = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				LikeVO likeVO = new LikeVO();
+				PostVO postVO = new PostVO();
+				likeVO.setLikeNo(rs.getLong("like_no"));
+				postVO.setPostNo(rs.getLong("post_no"));
+				postVO.setTitle(rs.getString("title"));
+				postVO.setImg(rs.getString("img"));
+				postVO.setGatheringType(rs.getString("gathering_type"));
+				postVO.setCategoryType(rs.getString("category_type"));
+				likeVO.setPostVO(postVO);
+				list.add(likeVO);
+			}
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return list;
 	}
 }
