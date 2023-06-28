@@ -16,6 +16,8 @@ public class PaginationDemo {
 	/**
 	 * 현재 페이지
 	 */
+	private int buttonStatus = 0;
+
 	private long nowPage = 1;
 	/**
 	 * 페이지당 게시물수
@@ -30,17 +32,23 @@ public class PaginationDemo {
 	 */
 	private long totalPostCount;
 
-	public PaginationDemo(long totalPostCount) {
+	public PaginationDemo(long totalPostCount, int buttonStatus) {
 		this.totalPostCount = totalPostCount;
+		this.buttonStatus = buttonStatus;
 	}
 
-	public PaginationDemo(long totalPostCount, long nowPage) {
+	public PaginationDemo(long totalPostCount, long nowPage, int buttonStatus) {
 		this.totalPostCount = totalPostCount;
 		this.nowPage = nowPage;
+		this.buttonStatus = buttonStatus;
 	}
 
 	public long getNowPage() {
 		return nowPage;
+	}
+
+	public int getbuttonStatus() {
+		return buttonStatus;
 	}
 
 	/**

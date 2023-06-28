@@ -132,9 +132,18 @@ public class PostDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<PostVO> list = new ArrayList<>();
+
 		try {
 			con = dataSource.getConnection();
 			StringBuilder sb = new StringBuilder();
+
+			if (pagination.getbuttonStatus() == 0) {
+
+			} else if (pagination.getbuttonStatus() == 1) {
+
+			} else {
+
+			}
 			sb.append(
 					"SELECT rnum, post_no, title, post_content, category_type, img, time_posted, gathering_period, gathering_type, max_count, nick_name, current_count ");
 			sb.append(
@@ -145,6 +154,7 @@ public class PostDAO {
 			sb.append("FROM post p ,member m ");
 			sb.append("where p.user_id = m.user_id) ");
 			sb.append("WHERE rnum BETWEEN ? AND ?");
+
 			pstmt = con.prepareStatement(sb.toString());
 			pstmt.setLong(1, pagination.getStartRowNumber());
 			pstmt.setLong(2, pagination.getEndRowNumber());

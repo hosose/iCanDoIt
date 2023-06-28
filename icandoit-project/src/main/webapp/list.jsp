@@ -4,8 +4,10 @@
 <div class="container">
 	<div class="row">
 		<div class="form-group">
-			<button type="button" class="btn btn-success btn-sm">모집중</button>
-			<button type="button" class="btn btn-danger btn-sm">모집마감</button>
+		<button type="button" class="btn btn-primary btn-sm" name = "button" >전체글</button>
+		<button type="button" class="btn btn-success btn-sm" name = "button" >모집중</button>
+		<button type="button" class="btn btn-danger btn-sm" name = "button" >모집마감</button>
+			
 		</div>
 		<form action="RegisterHobbyPostForm.do" method="post">
 		<div class="form-group">
@@ -61,7 +63,12 @@
   	</c:if>   
 
 </ul>
-
+<script type="text/javascript">
+let button_type = 0;
+function buttonChange() {
+	
+}
+</script>
 
 
 
