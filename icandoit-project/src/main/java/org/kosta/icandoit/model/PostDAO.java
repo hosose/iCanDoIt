@@ -331,7 +331,51 @@ public class PostDAO {
 		}
 		return list;
 	}
+	public void updatePosting(PostVO post) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sql = new StringBuilder();
+		try {
+			con = dataSource.getConnection();
+			sql.append("UPDATE post SET TITLE=? , POST_CONTENT=? , IMG=? , ");
+			sql.append("CATEGORY_TYPE=?,TIME_POSTED=sysdate ,GATHERING_PERIOD=?, MAX_COUNT=? ");
+			sql.append(" WHERE POST_NO=? ");
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, post.getTitle());
+			pstmt.setString(2, post.getPostContent());
+			pstmt.setString(3, post.getImg());
+			pstmt.setString(4, post.getCategoryType());
+			pstmt.setString(5, post.getGatheringPeriod());
+			pstmt.setInt(6, post.getMaxCount());
+			pstmt.setLong(7, post.getPostNo());
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
 
+	}
+	public PostVO findHobbyPostByNo(long no) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		PostVO post = null;
+		try {
+			con = dataSource.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("select post_no,title,post_content,img,category_type,time_posted,gathering_type,GATHERING_PERIOD,MAX_COUNT from post where post_no=?");
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setLong(1, no);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				post = new PostVO(no, rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7),null, 0, rs.getInt(9),null);}
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return post;
+	}
 	public long findTotalMyClubCount(String id) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
