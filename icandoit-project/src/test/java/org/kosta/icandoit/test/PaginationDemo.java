@@ -26,7 +26,7 @@ public class PaginationDemo {
 	/**
 	 * 페이지 그룹당 페이지수
 	 */
-	private long pageCountPerPageGroup = 3;
+	private long pageCountPerPageGroup = 4;
 	/**
 	 * 총게시물수 ( 데이터베이스에 저장되어 있는 )
 	 */
