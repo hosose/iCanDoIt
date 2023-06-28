@@ -293,7 +293,7 @@ public class PostDAO {
 		}
 	}
 
-	public ArrayList<PostVO> findMyHobbyPostList(String id) throws SQLException {
+	public ArrayList<PostVO> findMyHobbyPostList(String id, MyPagePagination pagination) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -301,12 +301,18 @@ public class PostDAO {
 		try {
 			con = dataSource.getConnection();
 			StringBuilder sql = new StringBuilder(
-					"SELECT j.user_id, j.post_no, p.title, p.category_type, p.gathering_type,p.img ");
-			sql.append("FROM join_club j ");
-			sql.append("INNER JOIN post p ON j.post_no=p.post_no ");
-			sql.append("WHERE j.user_id = ?");
+					"SELECT  rnum, post_no,  title, category_type, img, user_id, gathering_type ");
+			sql.append(
+					"FROM (SELECT row_number() over(ORDER BY j.post_no DESC) as rnum, j.post_no, p.title, p.category_type, p.img, p.user_id, p.gathering_type ");
+			sql.append("FROM JOIN_CLUB j ");
+			sql.append("INNER JOIN post p ON p.post_no=j.post_no ");
+			sql.append("INNER JOIN member m ON p.user_id=m.user_id ");
+			sql.append("WHERE j.user_id = ?) ");
+			sql.append("WHERE rnum BETWEEN ? AND ?");
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, id);
+			pstmt.setLong(2, pagination.getStartRowNumber());
+			pstmt.setLong(3, pagination.getEndRowNumber());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				PostVO postVO = new PostVO();
@@ -369,5 +375,25 @@ public class PostDAO {
 			closeAll(rs, pstmt, con);
 		}
 		return post;
+	}
+	public long findTotalMyClubCount(String id) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		long myClubCount = 0;
+		try {
+			con = dataSource.getConnection();
+			StringBuilder sql = new StringBuilder(
+					"SELECT count(*) FROM join_club GROUP BY user_id HAVING user_id = ? ");
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				myClubCount = rs.getLong(1);
+			}
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return myClubCount;
 	}
 }
