@@ -138,15 +138,13 @@ public class MemberDAO {
 		PreparedStatement pstmt = null;
 		try {
 			con = dataSource.getConnection();
-			StringBuilder sql = new StringBuilder(
-					"UPDATE member SET password = ?, address = ?, phone = ?, nick_name = ? ");
+			StringBuilder sql = new StringBuilder("UPDATE member SET password = ?, address = ?, phone = ?");
 			sql.append("WHERE user_id = ?");
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, memberVO.getPassword());
 			pstmt.setString(2, memberVO.getAddress());
 			pstmt.setString(3, memberVO.getPhone());
-			pstmt.setString(4, memberVO.getNickName());
-			pstmt.setString(5, memberVO.getId());
+			pstmt.setString(4, memberVO.getId());
 			pstmt.executeUpdate();
 			System.out.println("member update");
 		} finally {
