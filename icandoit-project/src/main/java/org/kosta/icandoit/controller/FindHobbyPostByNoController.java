@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.kosta.icandoit.model.CommentDAO;
+import org.kosta.icandoit.model.CommentVO;
 import org.kosta.icandoit.model.LikeDAO;
 import org.kosta.icandoit.model.MemberVO;
 import org.kosta.icandoit.model.PostDAO;
@@ -35,6 +37,8 @@ public class FindHobbyPostByNoController implements Controller {
 		request.setAttribute("postVO", post);
 		request.setAttribute("joinClubMember", joinClubMember);
 		request.setAttribute("addLikeMember", addLikeMember);
+		ArrayList<CommentVO> list = CommentDAO.getInstance().findCommentListByPostNo(no);
+		request.setAttribute("commentVO", list);
 		request.setAttribute("url", "post-detail.jsp");
 		return "layout.jsp";
 	}
