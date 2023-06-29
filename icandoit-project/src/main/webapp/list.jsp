@@ -20,17 +20,18 @@
 		<c:forEach items="${post}" var="postList">
 			<div class="col-4">
 				<div class="card my-4">
+				<div class="embed-responsive embed-responsive-4by3">
 				<c:choose>
 				<c:when test="${sessionScope.memberVO==null}">
 				<a href="#" onclick="return checkSession()"><img
-						src="picture/${postList.img}" class="card-img-top"></a>
+						src="picture/${postList.img}" class="card-img-top embed-responsive-item"></a>
 				</c:when>
 				<c:otherwise>
 				<a href="FindHobbyPostByNo.do?postNo=${postList.postNo}"><img
-						src="picture/${postList.img}" class="card-img-top"></a>
+						src="picture/${postList.img}" class="card-img-top embed-responsive-item"></a>
 				</c:otherwise>
 				</c:choose>
-
+					</div>
 					<div class="card-body">
 						<c:choose>
 							<c:when test="${postList.gatheringType=='모집마감'}">
