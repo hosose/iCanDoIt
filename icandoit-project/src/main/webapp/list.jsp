@@ -23,13 +23,14 @@
 				<c:choose>
 				<c:when test="${sessionScope.memberVO==null}">
 				<a href="#" onclick="return checkSession()"><img
-						src="assets/img/sprint.png" class="card-img-top"></a>
+						src="picture/${postList.img}" class="card-img-top"></a>
 				</c:when>
 				<c:otherwise>
 				<a href="FindHobbyPostByNo.do?postNo=${postList.postNo}"><img
-						src="assets/img/sprint.png" class="card-img-top"></a>
+						src="picture/${postList.img}" class="card-img-top"></a>
 				</c:otherwise>
 				</c:choose>
+
 					<div class="card-body">
 						<c:choose>
 							<c:when test="${postList.gatheringType=='모집마감'}">
