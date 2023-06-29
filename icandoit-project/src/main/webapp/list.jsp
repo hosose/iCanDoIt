@@ -20,8 +20,17 @@
 		<c:forEach items="${post}" var="postList">
 			<div class="col-4">
 				<div class="card my-4">
-					<a href="FindHobbyPostByNo.do?postNo=${postList.postNo}"><img
+				<c:choose>
+				<c:when test="${sessionScope.memberVO==null}">
+				<a href="#" onclick="return checkSession()"><img
 						src="picture/${postList.img}" class="card-img-top"></a>
+				</c:when>
+				<c:otherwise>
+				<a href="FindHobbyPostByNo.do?postNo=${postList.postNo}"><img
+						src="picture/${postList.img}" class="card-img-top"></a>
+				</c:otherwise>
+				</c:choose>
+
 					<div class="card-body">
 						<c:choose>
 							<c:when test="${postList.gatheringType=='모집마감'}">
@@ -32,9 +41,17 @@
 							</c:otherwise>
 						</c:choose>
 						<h5 class="card-title">
-							<a href="FindHobbyPostByNo.do?postNo=${postList.postNo}">${postList.title}</a>
+						<c:choose>
+						<c:when test="${sessionScope.memberVO==null}">
+						<a href="#" onclick="checkSession()">${postList.title}</a>
+						</c:when>
+						<c:otherwise>
+						<a href="FindHobbyPostByNo.do?postNo=${postList.postNo}">${postList.title}</a>
+						</c:otherwise>
+						</c:choose>
+							
 						</h5>
-						<p class="card-text">${postList.postContent}</p>
+						<p class="card-text text-right">${postList.currentCount}/${postList.maxCount}</p>
 					</div>
 				</div>
 			</div>
@@ -63,21 +80,60 @@
 
 </ul>
 <script type="text/javascript">
-let stsBtn = 0;
-$(document).ready(function() {
-	  $("#dfltBtn").click(function() {
-		  stsBtn = 0;
-	    $("#statusform").attr("action","FindHobbyPostList.do?stsBtn="+stsBtn);
-	  });
-	  $("#rcuBtn").click(function() {
-		  stsBtn = 1;
-		  $("#statusform").attr("action","FindHobbyPostList.do?stsBtn="+stsBtn);
-	  });
-	   $("#endBtn").click(function() {
-		   stsBtn = 2;
-		   $("#statusform").attr("action","FindHobbyPostList.do?stsBtn="+stsBtn);
-	  });
-	});
+function checkSession() {
+	if(confirm("로그인 하여야 볼 수 있습니다.")){
+		location.href='LoginForm.do'
+	}
+}
+
+
+	$(document).ready(function() {
+		  var stsBtn = getCookie("stsBtn"); 
+
+		  $("#dfltBtn").click(function() {
+		    stsBtn = 0;
+		    setCookie("stsBtn", stsBtn);
+		    $("#statusform").attr("action", "FindHobbyPostList.do?stsBtn="+stsBtn);
+		  });
+
+		  $("#rcuBtn").click(function() {
+		    stsBtn = 1;
+		    setCookie("stsBtn", stsBtn); 
+		    $("#statusform").attr("action", "FindHobbyPostList.do?stsBtn="+stsBtn);
+		  });
+
+		  $("#endBtn").click(function() {
+		    stsBtn = 2;
+		    setCookie("stsBtn", stsBtn); 
+		    $("#statusform").attr("action", "FindHobbyPostList.do?stsBtn="+stsBtn);
+		  });
+		  
+		  
+
+		  function setCookie(name, value) {
+		    document.cookie = name + "=" + value + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+		  }
+
+		  
+		  function getCookie(name) {
+		    var cookieName = name + "=";
+		    var decodedCookie = decodeURIComponent(document.cookie);
+		    var cookieArray = decodedCookie.split(';');
+
+		    for (var i = 0; i < cookieArray.length; i++) {
+		      var cookie = cookieArray[i];
+		      while (cookie.charAt(0) === ' ') {
+		        cookie = cookie.substring(1);
+		      }
+		      if (cookie.indexOf(cookieName) === 0) {
+		        return cookie.substring(cookieName.length, cookie.length);
+		      }
+		    }
+
+		    return "";
+		  }
+		  
+		});
 </script>
 
 
