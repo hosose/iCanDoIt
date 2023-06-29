@@ -123,7 +123,7 @@
 				<table class="table table-bordered">
 					<tbody style="width: 80%">
 						<tr>
-							<td><pre><font size="4">${postVO.postContent}</font> </pre></td>
+							<td><pre><font size="4">${postVO.postContent}</font></pre></td>
 						</tr>
 					</tbody>
 				</table>
