@@ -19,7 +19,7 @@
 					<div class="col form-group">
 						<div class="col form-group" style="margin-top: 15px;">
 						<input type="file"  class="form-control" name="img" id="img"
-						placeholder="이미지 넣기"required="required" value="${PostVO.getImg()}">
+						placeholder="이미지 넣기" value="${PostVO.getImg()}">
 						</div>
 					</div>
 					<!-- 					
