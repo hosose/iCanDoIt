@@ -47,14 +47,11 @@ public class RegisterHobbyPostController implements Controller {
 
 			String[] imgArray = multi.getOriginalFileName(fileName).split("[.]");
 			String imgArray2 = imgArray[0].concat("_" + time + "." + imgArray[1]);
-			System.out.println(imgArray2);
 
 			String realFileName = multi.getOriginalFileName(fileName);
 			String fullFileName = realFolder + realFileName;
 			java.io.File f1 = new java.io.File(fullFileName);
 			java.io.File newFile = new java.io.File(realFolder + imgArray2);
-			System.out.println(fullFileName);
-			System.out.println(realFolder + imgArray2);
 			f1.renameTo(newFile);
 			post.setImg(imgArray2);
 		}
