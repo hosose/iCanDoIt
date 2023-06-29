@@ -4,10 +4,11 @@
 <!--===========게시판 등록230628 ==================== -->
 <section id="contact" class="contact"
 	style="overflow: initial; width: 1300px; margin: auto">
-	<div class="row" data-aos="fade-up" data-aos-delay="100" >
+	<div class="row" data-aos="fade-up" data-aos-delay="100">
 		<!-- LG MD SM -->
-		<form action="RegisterHobbyPost.do" method="post" role="form" enctype="multipart/form-data"
+		<form action="UpdateHobbyPost.do" method="post" role="form"
 			style="display: flex; align-items: center;">
+			<input type="hidden" name="postNo" value="${PostVO.getPostNo()}">
 			<div class="col-lg-4">
 				<img alt="" class="mb-2 mb-lg-0"
 					src="https://blog.kakaocdn.net/dn/0mySg/btqCUccOGVk/nQ68nZiNKoIEGNJkooELF1/img.jpg"
@@ -16,20 +17,26 @@
 					style="display: flex; align-items: baseline;">
 					이미지 등록 :
 					<div class="col form-group">
-						<div class="col form-group" style="margin-top: 15px;" >
+						<div class="col form-group" style="margin-top: 15px;">
 						<input type="file"  class="form-control" name="img" id="img"
-						placeholder="이미지 넣기"required="required" >
+						placeholder="이미지 넣기" value="${PostVO.getImg()}">
 						</div>
 					</div>
-
+					<!-- 					
+				<div class="col form-group">
+						<input type="hidden" name="gatheringType" class="form-control"
+							id="gatheringType" required="required" value="모집중">
+					</div>
+					-->
 				</div>
 			</div>
 			<div class="col-lg-8">
 				<div class="row" style="align-items: baseline;">
 					<div class="col form-group">
 						<select name="categoryType" id="categoryType" class="form-control"
-							required="required" >
+							required="required">
 							<optgroup label="카테고리">
+								<option value="${PostVO.getCategoryType()}">${PostVO.getCategoryType()}</option>
 								<option value="없음">카테고리 선택</option>
 								<option value="운동">운동</option>
 								<option value="독서">독서</option>
@@ -42,30 +49,28 @@
 					</div>
 					모집 기간 :
 					<div class="col form-group">
-
-						<!-- <p class="form-control" id="name">사용자 이름</p> -->
-
 						<input type="date" class="form-control" name="gatheringPeriod"
-							id="gatheringPeriod" value="2023-06-30" min="2023-06-30"
-							max="2025-06-30" >
-						<!-- 								<p><input type="date" value="2019-09-22" min="2019-09-10" max="2019-09-25"></p> -->
+							id="gatheringPeriod" value="2022-06-30" min="2022-06-30"
+							max="2026-12-30">
 					</div>
-
 					<div class="col form-group">
 						<input type="text" name="maxCount" class="form-control"
 							id="maxCount" placeholder="최대인원 입력 (숫자만)" required="required"
-							onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"/>
+							onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"
+							value="${PostVO.getMaxCount()}"  maxlength="5"/>
 					</div>
 				</div>
 				<!--===========게시판 제목내용 ==================== -->
 				<div class="form-group">
 					<input type="text" class="form-control" name="title" id="title"
-						placeholder="제목을 입력해보세요" required="required" >
+						placeholder="제목을 입력해보세요" required="required"
+						value="${PostVO.getTitle()}">
+
 				</div>
 				<div class="form-group">
 					<textarea class="form-control" name="postContent" rows="10"
-						placeholder="메시지를 입력해보세요 (최대 210자)" required="required" id="textBox" 
-						style="resize: none;" ></textarea>
+						placeholder="메시지를 입력해보세요 (최대 210자)" required="required"
+						id="textBox" style="resize: none;">${PostVO.getPostContent()}</textarea>
 
 				</div>
 				<div class="row">
@@ -93,10 +98,13 @@
 					});
 				</script>
 				<!--=============================== -->
-				<div class="text-center"  >
-					<button type="submit" class="btn btn-primary" style="font-size:18px">등록</button>
-					<button type="reset" class="btn btn-primary" style="font-size:18px">취소</button>
+				<div class="text-center">
+					<button type="submit" class="btn btn-primary"
+						style="font-size: 18px">등록</button>
+					<button type="reset" class="btn btn-primary"
+						style="font-size: 18px">취소</button>
 				</div>
+
 			</div>
 		</form>
 	</div>

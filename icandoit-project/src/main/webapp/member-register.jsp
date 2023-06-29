@@ -1,17 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-	<!-- ======= Contact Section ======= -->
 	<section id="contact" class="contact">
 		<div class="container" data-aos="fade-up" >
 				<div style="width: 70%">
 					<form action="${pageContext.request.contextPath }/RegisterMember.do" method="post" role="form"
-						id="registerMemberForm">
+						id="registerMemberForm" onsubmit="checkForm(event)">
 						<div class="form-group">
 							<input type="text" class="form-control" id="id" name="id"
-								aria-describedby="emailHelp" placeholder="아이디를 입력해주세요."
-								required="required">
-							<div class="check_font" id="id_check"></div>
+								placeholder="아이디를 입력해주세요."
+								required="required" onkeyup="checkId()">
+							<span id="checkIdResult"></span><br>
 						</div>
 						<div class="form-group">
 							<input type="password" class="form-control" id="password" name="password"
@@ -20,13 +18,13 @@
 						</div>
 						<div class="form-group">
 							<div class="row">
-								<div class="col-sm-8">								
-									<input type="text" class="form-control" name="address"  id="address" 
+							<div class="col-sm-8">
+								<input type="text" class="form-control" name="address"  id="address" 
 									placeholder="주소 검색 버튼으로 주소 선택" required="required"  readonly>
-								</div>
-								<div class="col-sm-4">			
-                           			<input type="button" class="btn btn-primary" onclick="searchAddress()"  value="주소 검색">
-								</div>
+							</div>
+							<div class="col-sm-4">
+                           		<input type="button" class="btn btn-primary" onclick="searchAddress()"  value="주소 검색" style="margin:0;">
+							</div>
 							</div>                       
 						</div>
 						<div class="form-group">
@@ -44,15 +42,16 @@
 						<div class="form-group">
 							<input
 								type="text" class="form-control" id="nickName"
-								name="nickName" placeholder="닉네임을 입력해주세요." required="required">
+								name="nickName" placeholder="닉네임을 입력해주세요." required="required" onkeyup="checkNickName()">
 							<div class="check_font" id="nick_check"></div>
+							<span id="checkNickNameResult"></span><br>
 						</div>
 						<div align="center">
 							<button type="submit" class="btn btn-primary" value="회원가입">회원가입</button>
 							<script type="text/javascript">
 							$(function(){
 								$("#registerMemberForm").submit(function(){
-									return confirm("등록하시겠습니까?");
+									return confirm("회원가입하시겠습니까?");
 								});
 							});
 							</script>
@@ -62,11 +61,74 @@
 				</div>
 			</div>
 	</section>
-	<!-- 주소API -->
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script>
+	<script type="text/javascript">
+	//id중복체크
+    let checkIdFlag = false;
+    let checkNickNameFlag = false;
+    function checkForm(event) {
+		if(checkIdFlag==false){
+			event.preventDefault();
+		}
+		if(checkNickNameFlag==false){
+			event.preventDefault();
+		}
+	}
+    function checkId() {
+        checkIdFlag = false;
+        let Id = document.getElementById("id");
+        let checkIdResultSpan = document.getElementById("checkIdResult");
+        if (Id.value.length < 4 || Id.value.length > 10) {
+            checkIdResultSpan.innerHTML = "<font color=skyblue>아이디는 4자 이상, 10자 이하이어야합니다.</font>";
+        } else {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    checkIdResultSpan.innerHTML = xhr.responseText;
+                    console.log(checkIdFlag);
+                    if (xhr.responseText == "ok") {
+                        checkIdResultSpan.innerHTML = "<font color=blue>사용 가능한 아이디입니다.</font>";
+                        checkIdFlag = true;
+                        console.log(checkIdFlag);
+                    } else {
+                        checkIdResultSpan.innerHTML = "<font color=red>사용 불가한 아이디입니다.</font>";
+                        console.log(checkIdFlag);
+                    }
+                }
+            };
+            xhr.open("get", "CheckId.do?id=" + Id.value);
+            xhr.send();
+        }
+    }
+    //닉네임 중복 체크
+    function checkNickName() {
+    	checkNickNameFlag = false;
+    	let Nick = document.getElementById("nickName");
+    	let checkNickNameResultSpan = document.getElementById("checkNickNameResult");
+    	if(Nick.value.length <= 2){
+    		checkNickNameResultSpan.innerHTML = "<font color=skyblue>닉네임은 2자 이상 입력 되어야합니다.</font>";
+    	} else {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                	checkNickNameResultSpan.innerHTML = xhr.responseText;
+                    console.log(checkNickNameFlag);
+                    if (xhr.responseText == "ok") {
+                    	checkNickNameResultSpan.innerHTML = "<font color=blue>사용 가능한 닉네임입니다.</font>";
+                    	checkNickNameFlag = true;
+                        console.log(checkNickNameFlag);
+                    } else {
+                    	checkNickNameResultSpan.innerHTML = "<font color=red>사용 불가한 닉네임입니다.</font>";
+                        console.log(checkNickNameFlag);
+                    }
+                }
+            };
+            xhr.open("get", "CheckNickName.do?nickName=" + nickName.value);
+            xhr.send();
+        }
+	}
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
-   function searchAddress() {
+   	function searchAddress() {
     new daum.Postcode({
         oncomplete: function (data) {
             // 주소를 가져오는 로직을 변경해야 합니다.
@@ -78,11 +140,12 @@
 
             // 주소 필드에 값을 설정하는 방식을 변경해야 합니다.
             document.getElementById('address').value = addr;
-        }
-    }).open();
-}
-  
-/*     $('#phone').keydown(function(event) {
+        	}
+    	}).open();
+	}
+ 	
+    //
+    $('#phone').keydown(function(event) {
         var key = event.charCode || event.keyCode || 0;
         $text = $(this); 
         if (key !== 8 && key !== 9) {
@@ -94,5 +157,5 @@
             }
         }
         return (key == 8 || key == 9 || key == 46 || (key >= 48 && key <= 57) || (key >= 96 && key <= 105));           
-    }); */
+    });
 </script>

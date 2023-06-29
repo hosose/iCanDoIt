@@ -1,5 +1,9 @@
 package org.kosta.icandoit.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Enumeration;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -8,38 +12,53 @@ import org.kosta.icandoit.model.MemberVO;
 import org.kosta.icandoit.model.PostDAO;
 import org.kosta.icandoit.model.PostVO;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
 public class RegisterHobbyPostController implements Controller {
 
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		if(request.getMethod().equals("POST")==false)
-//			throw new ServletException("POST 방식만 서비스 됩니다");
 
 		HttpSession session = request.getSession(false);
-//		if(session==null||session.getAttribute("memberVO")==null) {
-//			System.out.println("**비인증 상태이므로 게시글 전송 할 수 없습니다**");
-//			return "redirect:FindPostByNo.do";
-//		}	
-//		long postNo;
-		String title = request.getParameter("title");
-		String postContent = request.getParameter("postContent");
-		String img = request.getParameter("img");
-//		String gatheringType=request.getParameter("gatheringType");
-		String gatheringPeriod = request.getParameter("gatheringPeriod");
-		String categoryType = request.getParameter("categoryType");
-//		String timePosted=request.getParameter("timePosted");
-		String maxCount = request.getParameter("maxCount");
+
+		String realFolder = "C:\\kosta260\\WAS\\web-tomcat\\webapps\\icandoit-project\\picture\\";
+		MultipartRequest multi = new MultipartRequest(request, realFolder, 10 * 1024 * 1024, "UTF-8",
+				new DefaultFileRenamePolicy());
+		Enumeration enu2 = multi.getFileNames();
+
+		String title = multi.getParameter("title");
+		String postContent = multi.getParameter("postContent");
+		String gatheringPeriod = multi.getParameter("gatheringPeriod");
+		String categoryType = multi.getParameter("categoryType");
 		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 
 		PostVO post = new PostVO();
 		post.setTitle(title);
 		post.setPostContent(postContent);
-		post.setImg(img);
+		String maxCount = multi.getParameter("maxCount");
+
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HHmmSS");
+		String time = dateFormat.format(cal.getTime());
+
+		while (enu2.hasMoreElements()) {
+			String fileName = (String) enu2.nextElement();
+
+			String[] imgArray = multi.getOriginalFileName(fileName).split("[.]");
+			String imgArray2 = imgArray[0].concat("_" + time + "." + imgArray[1]);
+
+			String realFileName = multi.getOriginalFileName(fileName);
+			String fullFileName = realFolder + realFileName;
+			java.io.File f1 = new java.io.File(fullFileName);
+			java.io.File newFile = new java.io.File(realFolder + imgArray2);
+			f1.renameTo(newFile);
+			post.setImg(imgArray2);
+		}
+
 		post.setGatheringType("모집중");
 		post.setGatheringPeriod(gatheringPeriod);
 		post.setCategoryType(categoryType);
-//		post.setTimePosted(timePosted);
-		post.setCurrentCount(1);
 		post.setMaxCount(Integer.parseInt(maxCount));
 		post.setMemberVO(memberVO);
 		PostDAO.getInstance().posting(post);
