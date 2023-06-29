@@ -11,21 +11,21 @@ public class FindHobbyPostListController implements Controller {
 
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Cookie[] cookies = request.getCookies(); // Get all cookies sent with the request
+		Cookie[] cookies = request.getCookies();
 		String Status = null;
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("stsBtn")) { // Replace "cookieName" with the actual name of the cookie
-					Status = cookie.getValue(); // Get the value of the cookie
-					// Process the cookie value as needed
-					break; // If you have found the desired cookie, you can stop iterating
+				if (cookie.getName().equals("stsBtn")) {
+					Status = cookie.getValue();
+
+					break;
 				}
 			}
 		}
 
 		int buttonStatus = 0;
 		String pageNo = request.getParameter("pageNo");
-		// statusButton이 0이나 1이나 2값이 아니면 error리턴만들기
+
 		if (Status == null) {
 			buttonStatus = 0;
 		} else {
