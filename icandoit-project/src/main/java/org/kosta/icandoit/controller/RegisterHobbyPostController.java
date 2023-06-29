@@ -22,7 +22,7 @@ public class RegisterHobbyPostController implements Controller {
 
 		HttpSession session = request.getSession(false);
 
-		String realFolder = "C:\\kosta260\\mygit-study\\iCanDoIt\\icandoit-project\\src\\main\\webapp\\picture\\";
+		String realFolder = "C:\\kosta260\\WAS\\web-tomcat\\webapps\\icandoit-project\\picture\\";
 		MultipartRequest multi = new MultipartRequest(request, realFolder, 10 * 1024 * 1024, "UTF-8",
 				new DefaultFileRenamePolicy());
 		Enumeration enu2 = multi.getFileNames();
