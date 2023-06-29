@@ -53,8 +53,10 @@ INSERT INTO POST
 	  max_count, user_id  FROM post 
 	  JOIN
 	  WHERE post_no=1
-	
-	 SELECT * FROM join_club
+-- delete from post_comment where COMMENT_CONTENT like '%댓글%';
+-- DELETE FROM POST_COMMENT WHERE COMMENT_NO = 51;
+	  
+	 SELECT * FROM POST_COMMENT
 CREATE TABLE POST_COMMENT (
 	COMMENT_NO	NUMBER		PRIMARY KEY,
 	COMMENT_CONTENT	VARCHAR2(1000)		NOT NULL,
@@ -69,9 +71,21 @@ CREATE TABLE POST_COMMENT (
 create sequence comment_seq;
 
 INSERT INTO post_comment
-	VALUES (comment_seq.nextval,	'저는 4구 100쳐요.',	1,	'java' );
+	VALUES (comment_seq.nextval, '저는 4구 100쳐요.', 1,	'java' );
 
 	SELECT * FROM post_comment
+select comment_no, nick_name, pc.comment_content, m.user_id 
+from member m inner join post_comment pc on m.user_id = pc.user_id inner join post p on pc.post_no=p.post_no 
+where p.post_no =	1
+order by comment_no desc;
+	
+DELETE FROM POST_COMMENT WHERE COMMENT_NO =
+select row_number() over(ORDER BY comment_no DESC) as comment_no, nick_name, p.post_no, pc.comment_content, m.user_id
+from member m inner join post_comment pc on m.user_id = pc.user_id inner join post p on pc.post_no=p.post_no
+where p.post_no =1;
+
+select row_number() over(ORDER BY comment_no DESC) as comment_no, nick_name, pc.comment_content 
+from member m inner join post_comment pc on m.user_id = pc.user_id inner join post p on pc.post_no=p.post_no  where p.post_no =1;
 
 CREATE TABLE POST_LIKE (
 	LIKE_NO 	NUMBER		PRIMARY KEY,
@@ -115,7 +129,29 @@ create sequence join_club_seq;
 select user_id, from
 where user_id = 'mtest';
 
+-- 댓글 리스트 참고 사항
+-- SELECT 한 데이터를 다시 INSERT하는 구문 : 4번 실행 -> 48개 게시물을 INSERT 하게 된다 
+INSERT INTO board(no,title,content,time_posted,id)
+SELECT board_seq.nextval,title,content,sysdate,id FROM board 
 
+-- 게시판 Pagination SQL 
+-- step1 :  게시물 리스트 화면에서 사용하는 sql 에  row_number() over() 함수를 적용  
+SELECT row_number() over(ORDER BY no DESC) as rnum, no, title, time_posted, hits FROM board 
 
+-- step2 : 게시물 리스트 1page에 해당하는 게시물 리스트를 조회 ( rnum 1 이상  5 이하 )
+--        : 한페이지에 5개씩 보여줄 예정 
+--        : inline view 를 이용 ( from 절에 사용하는 subquery 를 말함 ) 
+SELECT rnum, no, title, to_char(time_posted, 'yyy-mm-dd') as time_posted, hits, id
+from(
+	select row_number() over(ORDER BY no DESC) as rnum, no, title, time_posted, hits, id FROM board 
+)b where rnum between 1 and 5;
+
+-- step 3 :  step2 조회 결과에 더해서 게시물 리스트에는 회원명 즉 작성자명이 필요하다 
+--			   join 을 이용해 id가 일치하는 회원의 회원 name 을 함께 조회되도록 한다 
+SELECT rnum, b.no, b.title, to_char(time_posted, 'yyy-mm-dd') as time_posted, b.hits, m.name
+from(
+	select row_number() over(ORDER BY no DESC) as rnum, no, title, time_posted, hits, id FROM board 
+)b inner join community_member m on b.id = m.id
+where rnum between 1 and 5;
 
 
