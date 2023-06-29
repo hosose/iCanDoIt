@@ -20,8 +20,16 @@
 		<c:forEach items="${post}" var="postList">
 			<div class="col-4">
 				<div class="card my-4">
-					<a href="FindHobbyPostByNo.do?postNo=${postList.postNo}"><img
+				<c:choose>
+				<c:when test="${sessionScope.memberVO==null}">
+				<a href="#" onclick="return checkSession()"><img
 						src="assets/img/sprint.png" class="card-img-top"></a>
+				</c:when>
+				<c:otherwise>
+				<a href="FindHobbyPostByNo.do?postNo=${postList.postNo}"><img
+						src="assets/img/sprint.png" class="card-img-top"></a>
+				</c:otherwise>
+				</c:choose>
 					<div class="card-body">
 						<c:choose>
 							<c:when test="${postList.gatheringType=='모집마감'}">
@@ -32,9 +40,17 @@
 							</c:otherwise>
 						</c:choose>
 						<h5 class="card-title">
-							<a href="FindHobbyPostByNo.do?postNo=${postList.postNo}">${postList.title}</a>
+						<c:choose>
+						<c:when test="${sessionScope.memberVO==null}">
+						<a href="#" onclick="checkSession()">${postList.title}</a>
+						</c:when>
+						<c:otherwise>
+						<a href="FindHobbyPostByNo.do?postNo=${postList.postNo}">${postList.title}</a>
+						</c:otherwise>
+						</c:choose>
+							
 						</h5>
-						<p class="card-text">${postList.currentCount}/${postList.maxCount}</p>
+						<p class="card-text text-right">${postList.currentCount}/${postList.maxCount}</p>
 					</div>
 				</div>
 			</div>
@@ -63,12 +79,19 @@
 
 </ul>
 <script type="text/javascript">
+function checkSession() {
+	if(confirm("로그인 하여야 볼 수 있습니다.")){
+		location.href='LoginForm.do'
+	}
+}
+
+
 	$(document).ready(function() {
-		  var stsBtn = getCookie("stsBtn"); // Get the value from the cookie
+		  var stsBtn = getCookie("stsBtn"); 
 
 		  $("#dfltBtn").click(function() {
 		    stsBtn = 0;
-		    setCookie("stsBtn", stsBtn); // Set the cookie value
+		    setCookie("stsBtn", stsBtn);
 		    $("#statusform").attr("action", "FindHobbyPostList.do?stsBtn="+stsBtn);
 		  });
 
@@ -83,13 +106,14 @@
 		    setCookie("stsBtn", stsBtn); 
 		    $("#statusform").attr("action", "FindHobbyPostList.do?stsBtn="+stsBtn);
 		  });
+		  
+		  
 
-		  // Function to set a cookie
 		  function setCookie(name, value) {
 		    document.cookie = name + "=" + value + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 		  }
 
-		  // Function to get the value of a cookie
+		  
 		  function getCookie(name) {
 		    var cookieName = name + "=";
 		    var decodedCookie = decodeURIComponent(document.cookie);
@@ -107,6 +131,7 @@
 
 		    return "";
 		  }
+		  
 		});
 </script>
 
