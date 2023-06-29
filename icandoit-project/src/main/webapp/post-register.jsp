@@ -54,7 +54,7 @@
 					<div class="col form-group">
 						<input type="text" name="maxCount" class="form-control"
 							id="maxCount" placeholder="최대인원 입력 (숫자만)" required="required"
-							onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="7"/>
+							onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"/>
 					</div>
 				</div>
 				<!--===========게시판 제목내용 ==================== -->
