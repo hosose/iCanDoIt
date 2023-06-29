@@ -8,6 +8,7 @@
 		<button type="submit" class="btn btn-success btn-sm" id="rcuBtn">모집중</button>
 		<button type="submit" class="btn btn-danger btn-sm" id="endBtn">모집마감</button>
 		</form>	
+		<c:if test="${sessionScope.memberVO==null}">
 		<form action="RegisterHobbyPostForm.do" method="post">
 		<div class="form-group">
 			<div class="text">
@@ -15,6 +16,7 @@
 			</div>
 		</div>
 		</form>
+		</c:if>
 <!-- 	</div>
 	<div class="row"> -->
 		<c:forEach items="${post}" var="postList">
