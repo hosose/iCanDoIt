@@ -21,7 +21,7 @@
 			<div class="col-4">
 				<div class="card my-4">
 					<a href="FindHobbyPostByNo.do?postNo=${postList.postNo}"><img
-						src="assets/img/sprint.png" class="card-img-top"></a>
+						src="picture/${postList.img}" class="card-img-top"></a>
 					<div class="card-body">
 						<c:choose>
 							<c:when test="${postList.gatheringType=='모집마감'}">
