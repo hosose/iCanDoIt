@@ -1,4 +1,4 @@
-package org.kosta.icandoit.test;
+package org.kosta.myproject.test;
 
 public class TestPagination2 {
 

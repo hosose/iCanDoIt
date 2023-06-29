@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<!-- ======= Contact Section ======= -->
 <section id="contact" class="contact">
 	<div class="container" data-aos="fade-up">
 		<div style="width: 50%">
