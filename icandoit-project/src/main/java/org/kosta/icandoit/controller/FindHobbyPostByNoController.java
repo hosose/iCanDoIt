@@ -25,9 +25,6 @@ public class FindHobbyPostByNoController implements Controller {
 		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 		String nickName = memberVO.getNickName();
 		ArrayList<String> joinClubMember = PostDAO.getInstance().findJoinClubMember(no);
-		if (joinClubMember.size() == 0) {
-			return "FindHobbyPostList.do";
-		}
 		String id = memberVO.getId();
 		ArrayList<String> addLikeMember = LikeDAO.getInstance().findAddLikeByMemberNo(no);
 		if (joinClubMember.contains(nickName)) {
@@ -38,8 +35,6 @@ public class FindHobbyPostByNoController implements Controller {
 		}
 		PostVO post = PostDAO.getInstance().findPostDetail(no);
 		request.setAttribute("postVO", post);
-		request.setAttribute("joinClubMember", joinClubMember);
-		request.setAttribute("addLikeMember", addLikeMember);
 		ArrayList<CommentVO> list = CommentDAO.getInstance().findCommentListByPostNo(no);
 		request.setAttribute("commentVO", list);
 		request.setAttribute("url", "post-detail.jsp");
