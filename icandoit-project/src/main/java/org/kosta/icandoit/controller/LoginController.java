@@ -21,7 +21,7 @@ public class LoginController implements Controller {
 		String path = null;
 		if (vo == null) {
 			// 회원 정보 없을 경우 이동할 경로
-			// path
+			path = "redirect:RegisterMemberForm.do";
 			System.out.println("로그인 실패:아이디가 없습니다.");
 		} else {
 			HttpSession session = request.getSession();
