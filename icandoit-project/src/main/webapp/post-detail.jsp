@@ -98,7 +98,6 @@
 							📅 ${postVO.gatheringPeriod} &nbsp;&nbsp;&nbsp;
 							<c:choose>
 								<c:when test="${likeTF eq'T' }">
-
 									<form action="RevomeLike.do" method="post">
 										<input type="hidden" name="postNo" value="${postVO.postNo}">
 										<button class="btn btn-secondary" id="addLikeBtn">

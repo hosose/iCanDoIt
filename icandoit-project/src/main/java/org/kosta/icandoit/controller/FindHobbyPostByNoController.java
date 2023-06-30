@@ -38,8 +38,6 @@ public class FindHobbyPostByNoController implements Controller {
 		}
 		PostVO post = PostDAO.getInstance().findPostDetail(no);
 		request.setAttribute("postVO", post);
-		request.setAttribute("joinClubMember", joinClubMember);
-		request.setAttribute("addLikeMember", addLikeMember);
 		ArrayList<CommentVO> list = CommentDAO.getInstance().findCommentListByPostNo(no);
 		request.setAttribute("commentVO", list);
 		request.setAttribute("url", "post-detail.jsp");
