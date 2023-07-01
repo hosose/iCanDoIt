@@ -140,40 +140,18 @@ public class PostDAO {
 		return joinClubMember;
 	}
 
-	public ArrayList<PostVO> findPostList(PaginationDemo pagination) throws SQLException {
-
+	public ArrayList<PostVO> findPostList(PaginationDemo pagination, int btnStatus) throws SQLException {
+		if(btnStatus==0) {
+			return PostDAO.getInstance().findPostListDuple(pagination);
+		}
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<PostVO> list = new ArrayList<>();
-		int ButtonStatus = pagination.getButtonStatus();
 		StringBuilder sb = new StringBuilder();
 		PostVO postVO = null;
 		try {
 			con = dataSource.getConnection();
-			if (ButtonStatus == 1) {
-				sb.append(
-						"SELECT rnum, post_no, title, post_content, category_type, img, time_posted, gathering_period, gathering_type, max_count, nick_name, current_count ");
-				sb.append(
-						"FROM (SELECT row_number() over(ORDER BY (SELECT count(*) FROM join_club where p.post_no = join_club.post_no) DESC) as rnum, p.post_no,p.title,p.post_content,p.category_type,p.img,TO_CHAR(p.TIME_POSTED,'YYYY-MM-DD') ");
-				sb.append("time_posted,TO_CHAR(p.gathering_period,'YYYY-MM-DD') ");
-				sb.append("gathering_period,p.gathering_type,p.max_count,m.nick_name, ");
-				sb.append("(SELECT count(*) FROM join_club where p.post_no = join_club.post_no) as current_count ");
-				sb.append("FROM post p ,member m ");
-				sb.append("where p.user_id = m.user_id and gathering_type = '모집중') ");
-				sb.append("WHERE rnum BETWEEN ? AND ?");
-			} else if (ButtonStatus == 2) {
-				sb.append(
-						"SELECT rnum, post_no, title, post_content, category_type, img, time_posted, gathering_period, gathering_type, max_count, nick_name, current_count ");
-				sb.append(
-						"FROM (SELECT row_number() over(ORDER BY (SELECT count(*) FROM join_club where p.post_no = join_club.post_no) DESC) as rnum, p.post_no,p.title,p.post_content,p.category_type,p.img,TO_CHAR(p.TIME_POSTED,'YYYY-MM-DD') ");
-				sb.append("time_posted,TO_CHAR(p.gathering_period,'YYYY-MM-DD') ");
-				sb.append("gathering_period,p.gathering_type,p.max_count,m.nick_name, ");
-				sb.append("(SELECT count(*) FROM join_club where p.post_no = join_club.post_no) as current_count ");
-				sb.append("FROM post p ,member m ");
-				sb.append("where p.user_id = m.user_id and gathering_type = '모집마감') ");
-				sb.append("WHERE rnum BETWEEN ? AND ?");
-			} else {
 				sb.append(
 						"SELECT rnum, post_no, title, post_content, category_type, img, time_posted, gathering_period, gathering_type, max_count, nick_name, current_count ");
 				sb.append(
@@ -182,14 +160,20 @@ public class PostDAO {
 				sb.append("gathering_period,p.gathering_type,p.max_count,m.nick_name, ");
 				sb.append("(SELECT count(*) FROM join_club where p.post_no = join_club.post_no) as current_count ");
 				sb.append("FROM post p ,member m ");
-				sb.append("where p.user_id = m.user_id) ");
+				sb.append("where p.user_id = m.user_id and gathering_type = ?) ");
 				sb.append("WHERE rnum BETWEEN ? AND ?");
-			}
 			pstmt = con.prepareStatement(sb.toString());
-			pstmt.setLong(1, pagination.getStartRowNumber());
-			pstmt.setLong(2, pagination.getEndRowNumber());
+			if(btnStatus==1) {
+				pstmt.setString(1, "모집중");
+			} else if(btnStatus==2){
+					pstmt.setString(1, "모집마감");
+			}
+			else {
+				return PostDAO.getInstance().findPostListDuple(pagination);
+			}
+			pstmt.setLong(2, pagination.getStartRowNumber());
+			pstmt.setLong(3, pagination.getEndRowNumber());
 			rs = pstmt.executeQuery();
-
 			while (rs.next()) {
 				postVO = new PostVO();
 				postVO.setPostNo(rs.getLong("post_no"));
@@ -207,7 +191,7 @@ public class PostDAO {
 				postVO.setMemberVO(memberVO);
 				list.add(postVO);
 			}
-			if (list.size() == 0) {
+			if(list.size()==0) {
 				return PostDAO.getInstance().findPostListDuple(pagination);
 			}
 		} finally {
@@ -338,9 +322,47 @@ public class PostDAO {
 		} finally {
 			closeAll(rs, pstmt, con);
 		}
-
+		
 		return TotalPostCount;
 	}
+	
+	public long findTotalPostCountByStatus(int btnStatus) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		long TotalPostCountByStatus = 0;
+		try {
+			con = dataSource.getConnection();
+			String sql = "";
+			if(btnStatus==0) {
+				return PostDAO.getInstance().findTotalPostCount();
+			}else if(btnStatus==1) {
+				System.out.println("여기왔을땐 모집중");
+				sql = "SELECT count(*) from post where gathering_type='모집중'";
+			}else if(btnStatus==2) {
+				System.out.println("여기왔을땐 모집마감");
+				sql = "SELECT count(*) from post where gathering_type='모집마감'";
+			}else {
+				return PostDAO.getInstance().findTotalPostCount();
+			}
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				TotalPostCountByStatus = rs.getLong(1);
+			}else {
+				return PostDAO.getInstance().findTotalPostCount();
+			}
+			
+		}finally {
+			closeAll(rs, pstmt, con);
+		}
+		
+		return TotalPostCountByStatus;
+		
+	}
+	
+	
+	
 
 	public void updataGatheringType(long postNo) throws SQLException {
 		Connection con = null;
