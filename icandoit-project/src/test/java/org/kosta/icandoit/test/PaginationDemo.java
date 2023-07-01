@@ -16,7 +16,6 @@ public class PaginationDemo {
 	/**
 	 * 현재 페이지
 	 */
-	private int buttonStatus = 0;
 
 	private long nowPage = 1;
 	/**
@@ -32,27 +31,18 @@ public class PaginationDemo {
 	 */
 	private long totalPostCount;
 
-	public PaginationDemo(long totalPostCount, int buttonStatus) {
+	public PaginationDemo(long totalPostCount) {
 		this.totalPostCount = totalPostCount;
-		this.buttonStatus = buttonStatus;
+
 	}
 
-	public PaginationDemo(long totalPostCount, long nowPage, int buttonStatus) {
+	public PaginationDemo(long totalPostCount, long nowPage) {
 		this.totalPostCount = totalPostCount;
 		this.nowPage = nowPage;
-		this.buttonStatus = buttonStatus;
 	}
 
 	public long getNowPage() {
 		return nowPage;
-	}
-
-	public int getButtonStatus() {
-		return buttonStatus;
-	}
-
-	public void setButtonStatus(int buttonStatus) {
-		this.buttonStatus = buttonStatus;
 	}
 
 	/**
@@ -185,7 +175,7 @@ public class PaginationDemo {
 	 */
 	public boolean isPreviousPageGroup() {
 		boolean flag = false;
-		if (this.getNowPageGroup() > 1) {
+		if (getNowPageGroup() > 1) {
 			flag = true;
 		}
 		return flag;
@@ -199,7 +189,7 @@ public class PaginationDemo {
 	 */
 	public boolean isNextPageGroup() {
 		boolean flag = false;
-		if (this.getNowPageGroup() < this.getTotalPage()) {
+		if (getNowPageGroup() < getTotalPageGroup()) {
 			flag = true;
 		}
 		return flag;
