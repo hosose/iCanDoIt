@@ -21,7 +21,6 @@ public class FindHobbyPostListController implements Controller {
 			buttonStatus = Integer.parseInt(Status);
 		}
 		PaginationDemo pagination = null;
-		long totalPostCount = PostDAO.getInstance().findTotalPostCount();
 		long totalPostCountByStatus = PostDAO.getInstance().findTotalPostCountByStatus(buttonStatus);
 		System.out.println(totalPostCountByStatus);
 
