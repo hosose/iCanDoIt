@@ -9,12 +9,12 @@
 			<c:when test="${not empty post }">
 				<c:forEach items="${post}" var="postList">
 					<div style="margin: 2%;">
-						<table>
+						<table style="width : 80%">
 							<tbody>
 								<tr>
 									<td rowspan="3" style="width: 20%;"><a
 										href="FindHobbyPostByNo.do?postNo=${postList.postNo}"><img
-											src="picture/당구.jpg" class="card-img-top"></a></td>
+											src="picture/${postList.img}" class="card-img-top"></a></td>
 									<td><c:choose>
 											<c:when test="${postList.gatheringType=='모집마감'}">
 												<button type="button" class="btn btn-danger btn-sm">모집마감</button>

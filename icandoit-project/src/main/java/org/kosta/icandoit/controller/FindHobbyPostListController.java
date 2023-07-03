@@ -22,7 +22,6 @@ public class FindHobbyPostListController implements Controller {
 		}
 		PaginationDemo pagination = null;
 		long totalPostCountByStatus = PostDAO.getInstance().findTotalPostCountByStatus(buttonStatus);
-		System.out.println(totalPostCountByStatus);
 
 		if (pageNo == null) {
 			pagination = new PaginationDemo(totalPostCountByStatus);
@@ -30,7 +29,7 @@ public class FindHobbyPostListController implements Controller {
 			pagination = new PaginationDemo(totalPostCountByStatus, Long.parseLong(pageNo));
 		}
 		request.setAttribute("pagination", pagination);
-		request.setAttribute("post", PostDAO.getInstance().findPostList(pagination,buttonStatus));
+		request.setAttribute("post", PostDAO.getInstance().findPostList(pagination, buttonStatus));
 		request.setAttribute("url", "list.jsp");
 		request.setAttribute("stsBtn", buttonStatus);
 		return "layout.jsp";

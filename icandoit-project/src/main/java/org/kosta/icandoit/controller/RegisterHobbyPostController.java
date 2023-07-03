@@ -22,7 +22,7 @@ public class RegisterHobbyPostController implements Controller {
 
 		HttpSession session = request.getSession(false);
 
-		String realFolder = request.getServletContext().getRealPath("/picture");
+		String realFolder = "C:\\kosta260\\WAS\\web-tomcat\\webapps\\icandoit-project\\picture\\";
 		MultipartRequest multi = new MultipartRequest(request, realFolder, 10 * 1024 * 1024, "UTF-8",
 				new DefaultFileRenamePolicy());
 		Enumeration enu2 = multi.getFileNames();
@@ -47,13 +47,11 @@ public class RegisterHobbyPostController implements Controller {
 
 			String[] imgArray = multi.getOriginalFileName(fileName).split("[.]");
 			String imgArray2 = imgArray[0].concat("_" + time + "." + imgArray[1]);
-			System.out.println(imgArray2);
 
 			String realFileName = multi.getOriginalFileName(fileName);
-			String fullFileName = realFolder + "/" + realFileName;
+			String fullFileName = realFolder + realFileName;
 			java.io.File f1 = new java.io.File(fullFileName);
-
-			java.io.File newFile = new java.io.File(realFolder + "/" + imgArray2);
+			java.io.File newFile = new java.io.File(realFolder + imgArray2);
 			f1.renameTo(newFile);
 			post.setImg(imgArray2);
 		}
