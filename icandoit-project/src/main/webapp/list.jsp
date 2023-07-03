@@ -4,11 +4,13 @@
 <div class="container">
 	<div class="row">
 		<form id="statusform" method="post" name="form" action="FindHobbyPostList">
-		<button type="submit" class="btn btn-primary btn-sm" id="dfltBtn" >전체글</button>
+		<button type="submit" class="btn btn-primary btn-sm" id="dfltBtn">전체글</button>
 		<button type="submit" class="btn btn-success btn-sm" id="rcuBtn">모집중</button>
 		<button type="submit" class="btn btn-danger btn-sm" id="endBtn">모집마감</button>
 		</form>	
+
 		<c:if test="${not empty sessionScope.memberVO}">
+
 		<form action="RegisterHobbyPostForm.do" method="post">
 		<div class="form-group">
 			<div class="text">
@@ -70,10 +72,10 @@
 	<c:forEach begin="${pagination.startPageOfPageGroup}" end="${pagination.endPageOfPageGroup}" var ="page">
 	<c:choose>
 	<c:when test="${pagination.nowPage==page}">
-	<li class="page-item active"><a class="page-link" href="FindHobbyPostList.do?pageNo=${page}">${page}</a></li>
+	<li class="page-item active"><a class="page-link" href="FindHobbyPostList.do?pageNo=${page}&stsBtn=${requestScope.stsBtn}">${page}</a></li>
 	</c:when>
 	<c:otherwise>
-	<li class="page-item"><a class="page-link" href="FindHobbyPostList.do?pageNo=${page}">${page}</a></li>
+	<li class="page-item"><a class="page-link" href="FindHobbyPostList.do?pageNo=${page}&stsBtn=${requestScope.stsBtn}">${page}</a></li>
 	</c:otherwise>
 	</c:choose>
 	</c:forEach>
@@ -91,51 +93,21 @@ function checkSession() {
 
 
 	$(document).ready(function() {
-		  var stsBtn = getCookie("stsBtn"); 
-
+		  let stsBtn = 0;
 		  $("#dfltBtn").click(function() {
 		    stsBtn = 0;
-		    setCookie("stsBtn", stsBtn);
 		    $("#statusform").attr("action", "FindHobbyPostList.do?stsBtn="+stsBtn);
 		  });
 
 		  $("#rcuBtn").click(function() {
 		    stsBtn = 1;
-		    setCookie("stsBtn", stsBtn); 
 		    $("#statusform").attr("action", "FindHobbyPostList.do?stsBtn="+stsBtn);
 		  });
 
 		  $("#endBtn").click(function() {
 		    stsBtn = 2;
-		    setCookie("stsBtn", stsBtn); 
 		    $("#statusform").attr("action", "FindHobbyPostList.do?stsBtn="+stsBtn);
 		  });
-		  
-		  
-
-		  function setCookie(name, value) {
-		    document.cookie = name + "=" + value + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-		  }
-
-		  
-		  function getCookie(name) {
-		    var cookieName = name + "=";
-		    var decodedCookie = decodeURIComponent(document.cookie);
-		    var cookieArray = decodedCookie.split(';');
-
-		    for (var i = 0; i < cookieArray.length; i++) {
-		      var cookie = cookieArray[i];
-		      while (cookie.charAt(0) === ' ') {
-		        cookie = cookie.substring(1);
-		      }
-		      if (cookie.indexOf(cookieName) === 0) {
-		        return cookie.substring(cookieName.length, cookie.length);
-		      }
-		    }
-
-		    return "";
-		  }
-		  
 		});
 </script>
 

@@ -1,6 +1,5 @@
 package org.kosta.icandoit.controller;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,18 +10,8 @@ public class FindHobbyPostListController implements Controller {
 
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Cookie[] cookies = request.getCookies();
-		String Status = null;
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("stsBtn")) {
-					Status = cookie.getValue();
-
-					break;
-				}
-			}
-		}
-
+		String Status = request.getParameter("stsBtn");
+		System.out.println(Status);
 		int buttonStatus = 0;
 		String pageNo = request.getParameter("pageNo");
 
@@ -32,16 +21,17 @@ public class FindHobbyPostListController implements Controller {
 			buttonStatus = Integer.parseInt(Status);
 		}
 		PaginationDemo pagination = null;
-		long totalPostCount = PostDAO.getInstance().findTotalPostCount();
+		long totalPostCountByStatus = PostDAO.getInstance().findTotalPostCountByStatus(buttonStatus);
 
 		if (pageNo == null) {
-			pagination = new PaginationDemo(totalPostCount, buttonStatus);
+			pagination = new PaginationDemo(totalPostCountByStatus);
 		} else {
-			pagination = new PaginationDemo(totalPostCount, Long.parseLong(pageNo), buttonStatus);
+			pagination = new PaginationDemo(totalPostCountByStatus, Long.parseLong(pageNo));
 		}
 		request.setAttribute("pagination", pagination);
-		request.setAttribute("post", PostDAO.getInstance().findPostList(pagination));
+		request.setAttribute("post", PostDAO.getInstance().findPostList(pagination, buttonStatus));
 		request.setAttribute("url", "list.jsp");
+		request.setAttribute("stsBtn", buttonStatus);
 		return "layout.jsp";
 	}
 
