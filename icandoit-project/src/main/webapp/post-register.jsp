@@ -6,11 +6,11 @@
 	style="overflow: initial; width: 1300px; margin: auto">
 	<div class="row" data-aos="fade-up" data-aos-delay="100" >
 		<!-- LG MD SM -->
-		<form action="RegisterHobbyPost.do" method="post" role="form" enctype="multipart/form-data"
+		<form action="RegisterHobbyPost.do" method="post" role="form" enctype="multipart/form-data" id="imageform"
 			style="display: flex; align-items: center;">
 			<div class="col-lg-4">
 				<img alt="" class="mb-2 mb-lg-0"
-					src="https://blog.kakaocdn.net/dn/0mySg/btqCUccOGVk/nQ68nZiNKoIEGNJkooELF1/img.jpg"
+					src="https://blog.kakaocdn.net/dn/0mySg/btqCUccOGVk/nQ68nZiNKoIEGNJkooELF1/img.jpg" id="thumb"
 					style="border-radius: 5%; width: 100%; height: 400px;">
 				<div class="text-center"
 					style="display: flex; align-items: baseline;">
@@ -18,7 +18,7 @@
 					<div class="col form-group">
 						<div class="col form-group" style="margin-top: 15px;" >
 						<input type="file"  class="form-control" name="img" id="img"
-						placeholder="이미지 넣기"required="required" >
+						placeholder="이미지 넣기" required="required">
 						</div>
 					</div>
 
@@ -90,6 +90,34 @@
 							alert('글자수는 210자까지 입력 가능합니다.');
 						}
 						;
+					});
+					
+					$(document).ready(function() {
+						$("#img").change(function() {
+							let formData = new FormData();
+							let files = $("input[name=img]")[0].files;
+							let i=0;
+						    for(i=0; i<files.length; i++) {
+						      formData.append("files", files[i]);
+						    }
+							$.ajax({
+								type:"post",
+								url :"CreateThumbnail.do",
+								data: formData,
+								dataType: 'text',
+								processData:false,
+							    contentType:false, 
+							    cache:false,
+								success:function(responsedata){
+								console.log("success: ",responsedata);
+								var imagePath = 'upload/' + responsedata;
+									$("#thumb").attr("src", imagePath)
+								},
+								error:function(e){
+							        console.log("error : ", e);
+							    }
+							})
+						});
 					});
 				</script>
 				<!--=============================== -->
