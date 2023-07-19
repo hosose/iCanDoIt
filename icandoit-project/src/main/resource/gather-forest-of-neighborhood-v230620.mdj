@@ -8701,20 +8701,6 @@
 							}
 						},
 						{
-							"_type": "UMLOperationView",
-							"_id": "AAAAAAGI10sQaDfyYxI=",
-							"lineColor": "#0055ff",
-							"fillColor": "#0055ff",
-							"fontColor": "#0055ff",
-							"font": "Arial;13;0",
-							"left": 253,
-							"top": 173,
-							"width": 144.8916015625,
-							"height": 13,
-							"text": "+handleRequest(): String",
-							"horizontalAlignment": 0
-						},
-						{
 							"_type": "UMLInterfaceView",
 							"_id": "AAAAAAGI10a/nDcafo4=",
 							"_parent": {
@@ -9920,7 +9906,7 @@
 									"font": "Arial;13;0",
 									"left": 647,
 									"top": 316.5,
-									"width": 109,
+									"width": 110.140625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGIvetyXh8YK5I="
@@ -10130,7 +10116,7 @@
 									"font": "Arial;13;0",
 									"left": 639,
 									"top": 468.5,
-									"width": 109,
+									"width": 110.140625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGIveusCB9Ga4o="
@@ -10340,7 +10326,7 @@
 									"font": "Arial;13;0",
 									"left": 647,
 									"top": 532.5,
-									"width": 109,
+									"width": 110.140625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGIveu4MR90GfI="
@@ -11180,7 +11166,7 @@
 									"font": "Arial;13;0",
 									"left": 660.5,
 									"top": 756.5,
-									"width": 96,
+									"width": 97.140625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGIve0oACAs1rA="
@@ -11390,7 +11376,7 @@
 									"font": "Arial;13;0",
 									"left": 655,
 									"top": 252.5,
-									"width": 109,
+									"width": 110.140625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGIve6gECDoEws="
@@ -14270,7 +14256,7 @@
 									"font": "Arial;13;0",
 									"left": 636.5,
 									"top": 388.5,
-									"width": 135,
+									"width": 136.140625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGIvfFOul/T+Tw="
