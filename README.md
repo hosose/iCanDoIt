@@ -36,6 +36,10 @@
 
 ![image](https://github.com/hosose/iCanDoIt/assets/112751572/a11303dc-c244-4857-b2da-a55dd052886f)
 
+## 형상관리 (유사 Git Flow)
+
+![image](https://github.com/hosose/iCanDoIt/assets/112751572/5cbef5ca-3414-4529-9ccf-001dff7ae47e)
+
 
 ## ✏️ 구현기능
 
