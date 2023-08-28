@@ -84,3 +84,8 @@
 ## 모임 게시글 상세페이지
 
 ![image](https://github.com/hosose/iCanDoIt/assets/112751572/84dea225-4b63-4b05-a6c8-bf03a2e2b147)
+
+## 마이 페이지 모임 참여 목록 / 찜한 목록
+
+![image](https://github.com/hosose/iCanDoIt/assets/112751572/79e053fd-52c2-4a69-b44f-60fe6387eb6c)
+
